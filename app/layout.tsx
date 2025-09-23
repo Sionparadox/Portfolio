@@ -1,5 +1,5 @@
 import React from 'react';
-import './globals.css';
+import './global.css';
 
 export default function RootLayout({
   children,
@@ -8,7 +8,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body>{children}</body>
+      <body className='font-paperlogy'>{children}</body>
     </html>
   );
 }
