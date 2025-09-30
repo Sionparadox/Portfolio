@@ -12,12 +12,7 @@ const NavLink = ({
   href: string;
 }) => {
   return (
-    <Button
-      variant='plain'
-      size='default'
-      className={cn(className, 'text-lg font-black')}
-      asChild
-    >
+    <Button variant='plain' size='default' className={className} asChild>
       <Link href={href}>{children}</Link>
     </Button>
   );

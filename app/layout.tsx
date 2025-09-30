@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../components/organisms/Header';
 import './global.css';
 
 export default function RootLayout({
@@ -8,7 +9,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko' className='dark'>
-      <body className='font-paperlogy'>{children}</body>
+      <body className='font-paperlogy'>
+        <Header />
+        <main className='mt-24'>{children}</main>
+      </body>
     </html>
   );
 }
