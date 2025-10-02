@@ -1,5 +1,6 @@
 'use client';
 
+import { Slot } from '@radix-ui/react-slot';
 import * as React from 'react';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { cn } from '../../lib/utils';
@@ -126,27 +127,30 @@ const DropdownMenuItem = ({
   children,
   onSelect,
   className,
+  asChild,
 }: {
   children: React.ReactNode;
   onSelect?: () => void;
   className?: string;
+  asChild?: boolean;
 }) => {
   const { close } = useDropdownMenuContext();
+  const Comp = asChild ? Slot : 'div';
   const handleClick = () => {
     onSelect?.();
     close();
   };
   return (
-    <div
+    <Comp
       onClick={handleClick}
       className={cn(
-        'hover:bg-accent hover:text-accent-foreground flex w-full cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-sm',
+        'hover:bg-accent hover:text-primary flex w-full cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-sm',
         className
       )}
       role='menuitem'
     >
       {children}
-    </div>
+    </Comp>
   );
 };
 

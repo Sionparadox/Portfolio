@@ -11,7 +11,7 @@ const MobileNavMenu = () => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         {navItems.map((item) => (
-          <DropdownMenu.Item key={item.name}>
+          <DropdownMenu.Item key={item.name} asChild>
             <NavLink href={item.href}>{item.name}</NavLink>
           </DropdownMenu.Item>
         ))}

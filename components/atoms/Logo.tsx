@@ -27,7 +27,7 @@ const Logo = () => (
       fontSize='48'
       fontWeight='900'
       textAnchor='middle'
-      fill='#ffffff'
+      fill='currentColor'
     >
       Sion
     </text>
