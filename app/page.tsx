@@ -1,7 +1,3 @@
 export default function Home() {
-  return (
-    <div>
-      <div className='text-xl'>Content</div>
-    </div>
-  );
+  return <div>Content</div>;
 }
