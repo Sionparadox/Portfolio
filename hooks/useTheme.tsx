@@ -1,10 +1,11 @@
+import { mountedAtom } from '@/atoms/mounted';
 import {
   storedThemeAtom,
   systemThemeTriggerAtom,
   themeAtom,
 } from '@/atoms/theme';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 // 시스템 테마 변경 감지 훅
 export const useSystemThemeDetection = () => {
@@ -29,11 +30,7 @@ export const useSystemThemeDetection = () => {
 export const useTheme = () => {
   const theme = useAtomValue(themeAtom);
   const setTheme = useSetAtom(themeAtom);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useAtomValue(mountedAtom);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
