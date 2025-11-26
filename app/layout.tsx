@@ -32,7 +32,7 @@ export default function RootLayout({
       <body className='font-paperlogy flex min-h-screen flex-col'>
         <Providers>
           <Header />
-          <main className='mt-24 flex-grow'>{children}</main>
+          <main className='flex-grow'>{children}</main>
           <Footer />
         </Providers>
       </body>
