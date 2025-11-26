@@ -13,8 +13,4 @@ export const greetingMessage = {
   },
 };
 
-export const GreetingMessageKey = [
-  'first',
-  'withinAWeek',
-  'afterAWeek',
-] as const;
+export type greetingMessageType = 'first' | 'withinAWeek' | 'afterAWeek';
