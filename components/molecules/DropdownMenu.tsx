@@ -59,7 +59,7 @@ const DropdownMenuTrigger = ({
   return (
     <Button
       variant='ghost'
-      size='icon'
+      size='iconSm'
       onClick={toggle}
       aria-haspopup='true'
       aria-expanded={isOpen}

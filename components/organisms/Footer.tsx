@@ -1,14 +1,15 @@
+import Container from '../atoms/Container';
 import ContactLinks from '../molecules/ContactLinks';
 
 const Footer = () => {
   return (
-    <footer className='py-4'>
-      <div className='flex items-center justify-between px-4'>
-        <p className='text-center text-sm'>
+    <footer>
+      <Container className='flex items-center justify-between' yPadding='tight'>
+        <div className='flex min-h-11 flex-1 items-center justify-center text-sm sm:justify-start'>
           &copy; {new Date().getFullYear()} Sion. All rights reserved.
-        </p>
+        </div>
         <ContactLinks className='hidden sm:flex' />
-      </div>
+      </Container>
     </footer>
   );
 };

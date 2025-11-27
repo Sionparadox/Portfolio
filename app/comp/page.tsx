@@ -7,13 +7,10 @@ const TempArea = () => {
 };
 const Page = () => {
   return (
-    <div>
+    <>
       <Landing />
       <TempArea />
-      <TempArea />
-      <TempArea />
-      <TempArea />
-    </div>
+    </>
   );
 };
 

@@ -72,7 +72,7 @@ export const ExplosionText = ({ text, className }: ExplosionTextProps) => {
   });
 
   return (
-    <div className={cn('pointer-events-none', className)}>
+    <div className={cn('text-fluid-h2 pointer-events-none', className)}>
       <span>{letters}</span>
     </div>
   );

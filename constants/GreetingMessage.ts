@@ -13,4 +13,4 @@ export const greetingMessage = {
   },
 };
 
-export type greetingMessageType = 'first' | 'withinAWeek' | 'afterAWeek';
+export type greetingMessageType = keyof typeof greetingMessage;
