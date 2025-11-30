@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../components/organisms/Footer';
 import Header from '../components/organisms/Header';
+import Background from '../components/templates/Background';
 import { Providers } from '../providers/Providers';
 import './global.css';
 
@@ -31,6 +32,7 @@ export default function RootLayout({
       </head>
       <body className='font-paperlogy flex min-h-screen flex-col'>
         <Providers>
+          <Background />
           <Header />
           <main className='flex-grow'>{children}</main>
           <Footer />
