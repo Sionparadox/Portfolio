@@ -1,16 +1,33 @@
 'use client';
 
-import type { WorkerMessage } from '@/types/worker';
+import { themeAtom } from '@/atoms/theme';
+import type { ThemeType, WorkerMessage } from '@/types/worker';
+import { useAtomValue } from 'jotai';
 import { motion } from 'motion/react';
 import { useEffect, useRef } from 'react';
+
+// 초기 테마 가져오기 (SSR 안전)
+function getInitialTheme(): ThemeType {
+  if (typeof window === 'undefined') return 'dark';
+  const stored = localStorage.getItem('theme');
+  if (stored === 'light' || stored === 'dark') return stored;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+}
 
 export default function Background() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const workerRef = useRef<Worker | null>(null);
+  const isInitializedRef = useRef(false);
 
+  // themeAtom을 직접 구독 (mounted 조건 없이 실제 테마값)
+  const theme = useAtomValue(themeAtom);
+
+  // Worker 초기화 (한 번만 실행)
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || isInitializedRef.current) return;
 
     // 브라우저 환경 체크
     if (typeof window === 'undefined' || !window.Worker) return;
@@ -21,6 +38,8 @@ export default function Background() {
       return;
     }
 
+    isInitializedRef.current = true;
+
     // Worker 생성
     const worker = new Worker(
       new URL('../../workers/background.worker.ts', import.meta.url),
@@ -28,23 +47,15 @@ export default function Background() {
     );
     workerRef.current = worker;
 
-    // Canvas 크기 설정 및 OffscreenCanvas로 전환
-    const updateSize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      const pixelRatio = window.devicePixelRatio || 1;
+    // Canvas 크기 설정
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const pixelRatio = window.devicePixelRatio || 1;
 
-      canvas.width = width * pixelRatio;
-      canvas.height = height * pixelRatio;
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
 
-      return { width, height, pixelRatio };
-    };
-
-    const { width, height, pixelRatio } = updateSize();
-
-    // OffscreenCanvas로 변환 및 Worker에 전송
+    // OffscreenCanvas로 변환 및 Worker에 전송 (초기 테마 포함)
     const offscreen = canvas.transferControlToOffscreen();
     const initMessage: WorkerMessage = {
       type: 'init',
@@ -52,6 +63,7 @@ export default function Background() {
       width,
       height,
       pixelRatio,
+      theme: getInitialTheme(),
     };
     worker.postMessage(initMessage, [offscreen]);
 
@@ -61,8 +73,6 @@ export default function Background() {
       const height = window.innerHeight;
       const pixelRatio = window.devicePixelRatio || 1;
 
-      // OffscreenCanvas로 전환 후에는 원본 canvas 크기 변경 불가
-      // 스타일만 업데이트
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
 
@@ -88,6 +98,18 @@ export default function Background() {
       }
     };
   }, []);
+
+  // 테마 변경 감지 및 Worker에 전송
+  useEffect(() => {
+    // Worker가 초기화되지 않았으면 스킵
+    if (!workerRef.current) return;
+
+    const themeMessage: WorkerMessage = {
+      type: 'theme-change',
+      theme: theme as ThemeType,
+    };
+    workerRef.current.postMessage(themeMessage);
+  }, [theme]);
 
   return (
     <motion.canvas

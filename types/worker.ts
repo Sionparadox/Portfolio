@@ -1,11 +1,14 @@
 // Web Worker와 메인 스레드 간 메시지 타입 정의
 
+export type ThemeType = 'light' | 'dark';
+
 export interface WorkerInitMessage {
   type: 'init';
   canvas: OffscreenCanvas;
   width: number;
   height: number;
   pixelRatio: number;
+  theme: ThemeType;
 }
 
 export interface WorkerResizeMessage {
@@ -15,6 +18,11 @@ export interface WorkerResizeMessage {
   pixelRatio: number;
 }
 
+export interface WorkerThemeChangeMessage {
+  type: 'theme-change';
+  theme: ThemeType;
+}
+
 export interface WorkerStopMessage {
   type: 'stop';
 }
@@ -22,7 +30,18 @@ export interface WorkerStopMessage {
 export type WorkerMessage =
   | WorkerInitMessage
   | WorkerResizeMessage
+  | WorkerThemeChangeMessage
   | WorkerStopMessage;
+
+export interface Cloud {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  speed: number;
+  opacity: number;
+  segments: { offsetX: number; offsetY: number; radius: number }[];
+}
 
 export interface Star {
   x: number;
