@@ -4,7 +4,7 @@ import ThemeToggleButton from './ThemeToggleButton';
 
 const NavMenu = () => {
   return (
-    <div className='flex gap-4'>
+    <div className='flex items-center gap-4'>
       {navItems.map((item) => (
         <NavLink
           key={item.name}

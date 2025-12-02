@@ -487,7 +487,6 @@ self.onmessage = (e: MessageEvent<WorkerMessage>) => {
 
     case 'theme-change':
       handleThemeChange(message.theme);
-      console.log('theme-change', message.theme);
       break;
 
     case 'stop':
