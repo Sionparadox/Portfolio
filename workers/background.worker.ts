@@ -69,7 +69,7 @@ function getCloudY(h: number): number {
 // 별 생성 (simplex noise로 자연스러운 분포)
 function generateStars(w: number, h: number) {
   stars = [];
-  const starCount = Math.floor((w * h) / 1000);
+  const starCount = Math.floor((w * h) / 500);
 
   for (let i = 0; i < starCount; i++) {
     // Simplex noise로 별의 위치 결정
