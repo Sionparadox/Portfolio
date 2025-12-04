@@ -54,6 +54,7 @@ const ThemePlanet = () => {
               src='/img/planet_dark.png'
               alt='Dark Planet'
               fill
+              sizes='(max-width: 640px) 200vw, (max-width: 768px) 150vw, (max-width: 1024px) 100vw, 60vw'
               className='animate-spin object-contain [animation-duration:180s]'
               priority
             />
@@ -74,6 +75,7 @@ const ThemePlanet = () => {
               src='/img/planet_light.png'
               alt='Light Planet'
               fill
+              sizes='(max-width: 640px) 200vw, (max-width: 768px) 150vw, (max-width: 1024px) 100vw, 60vw'
               className='animate-spin object-contain [animation-duration:180s]'
               priority
             />
