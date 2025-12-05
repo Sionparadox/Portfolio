@@ -9,16 +9,16 @@ type ContainerProps = VariantProps<typeof containerVariants> & {
 const containerVariants = cva('w-full', {
   variants: {
     xPadding: {
-      default: 'px-4 sm:px-6 md:px-12 lg:px-16',
-      tight: 'px-2 sm:px-4 md:px-8 lg:px-12',
+      default: 'px-2 sm:px-4 md:px-8 lg:px-12',
+      tight: 'px-1 sm:px-2 md:px-4 lg:px-6',
       full: 'px-0',
-      loose: 'px-6 sm:px-8 md:px-16 lg:px-24',
+      loose: 'px-4 sm:px-8 md:px-16 lg:px-24',
     },
     yPadding: {
       default: 'py-4 sm:py-5 lg:py-6',
       tight: 'py-2 sm:py-3 lg:py-4',
       full: 'py-0',
-      loose: 'py-6 sm:py-8 lg:py-10',
+      loose: 'py-5 sm:py-10 lg:py-16',
     },
   },
   defaultVariants: {

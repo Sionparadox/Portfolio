@@ -12,7 +12,10 @@ export const Landing = () => {
   return (
     <div className='relative overflow-x-hidden'>
       <ThemePlanet />
-      <Container className='flex min-h-[120vh] flex-col justify-end gap-36 overflow-x-hidden overflow-y-hidden'>
+      <Container
+        className='flex min-h-[120vh] flex-col justify-end gap-36 overflow-x-hidden overflow-y-hidden'
+        xPadding='tight'
+      >
         <div className='flex w-full flex-col gap-4'>
           <ExplosionText
             text={greetingMessage[visitType].title}
