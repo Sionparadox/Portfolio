@@ -4,6 +4,7 @@ import Container from '../atoms/Container';
 import LinkIconButton from '../molecules/LinkIconButton';
 import ProfileImage from '../molecules/ProfileImage';
 
+// TODO : 이미지 흑백 제거 및 회전 이미지 기본세팅
 const InfoSection = () => {
   return (
     <Container

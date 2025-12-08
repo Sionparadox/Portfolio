@@ -1,5 +1,4 @@
-import { FaHome, FaUser } from 'react-icons/fa';
-import { FaEnvelope, FaFileCode } from 'react-icons/fa6';
+import { exploreItems } from '@/constants/exploreData';
 import Container from '../atoms/Container';
 import ExploreCard from '../molecules/ExploreCard';
 
@@ -18,30 +17,9 @@ const ExploreSection = () => {
         </p>
       </div>
       <div className='mx-auto grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:w-fit lg:grid-cols-4'>
-        <ExploreCard
-          title='Home'
-          description='홈스윗홈'
-          icon={<FaHome />}
-          link='/'
-        />
-        <ExploreCard
-          title='About'
-          description='어바웃타임'
-          icon={<FaUser />}
-          link='/about'
-        />
-        <ExploreCard
-          title='Projects'
-          description='프로젝트랄랄레로트랄랄라 프로젝트랄랄레로트랄랄라 프로젝트랄랄레로트랄랄라 프로젝트랄랄레로트랄랄라 프로젝트랄랄레로트랄랄라'
-          icon={<FaFileCode />}
-          link='/projects'
-        />
-        <ExploreCard
-          title='Contact'
-          description='연락해~'
-          icon={<FaEnvelope />}
-          link='/contact'
-        />
+        {exploreItems.map((item) => (
+          <ExploreCard key={item.link} {...item} />
+        ))}
       </div>
     </Container>
   );
