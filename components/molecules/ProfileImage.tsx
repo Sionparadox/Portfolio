@@ -21,7 +21,7 @@ const ProfileImage = ({
   return (
     <div className={cn('group relative aspect-square w-full', className)}>
       <svg
-        className='absolute inset-0 h-full w-full opacity-0 transition-opacity duration-300 group-hover:opacity-100'
+        className='absolute inset-0 h-full w-full transition-opacity duration-300'
         viewBox='0 0 100 100'
       >
         <circle
@@ -52,7 +52,7 @@ const ProfileImage = ({
           alt={alt}
           width={width}
           height={height}
-          className='grayscale transition-[filter] duration-300 group-hover:grayscale-0'
+          className='transition-[filter] duration-300'
         />
       </div>
     </div>
