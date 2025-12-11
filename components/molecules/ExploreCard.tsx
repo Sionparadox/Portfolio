@@ -16,8 +16,8 @@ const ExploreCard = ({
 }: ExploreCardProps) => {
   return (
     <Link href={link}>
-      <div className='bg-card text-card-foreground flex h-full w-full items-center gap-4 rounded-2xl border p-4 sm:flex-col sm:items-center sm:gap-6 sm:p-6 lg:min-h-64 lg:max-w-64'>
-        <div className='flex h-14 w-14 shrink-0 items-center justify-center rounded-lg border [&_svg]:h-6 [&_svg]:w-6'>
+      <div className='bg-card text-card-foreground flex h-full w-full items-center gap-4 rounded-2xl border p-4 sm:flex-col sm:items-center sm:gap-6 sm:p-6 lg:min-h-56 lg:max-w-64'>
+        <div className='text-primary flex h-14 w-14 shrink-0 items-center justify-center rounded-lg [&_svg]:h-6 [&_svg]:w-6'>
           <Icon />
         </div>
         <div className='flex flex-col gap-2 sm:items-center sm:text-center'>

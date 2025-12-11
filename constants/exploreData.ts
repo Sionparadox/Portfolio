@@ -24,8 +24,7 @@ export const exploreItems: ExploreItem[] = [
   },
   {
     title: 'Projects',
-    description:
-      '프로젝트랄랄레로트랄랄라 프로젝트랄랄레로트랄랄라 프로젝트랄랄레로트랄랄라 프로젝트랄랄레로트랄랄라 프로젝트랄랄레로트랄랄라',
+    description: '프로젝트랄랄레로트랄랄라 프로젝트랄랄레로트랄랄라 ',
     icon: FaFileCode,
     link: '/projects',
   },

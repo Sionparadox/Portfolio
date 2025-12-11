@@ -122,9 +122,9 @@
 :root {
   /* font-size: 87.5%; */
   --radius: 0.625rem;
-  --background: oklch(0.951 0.026 236.824);
+  --background: oklch(0.9604 0.0186 265.98);
   --foreground: oklch(0.145 0 0);
-  --card: oklch(0.9604 0.0186 265.98);
+  --card: oklch(0.9881 0 0);
   --card-foreground: oklch(0.2 0.03 85);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -157,9 +157,9 @@
 }
 
 .dark {
-  --background: oklch(0.205 0 0);
-  --foreground: oklch(1 0 0);
-  --card: oklch(0.15 0.016 263);
+  --background: oklch(0.1448 0 0);
+  --foreground: oklch(0.9702 0 0);
+  --card: oklch(0.1957 0 0);
   --card-foreground: oklch(0.71 0.02 259);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
