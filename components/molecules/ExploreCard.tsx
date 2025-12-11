@@ -20,8 +20,8 @@ const ExploreCard = ({
       className='group relative isolate block h-full w-full lg:min-h-56 lg:max-w-64'
     >
       <div className='bg-foreground/30 group-hover:bg-primary absolute inset-0 -z-1 border opacity-0 blur-lg transition-colors duration-300 md:opacity-100' />
-      <div className='bg-card text-card-foreground relative flex h-full w-full items-center gap-4 rounded-2xl border p-4 sm:flex-col sm:items-center sm:gap-6 sm:p-6'>
-        <div className='text-primary flex h-14 w-14 shrink-0 items-center justify-center rounded-lg [&_svg]:h-6 [&_svg]:w-6'>
+      <div className='bg-card text-card-foreground group-hover:border-primary relative flex h-full w-full items-center gap-2 rounded-2xl border p-4 transition-colors duration-300 sm:flex-col sm:items-center sm:gap-6 sm:p-6'>
+        <div className='text-foreground group-hover:text-primary flex h-14 w-14 shrink-0 items-center justify-center rounded-lg transition-colors duration-300 [&_svg]:h-8 [&_svg]:w-8'>
           <Icon />
         </div>
         <div className='flex flex-col gap-2 sm:items-center sm:text-center'>
