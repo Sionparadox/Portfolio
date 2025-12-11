@@ -15,8 +15,12 @@ const ExploreCard = ({
   link,
 }: ExploreCardProps) => {
   return (
-    <Link href={link}>
-      <div className='bg-card text-card-foreground flex h-full w-full items-center gap-4 rounded-2xl border p-4 sm:flex-col sm:items-center sm:gap-6 sm:p-6 lg:min-h-56 lg:max-w-64'>
+    <Link
+      href={link}
+      className='group relative isolate block h-full w-full lg:min-h-56 lg:max-w-64'
+    >
+      <div className='bg-foreground/30 group-hover:bg-primary absolute inset-0 -z-1 border opacity-0 blur-lg transition-colors duration-300 md:opacity-100' />
+      <div className='bg-card text-card-foreground relative flex h-full w-full items-center gap-4 rounded-2xl border p-4 sm:flex-col sm:items-center sm:gap-6 sm:p-6'>
         <div className='text-primary flex h-14 w-14 shrink-0 items-center justify-center rounded-lg [&_svg]:h-6 [&_svg]:w-6'>
           <Icon />
         </div>
