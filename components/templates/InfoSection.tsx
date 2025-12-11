@@ -7,7 +7,7 @@ import ProfileImage from '../molecules/ProfileImage';
 const InfoSection = () => {
   return (
     <Container
-      className='mb-24 flex flex-col items-center justify-center gap-8 md:flex-row md:items-start md:gap-16 lg:gap-24'
+      className='mb-16 flex min-h-[75vh] flex-col items-center justify-center gap-8 md:flex-row md:items-center md:gap-16 lg:gap-24'
       xPadding='tight'
     >
       <div className='w-64 shrink-0 sm:w-72 md:w-80 lg:w-96'>

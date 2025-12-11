@@ -4,7 +4,7 @@ import ContactLinks from '../molecules/ContactLinks';
 const Footer = () => {
   return (
     <footer>
-      <Container className='flex items-center justify-between' yPadding='tight'>
+      <Container className='my-2 flex items-center justify-between sm:my-3 lg:my-4'>
         <div className='flex min-h-11 flex-1 items-center justify-center text-sm sm:justify-start'>
           &copy; {new Date().getFullYear()} Sion. All rights reserved.
         </div>

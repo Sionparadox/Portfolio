@@ -4,10 +4,7 @@ import ExploreCard from '../molecules/ExploreCard';
 
 export const ExploreSection = () => {
   return (
-    <Container
-      className='mb-24 flex flex-col items-center justify-center gap-16'
-      yPadding='loose'
-    >
+    <Container className='mb-10 flex min-h-[75vh] flex-col items-center justify-center gap-16'>
       <div className='flex flex-col items-center justify-center gap-8 text-center'>
         <h1 className='text-foreground text-3xl font-bold md:text-5xl'>
           Explore My Space!

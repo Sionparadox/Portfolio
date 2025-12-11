@@ -20,10 +20,7 @@ const ProfileImage = ({
 }: ProfileImageProps) => {
   return (
     <div className={cn('group relative aspect-square w-full', className)}>
-      <svg
-        className='absolute inset-0 h-full w-full transition-opacity duration-300'
-        viewBox='0 0 100 100'
-      >
+      <svg className='absolute inset-0 h-full w-full' viewBox='0 0 100 100'>
         <circle
           cx='50'
           cy='50'
@@ -47,13 +44,7 @@ const ProfileImage = ({
       </svg>
 
       <div className='absolute inset-[6%]'>
-        <CircleImage
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          className='transition-[filter] duration-300'
-        />
+        <CircleImage src={src} alt={alt} width={width} height={height} />
       </div>
     </div>
   );
