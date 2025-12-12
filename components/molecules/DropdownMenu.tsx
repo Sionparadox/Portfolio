@@ -21,7 +21,13 @@ const useDropdownMenuContext = () => {
   return ctx;
 };
 
-const DropdownMenu = ({ children }: { children: React.ReactNode }) => {
+const DropdownMenu = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -41,7 +47,7 @@ const DropdownMenu = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <DropdownMenuContext.Provider value={{ isOpen, open, close, toggle }}>
-      <div ref={ref} className='relative'>
+      <div ref={ref} className={cn('relative', className)}>
         {children}
       </div>
     </DropdownMenuContext.Provider>
@@ -84,7 +90,7 @@ const DropdownMenuContent = ({
   return (
     <div
       className={cn(
-        'bg-card text-card-foreground absolute right-0 z-50 mt-2 flex w-48 flex-col overflow-hidden rounded-md border shadow-lg',
+        'bg-card/90 text-foreground absolute right-0 z-50 mt-2 flex w-48 flex-col overflow-hidden rounded-md border shadow-lg backdrop-blur-md',
         className
       )}
       role='menu'
@@ -144,7 +150,7 @@ const DropdownMenuItem = ({
     <Comp
       onClick={handleClick}
       className={cn(
-        'hover:bg-accent hover:text-primary flex w-full cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-sm',
+        'hover:bg-accent hover:text-primary flex w-full cursor-pointer items-center gap-2 rounded-sm px-3 py-6 text-lg font-semibold',
         className
       )}
       role='menuitem'
@@ -154,10 +160,45 @@ const DropdownMenuItem = ({
   );
 };
 
+// 커스텀 컴포넌트 삽입 영역 (Footer, 버튼 등)
+const DropdownMenuFooter = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div
+      className={cn('border-border border-t px-3 py-2', className)}
+      role='presentation'
+    >
+      {children}
+    </div>
+  );
+};
+
+// 자유로운 커스텀 영역 (Separator 없이)
+const DropdownMenuCustom = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn('px-3 py-2', className)} role='presentation'>
+      {children}
+    </div>
+  );
+};
+
 DropdownMenu.Trigger = DropdownMenuTrigger;
 DropdownMenu.Content = DropdownMenuContent;
 DropdownMenu.Label = DropdownMenuLabel;
 DropdownMenu.Separator = DropdownMenuSeparator;
 DropdownMenu.Item = DropdownMenuItem;
+DropdownMenu.Footer = DropdownMenuFooter;
+DropdownMenu.Custom = DropdownMenuCustom;
 
 export default DropdownMenu;

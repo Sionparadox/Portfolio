@@ -22,7 +22,10 @@ export const Landing = () => {
           text={greetingMessage[visitType].title}
           className='text-fluid-h1'
         />
-        <ExplosionText text={greetingMessage[visitType].message} />
+        <ExplosionText
+          text={greetingMessage[visitType].message}
+          className='-tracking-widest sm:tracking-normal'
+        />
       </Container>
       <div className='absolute top-[100vh] left-0 px-1 whitespace-nowrap sm:px-2 md:px-4 lg:px-6'>
         <ExplosionText text='I want to see you again in my portfolio' />
