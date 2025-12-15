@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 
 const Logo = () => (
   <motion.svg
-    className='h-9 w-24 md:h-12 md:w-32 lg:h-[3.75rem] lg:w-40'
+    className='h-9 w-24 md:h-12 md:w-32 lg:h-15 lg:w-40'
     viewBox='0 0 120 60'
     xmlns='http://www.w3.org/2000/svg'
     whileHover='hover'

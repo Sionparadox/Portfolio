@@ -32,7 +32,7 @@ const LinkIconButton = ({
       <Comp href={href} download={download}>
         {/* Gradient 배경 */}
         <span
-          className='from-primary via-secondary to-primary absolute inset-0 bg-gradient-to-r bg-[length:200%_100%] opacity-0 transition-opacity duration-300 group-hover:animate-[gradient-flow_3s_linear_infinite] group-hover:opacity-100'
+          className='from-primary via-secondary to-primary absolute inset-0 bg-linear-to-r bg-size-[200%_100%] opacity-0 transition-opacity duration-300 group-hover:animate-[gradient-flow_3s_linear_infinite] group-hover:opacity-100'
           aria-hidden='true'
         />
         {/* 콘텐츠 */}

@@ -29,7 +29,7 @@ const ProfileImage = ({
           stroke='currentColor'
           strokeWidth='0.5'
           strokeDasharray='15 8 25 5 10 12 20 6 8 15'
-          className='text-primary origin-center animate-spin [animation-duration:8s]'
+          className='text-primary animation-duration-[8s] origin-center animate-spin'
         />
         <circle
           cx='50'
@@ -39,7 +39,7 @@ const ProfileImage = ({
           stroke='currentColor'
           strokeWidth='0.3'
           strokeDasharray='20 10 8 15 30 5 12 8'
-          className='text-primary/60 origin-center animate-spin [animation-direction:reverse] [animation-duration:12s]'
+          className='text-primary/60 direction-[reverse] animation-duration-[12s] origin-center animate-spin'
         />
       </svg>
 
