@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// 프로젝트
+model Project {
+  id          String    @id @default(cuid())
+  title       String
+  description String    
+  thumbnail   String?   
+  startDate   DateTime
+  endDate     DateTime?
+  teamSize    Int       @default(1) 
+  techStack   String[]  
+  github      String?
+  demo        String?
+  featured    Boolean   @default(false) // 메인에 노출할지
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // 상세 기능 (1:N)
+  features    Feature[]
+}
+
+// 프로젝트 상세
+model Feature {
+  id          String  @id @default(cuid())
+  name        String  
+  description String  
+  gifUrl      String? 
+  order       Int     @default(0) // 표시 순서
+
+  // 프로젝트와 연결
+  projectId   String
+  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+// Contact 메시지
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}

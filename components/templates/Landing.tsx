@@ -10,7 +10,7 @@ import ThemePlanet from '../molecules/ThemePlanet';
 export const Landing = () => {
   const visitType = useVisitType();
 
-  if (!visitType) return <div className='min-h-[100vh] w-full'></div>;
+  if (!visitType) return <div className='min-h-screen w-full'></div>;
   return (
     <div className='relative h-screen overflow-x-hidden overflow-y-clip'>
       <ThemePlanet />
