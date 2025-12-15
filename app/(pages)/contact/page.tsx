@@ -1,4 +1,4 @@
-import Container from '../../components/atoms/Container';
+import Container from '@/components/atoms/Container';
 
 const ContactPage = () => {
   return (
