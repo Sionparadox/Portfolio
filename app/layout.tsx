@@ -34,7 +34,7 @@ export default function RootLayout({
         <Providers>
           <Background />
           <Header />
-          <main className='mx-auto w-full grow lg:max-w-[1440px]'>
+          <main className='mx-auto flex w-full grow flex-col lg:max-w-[1440px]'>
             {children}
           </main>
           <Footer />
