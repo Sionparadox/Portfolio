@@ -33,8 +33,14 @@ export const useTheme = () => {
   const mounted = useAtomValue(mountedAtom);
 
   const toggleTheme = () => {
+    document.documentElement.classList.add('theme-transition-disabled');
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('theme-transition-disabled');
+      });
+    });
   };
 
   return {

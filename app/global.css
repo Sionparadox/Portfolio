@@ -224,6 +224,11 @@
   }
 }
 
+html.theme-transition-disabled,
+html.theme-transition-disabled * {
+  transition: none !important;
+}
+
 /* 반응형 크기 조정
 (추후에 추가 필요 시 추가)
 @media (min-width: 640px) {
