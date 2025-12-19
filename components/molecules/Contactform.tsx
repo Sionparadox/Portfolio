@@ -42,7 +42,10 @@ const ContactForm = ({ className }: { className?: string }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={cn('', className)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={cn('flex flex-col gap-4', className)}
+    >
       <LabelInput
         label='이름'
         placeholder='이름을 입력해주세요.'
