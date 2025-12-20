@@ -18,7 +18,7 @@ const ContactPage = () => {
         </p>
       </div>
       <div className='flex w-full flex-col items-stretch justify-center gap-8 sm:grow sm:flex-row'>
-        <div className='flex w-full flex-col gap-6 p-4'>
+        <div className='flex w-full flex-col gap-8 p-4 sm:gap-6'>
           <ListGroup.Wrapper>
             <ListGroup.Title>Contact Me!</ListGroup.Title>
             <ListGroup.Content>

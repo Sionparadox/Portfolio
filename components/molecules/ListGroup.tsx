@@ -16,7 +16,9 @@ const ListGroupWrapper = ({ children, className }: ListGroupProps) => {
       >
         {children}
       </div>
-      <div className='bg-primary/90 absolute inset-0 top-2 -right-2 -bottom-2 left-2 -z-10 rounded-2xl opacity-90 transition-all duration-300 group-hover/list:top-0 group-hover/list:right-0 group-hover/list:bottom-0 group-hover/list:left-0' />
+      {/* <div className='bg-primary/90 absolute inset-0 top-2 -right-2 -bottom-2 left-2 -z-10 rounded-2xl opacity-90 transition-all duration-300 group-hover/list:top-0 group-hover/list:right-0 group-hover/list:bottom-0 group-hover/list:left-0' />
+       */}
+      <div className='bg-primary/90 absolute inset-0 -z-1 opacity-0 blur-lg transition-all duration-300 group-hover/list:opacity-100' />
     </div>
   );
 };

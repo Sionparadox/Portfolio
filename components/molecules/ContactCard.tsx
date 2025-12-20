@@ -10,8 +10,14 @@ type ContactCardProps = {
 const ContactCard = ({ icon, label, link }: ContactCardProps) => {
   return (
     <div className='group/card relative flex items-center gap-8 p-2'>
-      <div className='text-primary rounded-lg'>{icon}</div>
-      <Button variant='link' asChild>
+      <div className='text-card-foreground group-hover/card:text-primary rounded-lg transition-all duration-300 group-hover/card:scale-110'>
+        {icon}
+      </div>
+      <Button
+        variant='link'
+        asChild
+        className='group-hover/card:text-primary transition-all duration-300'
+      >
         <Link href={link ?? '/'} target='_blank'>
           {label}
         </Link>
