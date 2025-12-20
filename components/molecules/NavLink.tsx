@@ -1,5 +1,8 @@
+'use client';
+
 import { Button } from '@/components/atoms/Button';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const NavLink = ({
   children,
@@ -10,9 +13,13 @@ const NavLink = ({
   className?: string;
   href: string;
 }) => {
+  const pathname = usePathname();
+  const isActive = pathname === href;
   return (
     <Button variant='plain' size='default' className={className} asChild>
-      <Link href={href}>{children}</Link>
+      <Link href={href} className={isActive ? 'text-primary' : ''}>
+        {children}
+      </Link>
     </Button>
   );
 };
