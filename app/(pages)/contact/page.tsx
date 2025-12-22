@@ -1,5 +1,5 @@
 import Container from '@/components/atoms/Container';
-import GradientText from '@/components/atoms/GradientText';
+import AccentTitle from '@/components/molecules/AccentTitle';
 import ContactCard from '@/components/molecules/ContactCard';
 import ContactForm from '@/components/molecules/Contactform';
 import ListGroup from '@/components/molecules/ListGroup';
@@ -9,14 +9,12 @@ import { FaBlog, FaGithub } from 'react-icons/fa6';
 const ContactPage = () => {
   return (
     <Container className='flex flex-col items-center justify-center gap-8 text-center sm:grow'>
-      <div>
-        <h1 className='text-foreground text-3xl font-black sm:pt-8 md:text-5xl'>
-          Get in <GradientText degree={45}>Touch!</GradientText>
-        </h1>
-        <p className='text-muted-foreground mt-2 text-lg leading-relaxed'>
-          자유롭게 메시지를 남겨주세요.
-        </p>
-      </div>
+      <AccentTitle
+        text='Get in'
+        accentText='Touch!'
+        className='sm:pt-8'
+        description='자유롭게 메시지를 남겨주세요.'
+      />
       <div className='flex w-full flex-col items-stretch justify-center gap-8 sm:grow sm:flex-row'>
         <div className='flex w-full flex-col gap-8 p-4 sm:gap-6'>
           <ListGroup.Wrapper>
