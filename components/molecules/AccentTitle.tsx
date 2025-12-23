@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils';
-import GradientText from '../atoms/GradientText';
 
 type AccentTitleProps = {
   text?: string;
@@ -21,7 +20,10 @@ const AccentTitle = ({
           className
         )}
       >
-        {text} <GradientText degree={45}>{accentText}</GradientText>
+        {text}{' '}
+        <span className='from-secondary to-primary bg-linear-to-tr bg-clip-text text-transparent'>
+          {accentText}
+        </span>
       </h1>
       {description && (
         <p className='text-muted-foreground mt-2 text-lg leading-relaxed'>
