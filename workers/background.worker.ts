@@ -415,7 +415,19 @@ function animate() {
   // opacity 업데이트
   updateOpacities();
 
-  ctx.clearRect(0, 0, width, height);
+  // 그라데이션 배경 설정 (테마에 따라)
+  let gradient: CanvasGradient;
+  if (currentTheme === 'dark') {
+    gradient = ctx.createLinearGradient(0, 0, width, height);
+    gradient.addColorStop(0, '#1a0a2e');
+    gradient.addColorStop(1, '#0a0a0a');
+  } else {
+    gradient = ctx.createLinearGradient(0, 0, width, height);
+    gradient.addColorStop(0, '#e0f2fe');
+    gradient.addColorStop(1, '#93c5fd');
+  }
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, width, height);
 
   // 다크 모드: 성운 + 별
   if (currentStarOpacity > 0) {

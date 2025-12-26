@@ -122,7 +122,7 @@
 :root {
   /* font-size: 87.5%; */
   --radius: 0.625rem;
-  --background: oklch(0.9604 0.0186 265.98);
+  --background: oklch(0.977 0.013 236.62);
   --foreground: oklch(0.145 0 0);
   --card: oklch(0.9881 0 0);
   --card-foreground: oklch(0.2 0.03 85);
