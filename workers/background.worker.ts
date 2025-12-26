@@ -419,7 +419,7 @@ function animate() {
   let gradient: CanvasGradient;
   if (currentTheme === 'dark') {
     gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, '#1a0a2e');
+    gradient.addColorStop(0, '#110324');
     gradient.addColorStop(1, '#0a0a0a');
   } else {
     gradient = ctx.createLinearGradient(0, 0, width, height);

@@ -1,4 +1,5 @@
 import Container from '@/components/atoms/Container';
+import GlassCard from '@/components/atoms/GlassCard';
 import Image from 'next/image';
 
 const Page = () => {
@@ -26,6 +27,13 @@ const Page = () => {
         </div>
         <div className='bg-primary/50 absolute inset-0 top-2 -right-4 -bottom-2 left-4 rounded-2xl transition-all duration-300 group-hover/spi:top-0 group-hover/spi:right-0 group-hover/spi:bottom-0 group-hover/spi:left-0'></div>
       </div>
+
+      <GlassCard>
+        <h2>Glass Card</h2>
+        <p>
+          Glass Card is a card component that is styled to look like a glass.
+        </p>
+      </GlassCard>
     </Container>
   );
 };
