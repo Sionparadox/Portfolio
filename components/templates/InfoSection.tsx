@@ -22,7 +22,7 @@ const InfoSection = () => {
       <div className='my-auto flex w-full flex-col items-center gap-6 text-center md:items-start md:text-left'>
         <div className='w-full'>
           <h1 className='text-5xl font-bold lg:text-6xl'>{profile.name}</h1>
-          <div className='bg-primary mt-4 h-1 w-full' />
+          <div className='gradient-primary mt-4 h-1 w-full' />
         </div>
 
         <h2 className='text-3xl font-bold lg:text-4xl'>{profile.title}</h2>

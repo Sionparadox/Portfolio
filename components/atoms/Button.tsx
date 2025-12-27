@@ -20,6 +20,8 @@ const buttonVariants = cva(
         link: 'underline-offset-4 hover:text-primary hover:underline',
         plain: 'hover:text-primary hover:scale-110',
         inverted: 'bg-foreground text-background hover:bg-primary',
+        glass:
+          'bg-glass-background border-glass-border shadow-glass-shadow hover:shadow-(--glass-shadow-hover) border border-glass-border shadow-sm shadow-glass-shadow active:scale-95 active:translate-y-0.5',
       },
       size: {
         default: 'h-9 px-4 py-2',

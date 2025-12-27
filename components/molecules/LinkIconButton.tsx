@@ -22,7 +22,7 @@ const LinkIconButton = ({
 
   return (
     <Button
-      variant='outline'
+      variant='glass'
       asChild
       className={cn(
         'group hover:text-primary-foreground relative overflow-hidden',
@@ -30,12 +30,10 @@ const LinkIconButton = ({
       )}
     >
       <Comp href={href} download={download}>
-        {/* Gradient 배경 */}
         <span
-          className='from-primary via-secondary to-primary absolute inset-0 bg-linear-to-r bg-size-[200%_100%] opacity-0 transition-opacity duration-300 group-hover:animate-[gradient-flow_3s_linear_infinite] group-hover:opacity-100'
+          className='gradient-neon absolute inset-0 bg-size-[200%_100%] opacity-0 transition-opacity duration-300 group-hover:animate-[gradient-flow_3s_linear_infinite] group-hover:opacity-100'
           aria-hidden='true'
         />
-        {/* 콘텐츠 */}
         <span className='relative flex items-center'>
           {children}
           <Icon className='ml-2 h-4 w-4' />
