@@ -104,19 +104,10 @@
   --color-input: var(--input);
   --color-strong: var(--strong);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-glass-background: var(--glass-background);
+  --color-glass-slate: var(--glass-slate);
+  --color-glass-shadow: var(--glass-shadow);
+  --color-glass-border: var(--glass-border);
 }
 
 :root {
@@ -141,6 +132,13 @@
   --input: oklch(0.85 0.02 260);
   --strong: oklch(0.3837 0.0179 254.74);
   --ring: oklch(0.708 0 0);
+  --glass-background: oklch(1 0 0 / 0.1);
+  --glass-slate: oklch(98.6% 0.031 120.757 /0.3);
+  --glass-shadow: oklch(0.379 0.146 265.522 / 0.2);
+  --glass-border: oklch(1 0 0 / 0.35);
+  --glass-shadow-hover:
+    0 0 40px oklch(60.6% 0.25 292.717 / 0.5),
+    0 0 20px oklch(62.3% 0.214 259.815 / 0.3);
 }
 
 .dark {
@@ -163,6 +161,13 @@
   --input: oklch(1 0 0 / 15%);
   --strong: oklch(0.3837 0.0179 254.74);
   --ring: oklch(0.556 0 0);
+  --glass-background: oklch(0.129 0.042 264.695 / 0.1);
+  --glass-slate: oklch(0.1957 0 0 / 0.5);
+  --glass-shadow: oklch(26.9% 0 0 / 0.8);
+  --glass-border: oklch(1 0 0 / 0.25);
+  --glass-shadow-hover:
+    0 0 40px oklch(60.6% 0.25 292.717 / 0.5),
+    0 0 20px oklch(62.3% 0.214 259.815 / 0.3);
 }
 
 @layer base {

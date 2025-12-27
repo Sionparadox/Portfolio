@@ -1,5 +1,6 @@
 import { IconType } from 'react-icons';
 import Link from 'next/link';
+import GlassCard from '../atoms/GlassCard';
 
 interface ExploreCardProps {
   title: string;
@@ -17,18 +18,21 @@ const ExploreCard = ({
   return (
     <Link
       href={link}
-      className='group relative isolate block h-full w-full lg:min-h-56 lg:max-w-64'
+      className='group relative isolate block lg:min-h-48 lg:max-w-64'
     >
-      <div className='bg-foreground/30 group-hover:bg-primary absolute inset-0 -z-1 border opacity-0 blur-lg transition-colors duration-300 md:opacity-100' />
-      <div className='bg-card text-card-foreground group-hover:border-primary relative flex h-full w-full items-center gap-2 rounded-2xl border p-4 transition-colors duration-300 sm:flex-col sm:items-center sm:gap-6 sm:p-6'>
-        <div className='text-foreground group-hover:text-primary flex h-14 w-14 shrink-0 items-center justify-center rounded-lg transition-colors duration-300 [&_svg]:h-8 [&_svg]:w-8'>
-          <Icon />
+      <GlassCard className='flex h-full w-full gap-2 p-4 sm:flex-col sm:p-6'>
+        <div className='text-muted-foreground flex w-fit items-center justify-center rounded-sm bg-white/20 p-3 transition-colors duration-300 group-hover:bg-linear-to-br group-hover:from-purple-600/30 group-hover:to-blue-500/30 group-hover:text-cyan-300 dark:bg-white/5'>
+          <Icon className='size-6' />
         </div>
-        <div className='flex flex-col gap-2 sm:items-center sm:text-center'>
-          <h3 className='text-foreground text-lg font-bold'>{title}</h3>
-          <p className='text-sm'>{description}</p>
+        <div>
+          <h3 className='w-fit text-lg font-bold transition-colors duration-300 group-hover:bg-linear-to-r group-hover:from-cyan-300 group-hover:to-purple-300 group-hover:bg-clip-text group-hover:text-transparent'>
+            {title}
+          </h3>
+          <p className='text-muted-foreground group-hover:text-foreground text-sm leading-relaxed transition-colors duration-300'>
+            {description}
+          </p>
         </div>
-      </div>
+      </GlassCard>
     </Link>
   );
 };
