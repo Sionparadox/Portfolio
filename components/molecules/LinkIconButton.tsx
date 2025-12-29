@@ -24,10 +24,7 @@ const LinkIconButton = ({
     <Button
       variant='glass'
       asChild
-      className={cn(
-        'group hover:text-primary-foreground relative overflow-hidden',
-        className
-      )}
+      className={cn('group relative overflow-hidden', className)}
     >
       <Comp href={href} download={download}>
         <span

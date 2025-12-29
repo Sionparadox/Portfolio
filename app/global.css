@@ -190,7 +190,7 @@
     font-size: clamp(1.25rem, 4vw, 8rem);
   }
   .gradient-neon {
-    @apply bg-linear-to-r from-cyan-300 via-purple-300 to-cyan-300;
+    @apply text-primary-foreground bg-linear-to-r from-cyan-300 via-purple-300 to-cyan-300 dark:from-cyan-500 dark:via-purple-500 dark:to-cyan-500;
   }
   .gradient-primary {
     @apply from-primary via-secondary to-primary bg-linear-to-r;
