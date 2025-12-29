@@ -10,11 +10,11 @@ const AboutPage = () => {
     <Container className='flex flex-col items-center justify-center gap-8 text-center'>
       <AccentTitle text='About' accentText='Me' className='sm:pt-6' />
       <div className='flex w-full justify-center gap-8'>
-        <div className='shrink-0'>
+        <div className='hidden shrink-0 sm:block'>
           <SquareProfileImage />
         </div>
-        <div className='flex h-full flex-col gap-4'>
-          <div className='border-secondary flex flex-col gap-4 border-r-2 px-4 text-left leading-relaxed'>
+        <div className='flex flex-col gap-4'>
+          <div className='border-secondary flex flex-1 flex-col gap-4 border-r-2 px-4 text-left leading-relaxed'>
             <p>
               Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
               faucibus ex sapien vitae pellentesque sem placerat. In id cursus
@@ -36,7 +36,7 @@ const AboutPage = () => {
               mi pretium tellus duis convallis.
             </p>
           </div>
-          <div className='mt-4 flex flex-wrap justify-center gap-3 pl-4 md:justify-start'>
+          <div className='mt-auto flex flex-wrap justify-center gap-3 pl-4 md:justify-start'>
             <LinkIconButton
               href='/contact'
               icon={MessageSquare}
@@ -53,14 +53,14 @@ const AboutPage = () => {
               Resume
             </LinkIconButton>
           </div>
-          <div className='flex w-full items-center justify-center gap-2 rounded-xl p-4 text-3xl font-semibold italic'>
-            <FaQuoteLeft />
-            <span className='from-primary via-secondary to-primary bg-linear-to-r bg-clip-text text-transparent'>
-              Done is better than perfect.
-            </span>
-            <FaQuoteRight />
-          </div>
         </div>
+      </div>
+      <div className='flex w-full items-center justify-center gap-2 rounded-xl p-4 text-3xl font-semibold italic'>
+        <FaQuoteLeft />
+        <span className='from-primary via-secondary to-primary bg-linear-to-r bg-clip-text text-transparent'>
+          Done is better than perfect.
+        </span>
+        <FaQuoteRight />
       </div>
     </Container>
   );
