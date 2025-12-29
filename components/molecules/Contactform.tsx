@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../atoms/Button';
+import GlassCard from '../atoms/GlassCard';
 import LabelInput from './LabelInput';
 
 // Zod 스키마 정의
@@ -86,47 +87,49 @@ const ContactForm = ({ className }: { className?: string }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={cn('flex flex-col gap-4', className)}
-    >
-      <LabelInput
-        label='이름'
-        placeholder='이름을 입력해주세요.'
-        {...register('name')}
-        error={errors.name?.message}
-      />
-      <LabelInput
-        label='이메일'
-        type='email'
-        placeholder='이메일을 입력해주세요.'
-        {...register('email')}
-        error={errors.email?.message}
-      />
-      <LabelInput
-        label='메시지'
-        multiline
-        wrapperClassName='grow'
-        className='h-full'
-        placeholder='메시지를 입력해주세요.'
-        {...register('message')}
-        error={errors.message?.message}
-      />
-      <Button
-        type='submit'
-        className='w-full'
-        disabled={isSubmitting || !!throttleError}
+    <GlassCard className='w-full'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={cn('flex h-full flex-col gap-4', className)}
       >
-        {isSubmitting ? (
-          '전송 중...'
-        ) : (
-          <>
-            <Send /> 전송
-          </>
-        )}
-      </Button>
-      <p className='text-destructive min-h-5 text-sm'>{throttleError}</p>
-    </form>
+        <LabelInput
+          label='이름'
+          placeholder='이름을 입력해주세요.'
+          {...register('name')}
+          error={errors.name?.message}
+        />
+        <LabelInput
+          label='이메일'
+          type='email'
+          placeholder='이메일을 입력해주세요.'
+          {...register('email')}
+          error={errors.email?.message}
+        />
+        <LabelInput
+          label='메시지'
+          multiline
+          wrapperClassName='grow'
+          className='h-full'
+          placeholder='메시지를 입력해주세요.'
+          {...register('message')}
+          error={errors.message?.message}
+        />
+        <Button
+          type='submit'
+          className='w-full'
+          disabled={isSubmitting || !!throttleError}
+        >
+          {isSubmitting ? (
+            '전송 중...'
+          ) : (
+            <>
+              <Send /> 전송
+            </>
+          )}
+        </Button>
+        <p className='text-destructive min-h-5 text-sm'>{throttleError}</p>
+      </form>
+    </GlassCard>
   );
 };
 

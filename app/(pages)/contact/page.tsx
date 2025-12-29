@@ -16,7 +16,7 @@ const ContactPage = () => {
         description='자유롭게 메시지를 남겨주세요.'
       />
       <div className='flex w-full flex-col items-stretch justify-center gap-8 sm:grow sm:flex-row'>
-        <div className='flex w-full flex-col gap-8 p-4 sm:gap-6'>
+        <div className='flex w-full flex-col gap-8 sm:gap-6'>
           <ListGroup.Wrapper>
             <ListGroup.Title>Contact Me!</ListGroup.Title>
             <ListGroup.Content>
@@ -53,6 +53,7 @@ const ContactPage = () => {
             </ListGroup.Content>
           </ListGroup.Wrapper>
         </div>
+
         <ContactForm className='w-full rounded-2xl p-4' />
       </div>
     </Container>

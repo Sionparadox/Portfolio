@@ -14,7 +14,7 @@ const GlassCard = ({ children, className }: GlassCardProps) => {
     >
       <div className='pointer-events-none absolute inset-0 rounded-3xl bg-linear-to-br from-white/25 to-transparent opacity-50 mix-blend-soft-light dark:from-white/10 dark:to-transparent' />
 
-      <div>{children}</div>
+      {children}
     </div>
   );
 };

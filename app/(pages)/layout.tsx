@@ -3,5 +3,5 @@ export default function PagesLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className='flex grow flex-col pt-16 sm:pt-24'>{children}</div>;
+  return <div className='flex grow flex-col pt-20 sm:pt-24'>{children}</div>;
 }
