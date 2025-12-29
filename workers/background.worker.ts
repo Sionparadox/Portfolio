@@ -11,6 +11,7 @@ let height = 0;
 let pixelRatio = 1;
 let timeRef = 0;
 let currentTheme: ThemeType = 'dark';
+let galaxyAngle = -(Math.random() * Math.PI) / 3;
 
 // 테마 전환 애니메이션용
 let targetStarOpacity = 1;
@@ -81,8 +82,15 @@ function generateStars(w: number, h: number) {
     const clusterX = noise3D(noiseX * 0.5, noiseY * 0.5, 0);
     const clusterY = noise3D(noiseX * 0.5, noiseY * 0.5, 100);
 
-    const x = ((posNoise + 1) * 0.5 + (clusterX + 1) * 0.25) * w;
-    const y = ((posNoise + 1) * 0.5 + (clusterY + 1) * 0.25) * h;
+    // 기본 위치 계산
+    const baseX = ((posNoise + 1) * 0.5 + (clusterX + 1) * 0.25) * w;
+    const baseY = ((posNoise + 1) * 0.5 + (clusterY + 1) * 0.25) * h;
+
+    // 화면 중심을 기준으로 회전 변환 적용
+    const dx = baseX - w / 2;
+    const dy = baseY - h / 2;
+    const x = w / 2 + dx * Math.cos(galaxyAngle) - dy * Math.sin(galaxyAngle);
+    const y = h / 2 + dx * Math.sin(galaxyAngle) + dy * Math.cos(galaxyAngle);
 
     const sizeNoise = noise3D(noiseX * 2, noiseY * 2, noiseZ * 2);
     const opacityNoise = noise3D(noiseX * 3, noiseY * 3, noiseZ * 3);
