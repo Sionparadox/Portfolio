@@ -57,7 +57,7 @@ const AboutPage = () => {
       </div>
       <div className='flex w-full items-center justify-center gap-2 rounded-xl p-4 text-3xl font-semibold italic'>
         <FaQuoteLeft />
-        <span className='from-primary via-secondary to-primary bg-linear-to-r bg-clip-text text-transparent'>
+        <span className='gradient-neon-text bg-clip-text text-transparent'>
           Done is better than perfect.
         </span>
         <FaQuoteRight />

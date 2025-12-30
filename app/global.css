@@ -192,6 +192,9 @@
   .gradient-neon {
     @apply bg-linear-to-r from-cyan-300 via-purple-300 to-cyan-300 dark:from-cyan-500 dark:via-purple-500 dark:to-cyan-500;
   }
+  .gradient-neon-text {
+    @apply bg-linear-to-r from-cyan-500 via-purple-500 to-cyan-500 dark:from-cyan-300 dark:via-purple-300 dark:to-cyan-300;
+  }
   .gradient-neon-bg {
     @apply bg-linear-to-br from-cyan-300 to-purple-300 dark:from-cyan-500 dark:to-purple-500;
   }
