@@ -1,6 +1,7 @@
 import Container from '@/components/atoms/Container';
 import AccentTitle from '@/components/molecules/AccentTitle';
 import AboutSection from '@/components/templates/AboutSection';
+import ExperienceSection from '@/components/templates/ExperienceSection';
 import QuoteSection from '@/components/templates/QuoteSection';
 
 const AboutPage = () => {
@@ -9,6 +10,7 @@ const AboutPage = () => {
       <AccentTitle text='About' accentText='Me' className='sm:pt-6' />
       <AboutSection />
       <QuoteSection />
+      <ExperienceSection />
     </Container>
   );
 };

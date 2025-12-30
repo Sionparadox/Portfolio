@@ -17,7 +17,11 @@ const NavLink = ({
   const isActive = pathname === href;
   return (
     <Button variant='plain' size='default' className={className} asChild>
-      <Link href={href} className={isActive ? 'text-primary' : ''}>
+      <Link
+        href={href}
+        scroll={undefined}
+        className={isActive ? 'text-primary' : ''}
+      >
         {children}
       </Link>
     </Button>

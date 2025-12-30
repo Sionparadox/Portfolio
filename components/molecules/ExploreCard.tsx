@@ -19,6 +19,7 @@ const ExploreCard = ({
     <Link
       href={link}
       className='group relative isolate block lg:min-h-48 lg:max-w-64'
+      scroll={undefined}
     >
       <GlassCard className='flex h-full w-full gap-2 p-4 sm:flex-col sm:p-6'>
         <div className='text-muted-foreground flex w-fit items-center justify-center rounded-sm bg-white/20 p-3 transition-colors duration-300 group-hover:bg-linear-to-br group-hover:from-purple-600/50 group-hover:to-blue-500/50 group-hover:text-cyan-300 dark:bg-white/5'>

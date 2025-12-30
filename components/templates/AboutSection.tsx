@@ -5,7 +5,7 @@ import SquareProfileImage from '../molecules/SquareProfileImage';
 const AboutSection = () => {
   return (
     <div className='flex w-full justify-center gap-8'>
-      <div className='hidden shrink-0 sm:block'>
+      <div className='hidden shrink-0 md:block'>
         <SquareProfileImage />
       </div>
       <div className='flex flex-col gap-4'>

@@ -3,7 +3,7 @@ import Logo from '../atoms/Logo';
 
 const LogoLink = () => {
   return (
-    <Link href='/' aria-label='Home'>
+    <Link href='/' aria-label='Home' scroll={undefined}>
       <Logo />
     </Link>
   );

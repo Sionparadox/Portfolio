@@ -18,7 +18,7 @@ const ContactCard = ({ icon, label, link }: ContactCardProps) => {
         asChild
         className='group-hover/card:text-primary transition-all duration-300'
       >
-        <Link href={link ?? '/'} target='_blank'>
+        <Link href={link ?? '/'} target='_blank' scroll={undefined}>
           {label}
         </Link>
       </Button>

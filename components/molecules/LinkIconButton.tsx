@@ -26,7 +26,7 @@ const LinkIconButton = ({
       asChild
       className={cn('group relative overflow-hidden', className)}
     >
-      <Comp href={href} download={download}>
+      <Comp href={href} download={download} scroll={undefined}>
         <span
           className='gradient-neon absolute inset-0 bg-size-[200%_100%] opacity-0 transition-opacity duration-300 group-hover:animate-[gradient-flow_3s_linear_infinite] group-hover:opacity-100'
           aria-hidden='true'

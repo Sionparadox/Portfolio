@@ -7,7 +7,11 @@ import { Button } from '../atoms/Button';
 const ContactLinks = ({ className }: { className?: string }) => {
   return (
     <div className={cn('flex gap-2', className)}>
-      <Link href='https://github.com/Sionparadox' target='_blank'>
+      <Link
+        href='https://github.com/Sionparadox'
+        target='_blank'
+        scroll={undefined}
+      >
         <Button size='icon' variant='outline'>
           <FaGithub />
         </Button>
