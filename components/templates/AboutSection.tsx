@@ -31,7 +31,7 @@ const AboutSection = () => {
             pretium tellus duis convallis.
           </p>
         </div>
-        <div className='mt-auto flex flex-wrap justify-center gap-3 pl-4 md:justify-start'>
+        <div className='mt-auto flex flex-wrap justify-center gap-3 md:justify-start md:pl-4'>
           <LinkIconButton href='/contact' icon={MessageSquare} className='w-36'>
             Contact Me
           </LinkIconButton>
