@@ -61,7 +61,7 @@ const TimelineItem = ({ item, reversed }: TimelineItemProps) => {
               <p className='text-sm'>{item.place}</p>
             </div>
 
-            {item.description.map((description) => (
+            {item.descriptions.map((description) => (
               <p className='text-sm' key={description.slice(0, 10)}>
                 {'•'} {description}
               </p>
@@ -88,8 +88,14 @@ const TimelineItem = ({ item, reversed }: TimelineItemProps) => {
             variants={desktopItemVariants(reversed ? 32 : -32)}
             transition={{ duration: 0.5, ease: 'easeOut' }}
           >
-            <div className='bg-glass-background border-glass-border flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border shadow-lg'>
-              <Image src={item.image} alt={item.title} width={40} height={40} />
+            <div className='border-glass-border flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border bg-white shadow-lg'>
+              <Image
+                src={item.image}
+                alt={item.title}
+                width={40}
+                height={40}
+                className='h-full w-full object-cover'
+              />
             </div>
             <span className='text-sm font-medium'>{item.year}</span>
           </motion.div>
@@ -118,7 +124,7 @@ const TimelineItem = ({ item, reversed }: TimelineItemProps) => {
                 <p className='text-xs'>{item.place}</p>
               </div>
 
-              {item.description.map((description) => (
+              {item.descriptions.map((description) => (
                 <p
                   className='text-sm leading-tight'
                   key={description.slice(0, 10)}

@@ -7,6 +7,8 @@ export type TimelineItemType = {
   year: string;
   place: string;
   title: string;
-  description: string[];
+  descriptions: string[];
   image: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };

@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma/client"
 }
 
 datasource db {
@@ -47,4 +46,18 @@ model Contact {
   email     String
   message   String
   createdAt DateTime @default(now())
+}
+
+// Timeline 데이터
+model Timeline {
+  id           String   @id @default(cuid())
+  type         String   // 'experience', 'education', 'certifications'
+  date         String   
+  year         String   
+  place        String   
+  title        String   
+  descriptions String[]
+  image        String   // 이미지 경로 (예: "/img/timeline/school.png")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
