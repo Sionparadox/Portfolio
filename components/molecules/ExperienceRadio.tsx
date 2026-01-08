@@ -28,7 +28,7 @@ const ExperienceRadio = ({ value, onChange }: ExperienceRadioProps) => {
       aria-label='Experience type selection'
     >
       {options.map((optionValue) => (
-        <div key={optionValue} className='flex w-1/3 shrink-0'>
+        <div key={optionValue} className='z-6 flex w-1/3 shrink-0'>
           <input
             type='radio'
             id={optionValue}
@@ -41,7 +41,7 @@ const ExperienceRadio = ({ value, onChange }: ExperienceRadioProps) => {
           <label
             htmlFor={optionValue}
             className={cn(
-              'relative z-2 flex w-full cursor-pointer items-center justify-center px-4 py-2 tracking-wide capitalize transition-colors duration-300',
+              'relative flex w-full cursor-pointer items-center justify-center px-4 py-2 tracking-wide capitalize transition-colors duration-300',
               value === optionValue && 'text-foreground'
             )}
           >
@@ -51,7 +51,7 @@ const ExperienceRadio = ({ value, onChange }: ExperienceRadioProps) => {
       ))}
       <div
         className={cn(
-          'gradient-neon-bg absolute top-0 bottom-0 z-1 w-1/3 rounded-3xl transition-transform duration-600',
+          'gradient-neon-bg absolute top-0 bottom-0 z-5 w-1/3 rounded-3xl transition-transform duration-600',
           gliderStyle[value]
         )}
         style={{
