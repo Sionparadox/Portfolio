@@ -1,5 +1,6 @@
 'use server';
 
+import { ActionResult } from '@/types/actionResult';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 
@@ -12,15 +13,9 @@ const contactSchema = z.object({
 
 export type ContactFormData = z.infer<typeof contactSchema>;
 
-type ActionResult = {
-  success: boolean;
-  message: string;
-  error?: string;
-};
-
 export async function createContact(
   data: ContactFormData
-): Promise<ActionResult> {
+): Promise<ActionResult<void>> {
   try {
     // 서버에서도 검증
     const validated = contactSchema.safeParse(data);
