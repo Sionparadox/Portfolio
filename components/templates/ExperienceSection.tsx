@@ -27,7 +27,6 @@ const ExperienceSection = () => {
       <ExperienceRadio value={selectedValue} onChange={setSelectedValue} />
 
       <Timeline selectedValue={selectedValue} timelineData={timelineData} />
-      <div className='mt-10 h-[80vh] w-full bg-red-500'></div>
     </div>
   );
 };

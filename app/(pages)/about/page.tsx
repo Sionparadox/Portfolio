@@ -3,6 +3,7 @@ import AccentTitle from '@/components/molecules/AccentTitle';
 import AboutSection from '@/components/templates/AboutSection';
 import ExperienceSection from '@/components/templates/ExperienceSection';
 import QuoteSection from '@/components/templates/QuoteSection';
+import SkillSection from '@/components/templates/SkillSection';
 
 const AboutPage = () => {
   return (
@@ -11,6 +12,7 @@ const AboutPage = () => {
       <AboutSection />
       <QuoteSection />
       <ExperienceSection />
+      <SkillSection />
     </Container>
   );
 };
