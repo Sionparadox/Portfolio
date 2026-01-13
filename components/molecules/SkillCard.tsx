@@ -28,7 +28,7 @@ const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
   );
 
   return (
-    <GlassCard className='h-40 w-40'>
+    <GlassCard className='h-32 w-32'>
       <motion.div
         className='group flex h-full w-full flex-col items-center justify-center gap-2'
         initial='initial'
@@ -36,7 +36,7 @@ const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
         onHoverStart={() => progress.set(1)}
         onHoverEnd={() => progress.set(0)}
       >
-        <div className='relative h-24 w-24 overflow-hidden rounded-full'>
+        <div className='relative h-20 w-20 overflow-hidden rounded-full'>
           <Image
             src={image}
             alt={name}
@@ -78,7 +78,7 @@ const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
           </svg>
         </div>
 
-        <div className='text-lg font-bold transition-colors duration-300 group-hover:bg-linear-to-r group-hover:from-cyan-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent'>
+        <div className='text-sm font-bold transition-colors duration-300 group-hover:bg-linear-to-r group-hover:from-cyan-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent'>
           {name}
         </div>
       </motion.div>
