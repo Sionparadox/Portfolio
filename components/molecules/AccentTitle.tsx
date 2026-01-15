@@ -8,6 +8,7 @@ type AccentTitleProps = {
   color?: 'primary' | 'neon';
   description?: string;
   className?: string;
+  underline?: boolean;
 };
 
 const colorClasses = {
@@ -28,12 +29,11 @@ const AccentTitle = ({
   color = 'primary',
   description = '',
   className = '',
+  underline = false,
 }: AccentTitleProps) => {
   return (
-    <div>
-      <Component
-        className={cn('text-foreground', sizeClasses[Component], className)}
-      >
+    <div className={cn('w-fit', className)}>
+      <Component className={cn('text-foreground', sizeClasses[Component])}>
         {text}{' '}
         <span
           className={cn(colorClasses[color], 'bg-clip-text text-transparent')}
@@ -42,6 +42,7 @@ const AccentTitle = ({
         </span>{' '}
         {text2}
       </Component>
+      {underline && <div className={cn('h-0.5', colorClasses[color])} />}
       {description && (
         <p className='text-muted-foreground mt-2 text-lg leading-relaxed'>
           {description}

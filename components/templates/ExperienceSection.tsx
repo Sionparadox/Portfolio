@@ -6,6 +6,7 @@ import Timeline from '@/components/molecules/Timeline';
 import { ExperienceRadioType } from '@/types/radioGroup';
 import { TimelineItemType } from '@/types/timeline';
 import { useEffect, useState } from 'react';
+import AccentTitle from '../molecules/AccentTitle';
 
 const ExperienceSection = () => {
   const [timelineData, setTimelineData] = useState<TimelineItemType[]>([]);
@@ -24,6 +25,15 @@ const ExperienceSection = () => {
 
   return (
     <div className='flex w-full flex-col items-center justify-center pt-4'>
+      <AccentTitle
+        as='h2'
+        text='How I'
+        accentText='Grew'
+        text2='Up'
+        color='neon'
+        underline
+        className='mb-8'
+      />
       <ExperienceRadio value={selectedValue} onChange={setSelectedValue} />
 
       <Timeline selectedValue={selectedValue} timelineData={timelineData} />

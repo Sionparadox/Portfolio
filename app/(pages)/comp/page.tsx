@@ -2,8 +2,10 @@
 
 import Container from '@/components/atoms/Container';
 import GlassCard from '@/components/atoms/GlassCard';
+import AccentTitle from '@/components/molecules/AccentTitle';
 import ExploreCard from '@/components/molecules/ExploreCard';
-import { motion } from 'motion/react';
+import ExperienceSection from '@/components/templates/ExperienceSection';
+import SkillSection from '@/components/templates/SkillSection';
 import { FaGithub } from 'react-icons/fa6';
 import Image from 'next/image';
 
@@ -60,50 +62,26 @@ const Page = () => {
           </div>
         </div>
       </GlassCard>
+      <div className='w-full'>
+        <AccentTitle
+          as='h2'
+          text='How I'
+          accentText='Grew'
+          text2='Up'
+          color='neon'
+        />
+      </div>
+      <ExperienceSection />
 
-      <GlassCard className='h-40 w-40'>
-        <motion.div
-          className='group flex h-full w-full flex-col items-center justify-center gap-2'
-          whileHover='hover'
-        >
-          <div className='relative h-24 w-24 overflow-hidden rounded-full'>
-            <Image
-              src='/img/timeline/inu.svg'
-              alt='Inu'
-              fill
-              className='z-1 object-contain'
-            />
+      <AccentTitle
+        as='h2'
+        text='What I'
+        accentText='Build'
+        text2='with'
+        color='neon'
+      />
 
-            <div className='absolute inset-0 z-2 flex items-center justify-center rounded-full bg-white/30 text-xl font-black text-black opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100'>
-              100%
-            </div>
-
-            <svg
-              className='absolute inset-0 z-3 -rotate-90'
-              viewBox='0 0 100 100'
-            >
-              <motion.circle
-                cx='50'
-                cy='50'
-                r='48'
-                stroke='currentColor'
-                strokeWidth='4'
-                fill='transparent'
-                className='text-primary'
-                initial={{ pathLength: 0 }}
-                variants={{
-                  hover: { pathLength: 1 },
-                }}
-                transition={{ duration: 0.8, ease: 'easeInOut' }}
-              />
-            </svg>
-          </div>
-
-          <div className='text-lg font-bold transition-colors duration-300 group-hover:bg-linear-to-r group-hover:from-cyan-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent'>
-            typescript
-          </div>
-        </motion.div>
-      </GlassCard>
+      <SkillSection />
     </Container>
   );
 };
