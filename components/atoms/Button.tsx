@@ -19,7 +19,7 @@ const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'underline-offset-4 hover:text-primary hover:underline',
         plain: 'hover:text-primary hover:scale-110',
-        inverted: 'bg-foreground text-background hover:bg-primary',
+        inverted: 'bg-foreground text-background hover:bg-foreground/80',
         glass:
           'bg-glass-background border-glass-border shadow-glass-shadow hover:shadow-(--glass-shadow-hover) border border-glass-border shadow-sm shadow-glass-shadow active:scale-95 active:translate-y-0.5',
       },
