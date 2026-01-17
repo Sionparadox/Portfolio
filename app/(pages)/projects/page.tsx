@@ -1,6 +1,5 @@
 import Container from '@/components/atoms/Container';
 import AccentTitle from '@/components/molecules/AccentTitle';
-import GlassCard from '../../../components/atoms/GlassCard';
 
 const ProjectsPage = () => {
   return (
