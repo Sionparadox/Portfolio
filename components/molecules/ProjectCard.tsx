@@ -1,4 +1,4 @@
-import { ArrowUpRight, CodeXml } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Badge from '../atoms/Badge';
 import { Button } from '../atoms/Button';
@@ -32,14 +32,10 @@ const ProjectCard = () => {
           <Badge label='Tailwind CSS' />
         </div>
       </div>
-      <div className='flex justify-between gap-3 p-6 pt-0'>
+      <div className='p-6 pt-0'>
         <Button variant='inverted' className='w-full'>
-          View
+          Detail
           <ArrowUpRight />
-        </Button>
-        <Button variant='inverted' className='w-full'>
-          Source
-          <CodeXml />
         </Button>
       </div>
     </div>
