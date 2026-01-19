@@ -7,8 +7,8 @@ import NavMenu from '../molecules/NavMenu';
 
 const Header = () => {
   return (
-    <header className='border-glass-border shadow-glass-shadow fixed top-0 right-0 left-0 z-30 h-16 w-full border-b bg-transparent py-2 shadow-xs backdrop-blur-xs sm:h-24 sm:py-3 lg:py-4'>
-      <Container className='flex items-center justify-between'>
+    <header className='border-glass-border shadow-glass-shadow fixed top-0 right-0 left-0 z-30 flex h-16 w-full items-center justify-center border-b bg-transparent py-2 shadow-xs backdrop-blur-xs sm:h-24'>
+      <Container fullWidth className='flex items-center justify-between'>
         <LogoLink />
         <div className='hidden sm:flex'>
           <NavMenu />

@@ -6,28 +6,30 @@ type ContainerProps = VariantProps<typeof containerVariants> & {
   className?: string;
 };
 
-const containerVariants = cva('w-full', {
+const containerVariants = cva('mx-auto w-full', {
   variants: {
     xPadding: {
       default: 'px-2 sm:px-4 md:px-8 lg:px-12',
-      tight: 'px-1 sm:px-2 md:px-4 lg:px-6',
       full: 'px-0',
-      loose: 'px-4 sm:px-8 md:px-16 lg:px-24',
+    },
+    fullWidth: {
+      true: 'max-w-none',
+      false: 'max-w-[1440px]',
     },
   },
   defaultVariants: {
     xPadding: 'default',
+    fullWidth: false,
   },
 });
-const Container = ({ children, className, xPadding }: ContainerProps) => {
+const Container = ({
+  children,
+  className,
+  xPadding,
+  fullWidth,
+}: ContainerProps) => {
   return (
-    <div
-      className={cn(
-        'mx-auto max-w-[1440px]',
-        containerVariants({ xPadding }),
-        className
-      )}
-    >
+    <div className={cn(containerVariants({ xPadding, fullWidth }), className)}>
       {children}
     </div>
   );
