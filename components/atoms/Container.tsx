@@ -21,7 +21,13 @@ const containerVariants = cva('w-full', {
 });
 const Container = ({ children, className, xPadding }: ContainerProps) => {
   return (
-    <div className={cn(containerVariants({ xPadding }), className)}>
+    <div
+      className={cn(
+        'mx-auto max-w-[1440px]',
+        containerVariants({ xPadding }),
+        className
+      )}
+    >
       {children}
     </div>
   );

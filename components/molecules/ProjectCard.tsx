@@ -3,6 +3,15 @@ import Image from 'next/image';
 import Badge from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 
+const tempData = {
+  title: 'Project Title',
+  description: 'Project Description',
+  badges: ['React', 'Next.js', 'Tailwind CSS'],
+  link: 'https://github.com',
+  source: 'https://github.com',
+  thumbnail: '/img/Rose.jpeg',
+};
+
 const ProjectCard = () => {
   return (
     <div className='bg-card group flex flex-col overflow-hidden rounded-xl border'>

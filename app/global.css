@@ -213,6 +213,33 @@ html {
   }
 }
 
+@layer utilities {
+  .vertical-fade {
+    position: relative;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 30%,
+      black 70%,
+      transparent 100%
+    );
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        color-mix(in srgb, var(--background), transparent 50%) 30%,
+        color-mix(in srgb, var(--background), transparent 50%) 70%,
+        transparent 100%
+      );
+    }
+  }
+}
+
 @keyframes gradient-flow {
   0% {
     background-position: 0% 50%;
