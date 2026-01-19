@@ -23,7 +23,11 @@ const ListGroupTitle = ({ children, className }: ListGroupProps) => {
 };
 
 const ListGroupContent = ({ children, className }: ListGroupProps) => {
-  return <div className={cn('flex flex-col gap-2', className)}>{children}</div>;
+  return (
+    <div className={cn('flex w-full flex-col gap-2', className)}>
+      {children}
+    </div>
+  );
 };
 
 const ListGroup = {

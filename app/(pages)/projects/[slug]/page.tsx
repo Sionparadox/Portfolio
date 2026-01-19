@@ -1,4 +1,3 @@
-import Badge from '@/components/atoms/Badge';
 import Container from '@/components/atoms/Container';
 import Image from 'next/image';
 
@@ -21,7 +20,7 @@ const ProjectDetailPage = async ({
         />
 
         <Container className='relative z-10 text-center'>
-          <h1 className='mb-2 text-3xl font-bold md:mb-4 md:text-4xl'>
+          <h1 className='mb-2 text-3xl font-bold sm:mb-4 sm:text-5xl'>
             Project Title {slug}
           </h1>
           <p className='line-clamp-6 leading-relaxed font-medium'>
@@ -35,8 +34,11 @@ const ProjectDetailPage = async ({
         </Container>
       </div>
 
-      <Container>
-        <div></div>
+      <Container className='flex flex-col gap-8 sm:flex-row'>
+        <div className='w-full bg-red-500'>
+          [1. Project Overview 2. What I did 3. What I learned]
+        </div>
+        <div className='w-full shrink-0 bg-blue-500 sm:w-80'>fdjbfk</div>
       </Container>
     </>
   );
