@@ -55,7 +55,7 @@ const ProjectDetailPage = async ({
             />
           </div>
         </div>
-        <div className='mt-4 flex w-full justify-between gap-2 sm:gap-20'>
+        <div className='mt-16 flex w-full justify-between gap-2 sm:gap-20'>
           <ProjectNavigationCard
             direction='prev'
             title='One Hada'

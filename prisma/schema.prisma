@@ -6,40 +6,37 @@ datasource db {
   provider = "postgresql"
 }
 
-// 프로젝트
+
 model Project {
-  id          String    @id @default(cuid())
-  title       String
-  description String    
-  thumbnail   String?   
-  startDate   DateTime
-  endDate     DateTime?
-  teamSize    Int       @default(1) 
-  techStack   String[]  
-  github      String?
-  demo        String?
-  featured    Boolean   @default(false) // 메인에 노출할지
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  // 상세 기능 (1:N)
-  features    Feature[]
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  title         String
+  overview      String    @db.Text
+  description   String    @db.Text
+  category      String    // Web, Mobile등 구분
+  thumbnail     String
+  
+  contributions String[]  // What I Did (배열 형태)
+  insights      String[]  // What I Learned (배열 형태)
+  
+  techStack     String[]
+  teamSize      Int       @default(1)
+  role          String?
+  
+  startDate     DateTime
+  endDate       DateTime?
+  
+  github        String?
+  link          String?
+  
+  featured      Boolean   @default(false)
+  order         Int       @default(0)
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
-// 프로젝트 상세
-model Feature {
-  id          String  @id @default(cuid())
-  name        String  
-  description String  
-  gifUrl      String? 
-  order       Int     @default(0) // 표시 순서
 
-  // 프로젝트와 연결
-  projectId   String
-  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-// Contact 메시지
 model Contact {
   id        String   @id @default(cuid())
   name      String
@@ -48,7 +45,7 @@ model Contact {
   createdAt DateTime @default(now())
 }
 
-// Timeline 데이터
+
 model Timeline {
   id           String   @id @default(cuid())
   type         String   // 'experience', 'education', 'certifications'
