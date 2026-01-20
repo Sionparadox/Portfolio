@@ -9,7 +9,7 @@ type ContainerProps = VariantProps<typeof containerVariants> & {
 const containerVariants = cva('mx-auto w-full', {
   variants: {
     xPadding: {
-      default: 'px-2 sm:px-4 md:px-8 lg:px-12',
+      default: 'px-4 sm:px-6 md:px-8 lg:px-12',
       full: 'px-0',
     },
     fullWidth: {
