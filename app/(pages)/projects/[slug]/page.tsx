@@ -1,21 +1,48 @@
+'use client';
+
+import { getAdjacentProjects, getProject } from '@/actions/project';
 import Container from '@/components/atoms/Container';
 import ProjectArticle from '@/components/molecules/ProjectArticle';
 import ProjectDetailBox from '@/components/molecules/ProjectDetailBox';
 import ProjectNavigationCard from '@/components/molecules/ProjectNavigationCard';
+import { ProjectItemType } from '@/types/project';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
-const ProjectDetailPage = async ({
+const ProjectDetailPage = ({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) => {
-  const { slug } = await params;
+  const [project, setProject] = useState<ProjectItemType | null>(null);
+  const [prevProject, setPrevProject] = useState<ProjectItemType | null>(null);
+  const [nextProject, setNextProject] = useState<ProjectItemType | null>(null);
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      const { slug } = await params;
+      const result = await getProject(slug);
+
+      if (result.success && result.data) {
+        setProject(result.data);
+        const adjacentResult = await getAdjacentProjects(result.data.order);
+        if (adjacentResult.success && adjacentResult.data) {
+          setPrevProject(adjacentResult.data.prev ?? null);
+          setNextProject(adjacentResult.data.next ?? null);
+        }
+      }
+    };
+    fetchProject();
+  }, [params]);
+  if (!project) {
+    return <div>로딩중입니다...</div>;
+  }
   return (
     <>
       {/* 프로젝트 설명 헤더 */}
       <div className='vertical-fade flex h-100 w-screen items-center justify-center overflow-hidden'>
         <Image
-          src='/img/kid.jpeg'
+          src={project.thumbnail}
           alt='Project Thumbnail'
           fill
           className='-z-10 object-cover blur-xs'
@@ -24,50 +51,57 @@ const ProjectDetailPage = async ({
 
         <Container className='relative z-10 text-center'>
           <h1 className='mb-2 text-3xl font-bold sm:mb-4 sm:text-5xl'>
-            Project Title {slug}
+            {project.title}
           </h1>
           <p className='line-clamp-6 leading-relaxed font-medium'>
-            Description Description Description Description Description
-            Description Description Description Description Description
-            Description Description Description Description Description
-            Description Description Description Description Description
-            Description Description Description Description Description
-            Description
+            {project.overview}
           </p>
         </Container>
       </div>
 
       <Container className='pt-4'>
         <div className='flex flex-col gap-6 sm:flex-row md:gap-12'>
-          <ProjectDetailBox className='h-fit w-full shrink-0 sm:sticky sm:top-28 sm:order-2 sm:w-80' />
+          <ProjectDetailBox
+            className='h-fit w-full shrink-0 sm:sticky sm:top-28 sm:order-2 sm:w-80'
+            project={project}
+          />
           <div className='flex w-full flex-col gap-12'>
             <ProjectArticle
               title='Project Overview'
-              description='포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다.'
+              description={project.description}
             />
             <ProjectArticle
               title='What I Did'
-              description='디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다.'
+              description={project.contributions.join(', ')}
             />
             <ProjectArticle
               title='What I Learned'
-              description='혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다.'
+              description={project.insights.join(', ')}
             />
           </div>
         </div>
         <div className='mt-16 flex w-full justify-between gap-2 sm:gap-20'>
-          <ProjectNavigationCard
-            direction='prev'
-            title='One Hada'
-            slug='one-hada'
-            imageSrc='/img/timeline/hana.png'
-          />
-          <ProjectNavigationCard
-            direction='next'
-            title='One Hada Two Hada Three Hada Four Hada Five Hada Six Hada Seven Hada'
-            slug='one-hada'
-            imageSrc='/img/timeline/hana.png'
-          />
+          {prevProject ? (
+            <ProjectNavigationCard
+              direction='prev'
+              title={prevProject.title}
+              slug={prevProject.slug}
+              imageSrc={prevProject.icon}
+            />
+          ) : (
+            <div className='w-full'></div>
+          )}
+
+          {nextProject ? (
+            <ProjectNavigationCard
+              direction='next'
+              title={nextProject.title}
+              slug={nextProject.slug}
+              imageSrc={nextProject.icon}
+            />
+          ) : (
+            <div className='w-full'></div>
+          )}
         </div>
       </Container>
     </>

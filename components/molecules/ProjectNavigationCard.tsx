@@ -36,6 +36,7 @@ const ProjectNavigationCard = ({
               alt={`${label} Icon`}
               fill
               className='object-cover grayscale transition-all duration-300 group-hover:grayscale-0'
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             />
           </div>
 

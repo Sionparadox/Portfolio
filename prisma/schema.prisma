@@ -15,6 +15,7 @@ model Project {
   description   String    @db.Text
   category      String    // Web, Mobile등 구분
   thumbnail     String
+  icon          String
   
   contributions String[]  // What I Did (배열 형태)
   insights      String[]  // What I Learned (배열 형태)

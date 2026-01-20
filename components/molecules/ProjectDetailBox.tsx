@@ -1,17 +1,21 @@
+import { ProjectItemType } from '@/types/project';
 import { Calendar, Clock, CodeXml, ExternalLink, Users } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { getDuration } from '../../utils/getDuration';
 import Badge from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 import InfoRow from '../atoms/InfoRow';
 
-//TODO: hover 효과 및 Data 연동
+//TODO: hover 효과
 type ProjectDetailBoxProps = {
   className?: string;
+  project: ProjectItemType;
 };
 
-const ProjectDetailBox = ({ className }: ProjectDetailBoxProps) => {
+const ProjectDetailBox = ({ className, project }: ProjectDetailBoxProps) => {
+  const duration = getDuration(project.startDate, project.endDate);
   return (
     <div
       className={cn(
@@ -23,48 +27,61 @@ const ProjectDetailBox = ({ className }: ProjectDetailBoxProps) => {
 
       <div className='bg-card absolute inset-1 -z-10 rounded-2xl' />
       <div className='relative z-10 flex flex-col items-center gap-4 p-4 py-5'>
-        <div className='relative flex items-center justify-center'>
+        <div className='relative flex aspect-square h-20 items-center justify-center rounded-lg'>
           <Image
-            src='/img/timeline/hana.png'
-            alt='Inu'
-            height={80}
-            width={200}
-            className='h-20 w-auto'
+            src={project.icon}
+            alt='Project Info'
+            fill
+            className='object-cover'
           />
           <div className='absolute -inset-2 -z-10 bg-conic from-cyan-300 via-purple-300 to-cyan-300 blur dark:from-cyan-500 dark:via-purple-500 dark:to-cyan-500' />
         </div>
-        <h3 className='text-lg font-bold'>Portfolio</h3>
+        <h3 className='text-lg font-bold'>{project.title}</h3>
         <div className='w-full border-b' />
         <div className='flex w-full flex-col gap-3'>
-          <InfoRow Icon={Calendar} label='시작' value='2025.12.09' />
-          <InfoRow Icon={Calendar} label='종료' value='2026.01.29' />
-          <InfoRow Icon={Clock} label='기간' value='2개월' />
-          <InfoRow Icon={Users} label='인원' value='1명' />
+          <InfoRow
+            Icon={Calendar}
+            label='시작'
+            value={project.startDate.toLocaleDateString()}
+          />
+          <InfoRow
+            Icon={Calendar}
+            label='종료'
+            value={
+              project.endDate ? project.endDate.toLocaleDateString() : '진행중'
+            }
+          />
+          <InfoRow Icon={Clock} label='기간' value={duration} />
+          <InfoRow Icon={Users} label='인원' value={`${project.teamSize}명`} />
         </div>
         <div className='w-full border-b' />
         <div className='flex w-full flex-wrap items-center justify-center gap-2'>
-          <Badge label='React' />
-          <Badge label='Next.js' />
-          <Badge label='Tailwind CSS' />
-          <Badge label='Prisma' />
-          <Badge label='NeonDB' />
-          <Badge label='Vercel' />
+          {project.techStack.map((tech) => (
+            <Badge key={tech} label={tech} />
+          ))}
         </div>
         <div className='w-full border-b' />
         <div className='flex w-full gap-3'>
-          <Button variant='inverted' className='w-full' asChild>
-            <Link href='/' target='_blank'>
+          <Button
+            variant='inverted'
+            className='w-full'
+            asChild
+            disabled={!project.link}
+          >
+            <Link href={project.link || ''} target='_blank'>
               Live
               <ExternalLink />
             </Link>
           </Button>
-          <Button variant='inverted' className='w-full' asChild>
-            <Link
-              href='https://github.com/Sionparadox/portfolio'
-              target='_blank'
-            >
-              <CodeXml />
+          <Button
+            variant='inverted'
+            className='w-full'
+            asChild
+            disabled={!project.github}
+          >
+            <Link href={project.github || ''} target='_blank'>
               Source
+              <CodeXml />
             </Link>
           </Button>
         </div>
