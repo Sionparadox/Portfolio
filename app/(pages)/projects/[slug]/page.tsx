@@ -1,7 +1,8 @@
 import Container from '@/components/atoms/Container';
+import ProjectArticle from '@/components/molecules/ProjectArticle';
 import ProjectDetailBox from '@/components/molecules/ProjectDetailBox';
+import ProjectNavigationCard from '@/components/molecules/ProjectNavigationCard';
 import Image from 'next/image';
-import AccentTitle from '../../../../components/molecules/AccentTitle';
 
 const ProjectDetailPage = async ({
   params,
@@ -36,74 +37,37 @@ const ProjectDetailPage = async ({
         </Container>
       </div>
 
-      <Container className='flex flex-col gap-8 pt-4 sm:flex-row'>
-        <ProjectDetailBox className='h-fit w-full shrink-0 sm:sticky sm:top-28 sm:order-2 sm:w-80' />
-        <div className='flex w-full flex-col gap-12'>
-          <div className='space-y-2'>
-            <AccentTitle
-              as='h2'
-              text='Project'
-              accentText='Overview'
-              color='neon'
-              underline
+      <Container className='pt-4'>
+        <div className='flex flex-col gap-6 sm:flex-row md:gap-12'>
+          <ProjectDetailBox className='h-fit w-full shrink-0 sm:sticky sm:top-28 sm:order-2 sm:w-80' />
+          <div className='flex w-full flex-col gap-12'>
+            <ProjectArticle
+              title='Project Overview'
+              description='포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다. 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다.'
             />
-            <p>
-              개인 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인
-              포트폴리오를 위한 사이트는 필요하다고 생각합니다. 개인 포트폴리오
-              사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한
-              사이트는 필요하다고 생각합니다.개인 포트폴리오 사이트입니다. 웹
-              프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고
-              생각합니다.개인 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면
-              개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다.개인
-              포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인
-              포트폴리오를 위한 사이트는 필요하다고 생각합니다.개인 포트폴리오
-              사이트입니다. 웹 프론트엔드 개발자라면 개인 포트폴리오를 위한
-              사이트는 필요하다고 생각합니다.개인 포트폴리오 사이트입니다. 웹
-              프론트엔드 개발자라면 개인 포트폴리오를 위한 사이트는 필요하다고
-              생각합니다.개인 포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면
-              개인 포트폴리오를 위한 사이트는 필요하다고 생각합니다.개인
-              포트폴리오 사이트입니다. 웹 프론트엔드 개발자라면 개인
-              포트폴리오를 위한 사이트는 필요하다고 생각합니다.
-            </p>
-          </div>
-          <div className='space-y-2'>
-            <AccentTitle
-              as='h2'
-              text='What I'
-              accentText='Did'
-              color='neon'
-              underline
+            <ProjectArticle
+              title='What I Did'
+              description='디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다. 디자인, 개발, 배포 등 프로젝트 과정 전부 혼자 진행했습니다.'
             />
-            <p>
-              디자인, 개발, 배포 등 프로젝트 과정 전부 직접 진행했습니다.
-              디자인, 개발, 배포 등 프로젝트 과정 전부 직접 진행했습니다.
-              디자인, 개발, 배포 등 프로젝트 과정 전부 직접 진행했습니다.
-              디자인, 개발, 배포 등 프로젝트 과정 전부 직접 진행했습니다.
-              디자인, 개발, 배포 등 프로젝트 과정 전부 직접 진행했습니다.
-              디자인, 개발, 배포 등 프로젝트 과정 전부 직접 진행했습니다.
-              디자인, 개발, 배포 등 프로젝트 과정 전부 직접 진행했습니다.
-              디자인, 개발, 배포 등 프로젝트 과정 전부 직접 진행했습니다.
-            </p>
-          </div>
-          <div className='space-y-2'>
-            <AccentTitle
-              as='h2'
-              text='What I'
-              accentText='Learned'
-              color='neon'
-              underline
+            <ProjectArticle
+              title='What I Learned'
+              description='혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다.'
             />
-            <p>
-              혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서
-              개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참
-              외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다.
-              혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서
-              개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참
-              외롭다. 혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다.
-              혼자서 개발하면 참 외롭다. 혼자서 개발하면 참 외롭다. 혼자서
-              개발하면 참 외롭다.
-            </p>
           </div>
+        </div>
+        <div className='mt-4 flex w-full justify-between gap-2 sm:gap-20'>
+          <ProjectNavigationCard
+            direction='prev'
+            title='One Hada'
+            slug='one-hada'
+            imageSrc='/img/timeline/hana.png'
+          />
+          <ProjectNavigationCard
+            direction='next'
+            title='One Hada Two Hada Three Hada Four Hada Five Hada Six Hada Seven Hada'
+            slug='one-hada'
+            imageSrc='/img/timeline/hana.png'
+          />
         </div>
       </Container>
     </>
