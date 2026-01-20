@@ -1,15 +1,25 @@
 import { Calendar, Clock, CodeXml, ExternalLink, Users } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 import Badge from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 import InfoRow from '../atoms/InfoRow';
 
 //TODO: hover 효과 및 Data 연동
-const ProjectDetailBox = () => {
+type ProjectDetailBoxProps = {
+  className?: string;
+};
+
+const ProjectDetailBox = ({ className }: ProjectDetailBoxProps) => {
   return (
-    <div className='bg-card relative z-0 w-80 overflow-hidden rounded-2xl'>
-      <div className='absolute -inset-[150%] -z-20 animate-[spin_4s_linear_infinite] bg-conic from-cyan-500 via-purple-500 to-cyan-500' />
+    <div
+      className={cn(
+        'bg-card relative z-0 overflow-hidden rounded-2xl',
+        className
+      )}
+    >
+      <div className='absolute -inset-full -z-20 animate-[spin_4s_linear_infinite] bg-conic from-cyan-500 via-purple-500 to-cyan-500' />
 
       <div className='bg-card absolute inset-1 -z-10 rounded-2xl' />
       <div className='relative z-10 flex flex-col items-center gap-4 p-4 py-5'>
@@ -17,10 +27,11 @@ const ProjectDetailBox = () => {
           <Image
             src='/img/timeline/hana.png'
             alt='Inu'
-            width={80}
             height={80}
+            width={200}
+            className='h-20 w-auto'
           />
-          <div className='absolute -inset-2 -z-10 rounded-full bg-conic from-cyan-300 via-purple-300 to-cyan-300 blur dark:from-cyan-500 dark:via-purple-500 dark:to-cyan-500' />
+          <div className='absolute -inset-2 -z-10 bg-conic from-cyan-300 via-purple-300 to-cyan-300 blur dark:from-cyan-500 dark:via-purple-500 dark:to-cyan-500' />
         </div>
         <h3 className='text-lg font-bold'>Portfolio</h3>
         <div className='w-full border-b' />
