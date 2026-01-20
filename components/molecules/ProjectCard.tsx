@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Badge from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 
+//TODO: hover 효과 및 Data 연동
 const ProjectCard = () => {
   return (
     <div className='bg-card group flex flex-col overflow-hidden rounded-xl border'>
