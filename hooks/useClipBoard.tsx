@@ -8,7 +8,7 @@ const useClipBoard = () => {
       await navigator.clipboard.writeText(text);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
-    } catch (error) {
+    } catch {
       setIsCopied(false);
     }
   };

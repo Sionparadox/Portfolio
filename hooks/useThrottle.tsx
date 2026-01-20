@@ -2,7 +2,8 @@
 
 import { useRef } from 'react';
 
-export default function useThrottle<T extends (...args: unknown[]) => void>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function useThrottle<T extends (...args: any[]) => any>(
   callback: T,
   delay: number
 ): [T, () => number, () => boolean] {
@@ -16,7 +17,7 @@ export default function useThrottle<T extends (...args: unknown[]) => void>(
       return true;
     }
     return false;
-  }) as T & { (): boolean };
+  }) as T;
 
   const getRemainingTime = () => {
     const now = Date.now();

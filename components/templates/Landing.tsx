@@ -14,10 +14,7 @@ export const Landing = () => {
   return (
     <div className='relative h-screen overflow-x-hidden overflow-y-clip'>
       <ThemePlanet />
-      <Container
-        className='mb-4 flex h-full flex-col justify-end gap-4 pb-28'
-        xPadding='tight'
-      >
+      <Container className='mb-4 flex h-full flex-col justify-end gap-4 pb-28'>
         <ExplosionText
           text={greetingMessage[visitType].title}
           className='text-fluid-h1'

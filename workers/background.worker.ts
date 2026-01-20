@@ -11,7 +11,7 @@ let height = 0;
 let pixelRatio = 1;
 let timeRef = 0;
 let currentTheme: ThemeType = 'dark';
-let galaxyAngle = -(Math.random() * Math.PI) / 3;
+const galaxyAngle = -(Math.random() * Math.PI) / 3;
 
 // 테마 전환 애니메이션용
 let targetStarOpacity = 1;

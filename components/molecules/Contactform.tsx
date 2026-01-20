@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../atoms/Button';
 import GlassCard from '../atoms/GlassCard';
@@ -20,13 +20,12 @@ const contactSchema = z.object({
 });
 
 const ContactForm = ({ className }: { className?: string }) => {
-  const [, setSubmitResult] = useState<{
+  const [submitResult, setSubmitResult] = useState<{
     success: boolean;
     message: string;
   } | null>(null);
   const [throttleError, setThrottleError] = useState<string>('');
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
-  const pendingDataRef = useRef<ContactFormData | null>(null);
 
   const {
     register,
@@ -37,27 +36,28 @@ const ContactForm = ({ className }: { className?: string }) => {
     resolver: zodResolver(contactSchema),
   });
 
-  const submitContact = async () => {
-    if (!pendingDataRef.current) return;
-    const result = await createContact(pendingDataRef.current);
-    setSubmitResult(result);
-    pendingDataRef.current = null;
-    setThrottleError('');
+  const submitContact = useCallback(
+    async (data: ContactFormData) => {
+      const result = await createContact(data);
+      setSubmitResult(result);
+      setThrottleError('');
 
-    if (result.success) {
-      reset();
-    }
-  };
-  // 1분에 1번만 전송 가능
+      if (result.success) {
+        reset();
+      }
+    },
+    [reset]
+  );
+
+  // 1분에 1번만 전송 가능하도록 쓰로틀링 적용
   const [throttledSubmit, getRemainingTime, isThrottled] = useThrottle(
     submitContact,
     60000
   );
 
-  // 카운트다운 업데이트
+  // 카운트다운 업데이트 로직
   useEffect(() => {
     if (remainingSeconds <= 0) {
-      setThrottleError('');
       return;
     }
 
@@ -74,17 +74,20 @@ const ContactForm = ({ className }: { className?: string }) => {
     return () => clearInterval(interval);
   }, [remainingSeconds, getRemainingTime]);
 
-  const onSubmit = (data: ContactFormData) => {
-    if (isThrottled()) {
-      const remaining = Math.ceil(getRemainingTime() / 1000);
-      setRemainingSeconds(remaining);
-      setThrottleError(`${remaining}초 후에 전송 가능합니다.`);
-      return;
-    }
+  // 폼 제출 핸들러
+  const onSubmit = useCallback(
+    (data: ContactFormData) => {
+      if (isThrottled()) {
+        const remaining = Math.ceil(getRemainingTime() / 1000);
+        setRemainingSeconds(remaining);
+        setThrottleError(`${remaining}초 후에 전송 가능합니다.`);
+        return;
+      }
 
-    pendingDataRef.current = data;
-    throttledSubmit();
-  };
+      throttledSubmit(data);
+    },
+    [isThrottled, getRemainingTime, throttledSubmit]
+  );
 
   return (
     <GlassCard className='w-full'>
@@ -123,11 +126,25 @@ const ContactForm = ({ className }: { className?: string }) => {
             '전송 중...'
           ) : (
             <>
-              <Send /> 전송
+              <Send size={18} className='mr-2' /> 전송
             </>
           )}
         </Button>
-        <p className='text-destructive min-h-5 text-sm'>{throttleError}</p>
+
+        {/* 결과 메시지 또는 에러 메시지 표시 */}
+        {throttleError && (
+          <p className='text-destructive min-h-5 text-sm'>{throttleError}</p>
+        )}
+        {submitResult && !throttleError && (
+          <p
+            className={cn(
+              'min-h-5 text-sm',
+              submitResult.success ? 'text-blue-500' : 'text-destructive'
+            )}
+          >
+            {submitResult.message}
+          </p>
+        )}
       </form>
     </GlassCard>
   );
