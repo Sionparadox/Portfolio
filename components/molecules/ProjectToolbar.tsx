@@ -1,5 +1,6 @@
 'use client';
 
+import useDebounce from '@/hooks/useDebounce';
 import { ProjectItemType } from '@/types/project';
 import { useEffect, useMemo, useState } from 'react';
 import SearchInput from '../atoms/SearchInput';
@@ -25,6 +26,9 @@ const ProjectToolbar = ({
   const [sortType, setSortType] = useState('default');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTechStacks, setSelectedTechStacks] = useState<string[]>([]);
+
+  // 검색어 디바운스 (300ms)
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
@@ -57,10 +61,10 @@ const ProjectToolbar = ({
   useEffect(() => {
     let result = [...projects];
 
-    // 검색 필터링
-    if (searchQuery) {
+    // 검색 필터링 (디바운스된 값 사용)
+    if (debouncedSearchQuery) {
       result = result.filter((project) =>
-        project.title.toLowerCase().includes(searchQuery.toLowerCase())
+        project.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
       );
     }
 
@@ -102,7 +106,7 @@ const ProjectToolbar = ({
     setFilteredProjects(result);
   }, [
     projects,
-    searchQuery,
+    debouncedSearchQuery,
     sortType,
     selectedCategory,
     selectedTechStacks,
