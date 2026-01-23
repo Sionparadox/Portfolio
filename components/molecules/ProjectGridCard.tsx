@@ -5,19 +5,19 @@ import { ProjectItemType } from '../../types/project';
 import Badge from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 
-//TODO: hover 효과
 const ProjectGridCard = ({ project }: { project: ProjectItemType }) => {
   return (
-    <div className='bg-card group flex flex-col overflow-hidden rounded-xl border'>
+    <div className='bg-card group hover:border-primary flex flex-col overflow-hidden rounded-xl border transition-all duration-300'>
       <div className='relative aspect-video overflow-hidden'>
         <Image
           src={project.thumbnail}
           alt={project.title}
           fill
-          className='object-cover'
+          className='object-cover transition-transform duration-500 group-hover:scale-110'
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           priority={project.order <= 2}
         />
+        <div className='absolute inset-0 bg-linear-to-b from-transparent to-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-80 dark:to-black/50' />
       </div>
       <div className='relative flex-1 space-y-3 p-6 text-start'>
         <Badge
@@ -41,7 +41,7 @@ const ProjectGridCard = ({ project }: { project: ProjectItemType }) => {
       <div className='p-6 pt-0'>
         <Button variant='inverted' className='w-full' asChild>
           <Link href={`/projects/${project.slug}`}>
-            Detail
+            More Detail
             <ArrowUpRight />
           </Link>
         </Button>

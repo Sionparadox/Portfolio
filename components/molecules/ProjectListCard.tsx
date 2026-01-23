@@ -8,7 +8,7 @@ const ProjectListCard = ({ project }: { project: ProjectItemType }) => {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className='group bg-card hover:border-primary flex w-full items-center gap-2 overflow-hidden rounded-xl border p-2 transition-all duration-300 hover:-translate-y-px sm:gap-4'
+      className='group bg-card hover:border-primary flex w-full items-center gap-2 overflow-hidden rounded-xl border p-2 transition-all duration-300 sm:gap-4'
     >
       <div className='relative aspect-video w-20 shrink-0 overflow-hidden sm:w-24'>
         <Image
