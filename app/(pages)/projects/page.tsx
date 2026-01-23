@@ -3,7 +3,8 @@
 import { getProjects } from '@/actions/project';
 import Container from '@/components/atoms/Container';
 import AccentTitle from '@/components/molecules/AccentTitle';
-import ProjectCard from '@/components/molecules/ProjectCard';
+import ProjectGridCard from '@/components/molecules/ProjectGridCard';
+import ProjectListCard from '@/components/molecules/ProjectListCard';
 import ProjectToolbar from '@/components/molecules/ProjectToolbar';
 import { ProjectItemType } from '@/types/project';
 import { useEffect, useState } from 'react';
@@ -40,12 +41,16 @@ const ProjectsPage = () => {
         className={`w-full ${
           viewType === 'grid'
             ? 'grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'
-            : 'flex flex-col gap-6'
+            : 'flex flex-col gap-2'
         }`}
       >
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
+        {filteredProjects.map((project) =>
+          viewType === 'grid' ? (
+            <ProjectGridCard key={project.id} project={project} />
+          ) : (
+            <ProjectListCard key={project.id} project={project} />
+          )
+        )}
       </div>
 
       {filteredProjects.length === 0 && (

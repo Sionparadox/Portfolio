@@ -6,7 +6,7 @@ import Badge from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 
 //TODO: hover 효과
-const ProjectCard = ({ project }: { project: ProjectItemType }) => {
+const ProjectGridCard = ({ project }: { project: ProjectItemType }) => {
   return (
     <div className='bg-card group flex flex-col overflow-hidden rounded-xl border'>
       <div className='relative aspect-video overflow-hidden'>
@@ -50,4 +50,4 @@ const ProjectCard = ({ project }: { project: ProjectItemType }) => {
   );
 };
 
-export default ProjectCard;
+export default ProjectGridCard;
