@@ -21,7 +21,7 @@ const ProjectCard = ({ project }: { project: ProjectItemType }) => {
       </div>
       <div className='relative flex-1 space-y-3 p-6 text-start'>
         <Badge
-          label='Web'
+          label={project.category}
           variant='inverted'
           className='absolute -top-2.5 left-5'
         />
