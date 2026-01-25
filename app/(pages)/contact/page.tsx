@@ -6,6 +6,11 @@ import ListGroup from '@/components/molecules/ListGroup';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { FaBlog, FaGithub } from 'react-icons/fa6';
 
+export const metadata = {
+  title: 'Contact',
+  description: '직접 연락해보세요!',
+};
+
 const ContactPage = () => {
   return (
     <Container className='flex flex-col items-center justify-center gap-8 text-center sm:grow'>
