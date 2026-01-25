@@ -32,7 +32,7 @@ const skillData: Record<SkillCategoryType, SkillType[]> = {
     {
       name: 'Next.js',
       percentage: 90,
-      image: '/img/skills/Nextjs.svg',
+      image: '/img/skills/NextJS.svg',
     },
     {
       name: 'Tailwind CSS',
