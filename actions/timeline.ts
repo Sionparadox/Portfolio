@@ -2,12 +2,11 @@
 
 import { ActionResult } from '@/types/actionResult';
 import { TimelineItemType } from '@/types/timeline';
+import { unstable_cache } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 
-export async function getTimelines(): Promise<
-  ActionResult<TimelineItemType[]>
-> {
-  try {
+const getCachedTimelines = unstable_cache(
+  async () => {
     const rawData = await prisma.timeline.findMany({
       orderBy: { year: 'desc' },
     });
@@ -22,6 +21,21 @@ export async function getTimelines(): Promise<
       descriptions: item.descriptions as string[],
       image: item.image ?? undefined,
     }));
+
+    return timelines;
+  },
+  ['timelines'],
+  {
+    revalidate: false,
+    tags: ['timelines'],
+  }
+);
+
+export async function getTimelines(): Promise<
+  ActionResult<TimelineItemType[]>
+> {
+  try {
+    const timelines = await getCachedTimelines();
 
     return {
       success: true,
