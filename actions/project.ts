@@ -6,7 +6,7 @@ import { unstable_cache } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 
 // 날짜 문자열을 Date 객체로 변환하는 헬퍼 함수
-const parseProjectDates = (project: any): ProjectItemType => {
+const parseProjectDates = (project: ProjectItemType): ProjectItemType => {
   return {
     ...project,
     startDate: new Date(project.startDate),
