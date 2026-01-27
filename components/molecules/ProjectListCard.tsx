@@ -16,6 +16,8 @@ const ProjectListCard = ({ project }: { project: ProjectItemType }) => {
           alt={project.title}
           fill
           className='object-cover transition-transform duration-300 group-hover:scale-105'
+          sizes='(max-width: 640px) 80px, 96px'
+          loading='lazy'
         />
       </div>
       <div className='flex grow flex-col text-left'>
