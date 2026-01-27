@@ -28,7 +28,7 @@ export async function getProjects(): Promise<ActionResult<ProjectItemType[]>> {
       },
       ['projects-list'],
       {
-        revalidate: 3600,
+        revalidate: false,
         tags: ['projects'],
       }
     );
@@ -64,7 +64,7 @@ export async function getProject(
       },
       [`project-${slug}`],
       {
-        revalidate: 3600,
+        revalidate: false,
         tags: ['projects', `project-${slug}`],
       }
     );
@@ -118,7 +118,7 @@ export async function getAdjacentProjects(
       },
       [`adjacent-projects-${currentOrder}`],
       {
-        revalidate: 3600,
+        revalidate: false,
         tags: ['projects', `adjacent-${currentOrder}`],
       }
     );
