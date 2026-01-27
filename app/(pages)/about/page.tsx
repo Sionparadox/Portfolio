@@ -3,8 +3,9 @@ import AboutSection from '@/components/templates/AboutSection';
 import ExperienceSection from '@/components/templates/ExperienceSection';
 import QuoteSection from '@/components/templates/QuoteSection';
 import SkillSection from '@/components/templates/SkillSection';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'About',
   description:
     '프론트엔드 개발자 박시온의 소개, 경험, 기술 스택을 확인해보세요.',

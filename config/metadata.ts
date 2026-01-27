@@ -1,5 +1,10 @@
-export const baseUrl = 'https://sion.is-a.dev';
+export const baseUrl =
+  process.env.NODE_ENV === 'production'
+    ? 'https://sion.is-a.dev'
+    : 'http://localhost:3000';
+
 export const defaultMetadata = {
+  metadataBase: new URL(baseUrl),
   title: {
     default: 'Sion | Full-stack Developer',
     template: '%s | Sion Portfolio',
@@ -37,8 +42,10 @@ export const defaultMetadata = {
   },
 
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-icon.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    apple: { url: '/apple-icon.png', type: 'image/png' },
   },
-  metadataBase: new URL(baseUrl),
 };

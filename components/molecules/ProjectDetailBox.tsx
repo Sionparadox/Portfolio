@@ -23,7 +23,7 @@ const ProjectDetailBox = ({ className, project }: ProjectDetailBoxProps) => {
         className
       )}
     >
-      <div className='absolute -inset-full -z-20 animate-[spin_4s_linear_infinite] bg-conic from-cyan-500 via-purple-500 to-cyan-500' />
+      <div className='absolute -inset-full -z-20 animate-[spin_4s_linear_infinite] bg-conic from-cyan-500 from-0% via-purple-500 to-cyan-500' />
 
       <div className='bg-card absolute inset-1 -z-10 rounded-2xl' />
       <div className='relative z-10 flex flex-col items-center gap-4 p-4 py-5'>
@@ -36,7 +36,7 @@ const ProjectDetailBox = ({ className, project }: ProjectDetailBoxProps) => {
             sizes='80px'
             loading='lazy'
           />
-          <div className='absolute -inset-2 -z-10 bg-conic from-cyan-300 via-purple-300 to-cyan-300 blur dark:from-cyan-500 dark:via-purple-500 dark:to-cyan-500' />
+          <div className='absolute -inset-2 -z-10 bg-conic from-cyan-300 from-0% via-purple-300 to-cyan-300 blur dark:from-cyan-500 dark:via-purple-500 dark:to-cyan-500' />
         </div>
         <h3 className='text-lg font-bold'>{project.title}</h3>
         <div className='w-full border-b' />

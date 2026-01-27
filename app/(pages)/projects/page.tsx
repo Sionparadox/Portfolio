@@ -2,7 +2,12 @@ import { getProjects } from '@/actions/project';
 import Container from '@/components/atoms/Container';
 import AccentTitle from '@/components/molecules/AccentTitle';
 import ProjectsClientWrapper from '@/components/organisms/ProjectsClientWrapper';
+import { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Projects',
+  description: '프로젝트 목록을 확인해보세요.',
+};
 const ProjectsPage = async () => {
   const result = await getProjects();
   const projects = result.success && result.data ? result.data : [];

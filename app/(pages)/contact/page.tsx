@@ -5,10 +5,11 @@ import ContactForm from '@/components/molecules/Contactform';
 import ListGroup from '@/components/molecules/ListGroup';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { FaBlog, FaGithub } from 'react-icons/fa6';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Contact',
-  description: '직접 연락해보세요!',
+  description: '개발자에게 직접 연락해보세요!',
 };
 
 const ContactPage = () => {
