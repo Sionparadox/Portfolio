@@ -2,7 +2,7 @@
 
 import useDebounce from '@/hooks/useDebounce';
 import { ProjectItemType } from '@/types/project';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import SearchInput from '../atoms/SearchInput';
 import Selector from '../atoms/Selector';
 import ViewTypeToggle from '../atoms/ViewTypeToggle';
@@ -15,6 +15,13 @@ interface ProjectToolbarProps {
   viewType: 'grid' | 'list';
   setViewType: (type: 'grid' | 'list') => void;
 }
+
+const SORT_OPTIONS = [
+  { value: 'default', label: '기본순' },
+  { value: 'newest', label: '최신순' },
+  { value: 'oldest', label: '오래된순' },
+  { value: 'atoz', label: '이름순' },
+];
 
 const ProjectToolbar = ({
   projects,
@@ -45,73 +52,71 @@ const ProjectToolbar = ({
     return Array.from(techSet).sort();
   }, [projects]);
 
-  const sortOptions = [
-    { value: 'default', label: '기본순' },
-    { value: 'newest', label: '최신순' },
-    { value: 'oldest', label: '오래된순' },
-    { value: 'atoz', label: '이름순' },
-  ];
-
-  const toggleTechStack = (tech: string) => {
+  const toggleTechStack = useCallback((tech: string) => {
     setSelectedTechStacks((prev) =>
       prev.includes(tech) ? prev.filter((t) => t !== tech) : [...prev, tech]
     );
-  };
+  }, []);
 
-  useEffect(() => {
-    let result = [...projects];
+  const clearAllTechStacks = useCallback(() => {
+    setSelectedTechStacks([]);
+  }, []);
 
-    // 검색 필터링 (디바운스된 값 사용)
+  const filteredProjects = useMemo(() => {
+    let result = projects;
+
     if (debouncedSearchQuery) {
+      const lowerQuery = debouncedSearchQuery.toLowerCase();
       result = result.filter((project) =>
-        project.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
+        project.title.toLowerCase().includes(lowerQuery)
       );
     }
 
-    // 카테고리 필터링
     if (selectedCategory !== 'all') {
       result = result.filter(
         (project) => project.category === selectedCategory
       );
     }
 
-    // 기술스택 필터링
     if (selectedTechStacks.length > 0) {
       result = result.filter((project) =>
         selectedTechStacks.every((tech) => project.techStack.includes(tech))
       );
     }
 
-    // 정렬
+    const sorted = [...result];
     switch (sortType) {
       case 'newest':
-        result.sort(
+        sorted.sort(
           (a, b) =>
             new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
         );
         break;
       case 'oldest':
-        result.sort(
+        sorted.sort(
           (a, b) =>
             new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
         );
         break;
       case 'atoz':
-        result.sort((a, b) => a.title.localeCompare(b.title));
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
         break;
       default:
         break;
     }
 
-    setFilteredProjects(result);
+    return sorted;
   }, [
     projects,
     debouncedSearchQuery,
     sortType,
     selectedCategory,
     selectedTechStacks,
-    setFilteredProjects,
   ]);
+
+  useEffect(() => {
+    setFilteredProjects(filteredProjects);
+  }, [filteredProjects, setFilteredProjects]);
 
   return (
     <div className='flex w-full flex-col gap-4'>
@@ -125,7 +130,7 @@ const ProjectToolbar = ({
           allTechStacks={allTechStacks}
           selectedTechStacks={selectedTechStacks}
           onToggleTechStack={toggleTechStack}
-          onClearAll={() => setSelectedTechStacks([])}
+          onClearAll={clearAllTechStacks}
         />
       </div>
 
@@ -141,7 +146,7 @@ const ProjectToolbar = ({
           <ViewTypeToggle viewType={viewType} setViewType={setViewType} />
           <Selector
             value={sortType}
-            options={sortOptions}
+            options={SORT_OPTIONS}
             onChange={setSortType}
           />
         </div>

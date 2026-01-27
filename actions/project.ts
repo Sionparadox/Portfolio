@@ -2,14 +2,27 @@
 
 import { ActionResult } from '@/types/actionResult';
 import { ProjectItemType } from '@/types/project';
+import { unstable_cache } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 
 // 전체 프로젝트 가져오기
 export async function getProjects(): Promise<ActionResult<ProjectItemType[]>> {
   try {
-    const rawData = await prisma.project.findMany({
-      orderBy: { order: 'desc' },
-    });
+    // unstable_cache로 데이터베이스 조회 결과 캐싱
+    const getCachedProjects = unstable_cache(
+      async () => {
+        return await prisma.project.findMany({
+          orderBy: { order: 'desc' },
+        });
+      },
+      ['projects-list'],
+      {
+        revalidate: 3600,
+        tags: ['projects'],
+      }
+    );
+
+    const rawData = await getCachedProjects();
 
     return {
       success: true,
@@ -25,14 +38,26 @@ export async function getProjects(): Promise<ActionResult<ProjectItemType[]>> {
   }
 }
 
-// 개별 프로젝트 가져오기 (slug 기준)
+// 개별 프로젝트 가져오기
 export async function getProject(
   slug: string
 ): Promise<ActionResult<ProjectItemType>> {
   try {
-    const rawData = await prisma.project.findUnique({
-      where: { slug },
-    });
+    // 개별 프로젝트도 캐싱
+    const getCachedProject = unstable_cache(
+      async (projectSlug: string) => {
+        return await prisma.project.findUnique({
+          where: { slug: projectSlug },
+        });
+      },
+      [`project-${slug}`],
+      {
+        revalidate: 3600,
+        tags: ['projects', `project-${slug}`],
+      }
+    );
+
+    const rawData = await getCachedProject(slug);
 
     if (!rawData) {
       return {
