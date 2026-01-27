@@ -5,6 +5,17 @@ import { ProjectItemType } from '@/types/project';
 import { unstable_cache } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 
+// 날짜 문자열을 Date 객체로 변환하는 헬퍼 함수
+const parseProjectDates = (project: any): ProjectItemType => {
+  return {
+    ...project,
+    startDate: new Date(project.startDate),
+    endDate: project.endDate ? new Date(project.endDate) : null,
+    createdAt: new Date(project.createdAt),
+    updatedAt: new Date(project.updatedAt),
+  };
+};
+
 // 전체 프로젝트 가져오기
 export async function getProjects(): Promise<ActionResult<ProjectItemType[]>> {
   try {
@@ -23,11 +34,12 @@ export async function getProjects(): Promise<ActionResult<ProjectItemType[]>> {
     );
 
     const rawData = await getCachedProjects();
+    const data = rawData.map(parseProjectDates);
 
     return {
       success: true,
       message: '프로젝트를 성공적으로 불러왔습니다.',
-      data: rawData,
+      data,
     };
   } catch (error) {
     return {
@@ -66,10 +78,12 @@ export async function getProject(
       };
     }
 
+    const data = parseProjectDates(rawData);
+
     return {
       success: true,
       message: '프로젝트를 성공적으로 불러왔습니다.',
-      data: rawData,
+      data,
     };
   } catch (error) {
     return {
@@ -87,25 +101,37 @@ export async function getAdjacentProjects(
   ActionResult<{ prev: ProjectItemType | null; next: ProjectItemType | null }>
 > {
   try {
-    const [prevProject, nextProject] = await Promise.all([
-      // 이전 프로젝트
-      prisma.project.findFirst({
-        where: { order: { lt: currentOrder } },
-        orderBy: { order: 'desc' },
-      }),
-      // 다음 프로젝트
-      prisma.project.findFirst({
-        where: { order: { gt: currentOrder } },
-        orderBy: { order: 'asc' },
-      }),
-    ]);
+    const getCachedAdjacentProjects = unstable_cache(
+      async (order: number) => {
+        return await Promise.all([
+          // 이전 프로젝트
+          prisma.project.findFirst({
+            where: { order: { lt: order } },
+            orderBy: { order: 'desc' },
+          }),
+          // 다음 프로젝트
+          prisma.project.findFirst({
+            where: { order: { gt: order } },
+            orderBy: { order: 'asc' },
+          }),
+        ]);
+      },
+      [`adjacent-projects-${currentOrder}`],
+      {
+        revalidate: 3600,
+        tags: ['projects', `adjacent-${currentOrder}`],
+      }
+    );
+
+    const [prevProject, nextProject] =
+      await getCachedAdjacentProjects(currentOrder);
 
     return {
       success: true,
       message: '인접 프로젝트를 성공적으로 불러왔습니다.',
       data: {
-        prev: prevProject ?? null,
-        next: nextProject ?? null,
+        prev: prevProject ? parseProjectDates(prevProject) : null,
+        next: nextProject ? parseProjectDates(nextProject) : null,
       },
     };
   } catch (error) {

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import AccentTitle from './AccentTitle';
 
 type ProjectArticleProps = {
@@ -6,9 +7,11 @@ type ProjectArticleProps = {
 };
 
 const ProjectArticle = ({ title, description }: ProjectArticleProps) => {
-  const words = title.split(' ');
-  const accentText = words.pop();
-  const text = words.join(' ');
+  const { text, accentText } = useMemo(() => {
+    const words = title.split(' ');
+    const accent = words.pop();
+    return { text: words.join(' '), accentText: accent };
+  }, [title]);
   return (
     <div className='space-y-2'>
       <AccentTitle

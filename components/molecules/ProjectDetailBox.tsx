@@ -30,9 +30,11 @@ const ProjectDetailBox = ({ className, project }: ProjectDetailBoxProps) => {
         <div className='relative flex aspect-square h-20 items-center justify-center rounded-lg'>
           <Image
             src={project.icon}
-            alt='Project Info'
+            alt={`${project.title} Icon`}
             fill
             className='object-cover'
+            sizes='80px'
+            loading='lazy'
           />
           <div className='absolute -inset-2 -z-10 bg-conic from-cyan-300 via-purple-300 to-cyan-300 blur dark:from-cyan-500 dark:via-purple-500 dark:to-cyan-500' />
         </div>
