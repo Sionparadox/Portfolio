@@ -23,7 +23,9 @@ const ContactPage = () => {
       <div className='flex w-full flex-col items-stretch justify-center gap-8 sm:grow sm:flex-row'>
         <div className='flex w-full flex-col gap-8 sm:gap-6'>
           <ListGroup.Wrapper>
-            <ListGroup.Title>Contact Me!</ListGroup.Title>
+            <ListGroup.Title className='gradient-neon-text bg-clip-text text-transparent'>
+              Contact Me!
+            </ListGroup.Title>
             <ListGroup.Content>
               {CONTACT_INFO.map((contact) => {
                 const Icon = contact.icon;
@@ -39,7 +41,9 @@ const ContactPage = () => {
             </ListGroup.Content>
           </ListGroup.Wrapper>
           <ListGroup.Wrapper>
-            <ListGroup.Title>Follow Me!</ListGroup.Title>
+            <ListGroup.Title className='gradient-neon-text bg-clip-text text-transparent'>
+              Follow Me!
+            </ListGroup.Title>
             <ListGroup.Content>
               {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
