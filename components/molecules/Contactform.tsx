@@ -3,14 +3,13 @@
 import { createContact, type ContactFormData } from '@/actions/contact';
 import useThrottle from '@/hooks/useThrottle';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useCallback, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Button } from '../atoms/Button';
 import GlassCard from '../atoms/GlassCard';
 import LabelInput from './LabelInput';
+import SubmitButton from './SubmitButton';
 
 // Zod 스키마 정의
 const contactSchema = z.object({
@@ -55,22 +54,40 @@ const ContactForm = ({ className }: { className?: string }) => {
     60000
   );
 
-  // 카운트다운 업데이트 로직
+  // 성공 상태 자동 리셋
   useEffect(() => {
-    if (remainingSeconds <= 0) {
-      return;
+    if (submitResult?.success) {
+      const timer = setTimeout(() => {
+        setSubmitResult(null);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
+  }, [submitResult]);
 
-    const interval = setInterval(() => {
+  // 스로틀 에러 메시지 설정
+  const handleThrottleError = useCallback(() => {
+    const remaining = Math.ceil(getRemainingTime() / 1000);
+    setRemainingSeconds(remaining);
+    setThrottleError(`${remaining}초 후에 전송 가능합니다.`);
+  }, [getRemainingTime]);
+
+  // 카운트다운 자동 업데이트
+  useEffect(() => {
+    if (remainingSeconds <= 0) return;
+
+    const updateCountdown = () => {
       const remaining = Math.ceil(getRemainingTime() / 1000);
-      setRemainingSeconds(remaining);
+
       if (remaining <= 0) {
         setThrottleError('');
+        setRemainingSeconds(0);
       } else {
         setThrottleError(`${remaining}초 후에 전송 가능합니다.`);
+        setRemainingSeconds(remaining);
       }
-    }, 1000);
+    };
 
+    const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
   }, [remainingSeconds, getRemainingTime]);
 
@@ -78,73 +95,65 @@ const ContactForm = ({ className }: { className?: string }) => {
   const onSubmit = useCallback(
     (data: ContactFormData) => {
       if (isThrottled()) {
-        const remaining = Math.ceil(getRemainingTime() / 1000);
-        setRemainingSeconds(remaining);
-        setThrottleError(`${remaining}초 후에 전송 가능합니다.`);
+        handleThrottleError();
         return;
       }
 
       throttledSubmit(data);
     },
-    [isThrottled, getRemainingTime, throttledSubmit]
+    [isThrottled, handleThrottleError, throttledSubmit]
   );
 
   return (
     <GlassCard className='w-full'>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={cn('flex h-full flex-col gap-4', className)}
+        className={cn('flex h-full flex-col', className)}
       >
-        <LabelInput
-          label='이름'
-          placeholder='이름을 입력해주세요.'
-          {...register('name')}
-          error={errors.name?.message}
-        />
-        <LabelInput
-          label='이메일'
-          type='email'
-          placeholder='이메일을 입력해주세요.'
-          {...register('email')}
-          error={errors.email?.message}
-        />
-        <LabelInput
-          label='메시지'
-          multiline
-          wrapperClassName='grow'
-          className='h-full'
-          placeholder='메시지를 입력해주세요.'
-          {...register('message')}
-          error={errors.message?.message}
-        />
-        <Button
-          type='submit'
-          className='w-full'
-          disabled={isSubmitting || !!throttleError}
-        >
-          {isSubmitting ? (
-            '전송 중...'
-          ) : (
-            <>
-              <Send size={18} className='mr-2' /> 전송
-            </>
-          )}
-        </Button>
+        <div className='flex grow flex-col gap-4'>
+          <LabelInput
+            label='이름'
+            placeholder='이름을 입력해주세요.'
+            {...register('name')}
+            error={errors.name?.message}
+          />
+          <LabelInput
+            label='이메일'
+            type='email'
+            placeholder='이메일을 입력해주세요.'
+            {...register('email')}
+            error={errors.email?.message}
+          />
+          <LabelInput
+            label='메시지'
+            multiline
+            wrapperClassName='grow'
+            className='h-full'
+            placeholder='메시지를 입력해주세요.'
+            {...register('message')}
+            error={errors.message?.message}
+          />
+        </div>
 
-        {/* 결과 메시지 또는 에러 메시지 표시 */}
-        {throttleError && (
-          <p className='text-destructive min-h-5 text-sm'>{throttleError}</p>
-        )}
-        {submitResult && !throttleError && (
-          <p
-            className={cn(
-              'min-h-5 text-sm',
-              submitResult.success ? 'text-blue-500' : 'text-destructive'
+        <div className='mt-4 flex flex-col gap-1'>
+          <SubmitButton
+            isSubmitting={isSubmitting}
+            throttleError={throttleError}
+            isSuccess={submitResult?.success}
+            hasValidationError={Object.keys(errors).length > 0}
+          />
+
+          <div className='min-h-5'>
+            {throttleError && (
+              <p className='text-destructive text-sm'>{throttleError}</p>
             )}
-          >
-            {submitResult.message}
-          </p>
-        )}
+            {submitResult && !submitResult.success && !throttleError && (
+              <p className='text-destructive text-sm font-semibold'>
+                {submitResult.message}
+              </p>
+            )}
+          </div>
+        </div>
       </form>
     </GlassCard>
   );
