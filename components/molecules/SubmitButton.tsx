@@ -2,7 +2,7 @@
 
 import { Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useReducer, useRef } from 'react';
 import { Button } from '../atoms/Button';
 
 interface SubmitButtonProps {
@@ -12,6 +12,25 @@ interface SubmitButtonProps {
   hasValidationError?: boolean;
 }
 
+type Status = 'idle' | 'submitting' | 'success';
+type Action =
+  | { type: 'START_SUBMITTING' }
+  | { type: 'SHOW_SUCCESS' }
+  | { type: 'RESET' };
+
+function statusReducer(state: Status, action: Action): Status {
+  switch (action.type) {
+    case 'START_SUBMITTING':
+      return state === 'idle' ? 'submitting' : state;
+    case 'SHOW_SUCCESS':
+      return state === 'submitting' ? 'success' : state;
+    case 'RESET':
+      return 'idle';
+    default:
+      return state;
+  }
+}
+
 const SubmitButton = memo(
   ({
     isSubmitting,
@@ -19,51 +38,56 @@ const SubmitButton = memo(
     isSuccess = false,
     hasValidationError = false,
   }: SubmitButtonProps) => {
-    const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>(
-      'idle'
-    );
+    const [status, dispatch] = useReducer(statusReducer, 'idle');
     const timersRef = useRef<{
       success?: NodeJS.Timeout;
       reset?: NodeJS.Timeout;
     }>({});
 
+    // 에러 발생 시 타이머 정리 및 리셋
     useEffect(() => {
       const hasError = throttleError || hasValidationError;
-      const isIdle = status === 'idle';
-      const isSubmittingState = status === 'submitting';
-      const isSuccessState = status === 'success';
+      if (!hasError || status === 'idle') return;
 
-      if (hasError && !isIdle) {
-        if (timersRef.current.success) clearTimeout(timersRef.current.success);
-        if (timersRef.current.reset) clearTimeout(timersRef.current.reset);
-        setStatus('idle');
-        return;
-      }
+      const timers = timersRef.current;
+      if (timers.success) clearTimeout(timers.success);
+      if (timers.reset) clearTimeout(timers.reset);
+      dispatch({ type: 'RESET' });
+    }, [throttleError, hasValidationError, status]);
 
-      if (isSubmitting && isIdle) {
-        setStatus('submitting');
-        return;
-      }
+    // 제출 시작
+    useEffect(() => {
+      if (!isSubmitting || status !== 'idle') return;
+      dispatch({ type: 'START_SUBMITTING' });
+    }, [isSubmitting, status]);
 
-      if (isSuccess && isSubmittingState) {
-        timersRef.current.success = setTimeout(() => {
-          setStatus('success');
-        }, 800);
-        return () => {
-          if (timersRef.current.success)
-            clearTimeout(timersRef.current.success);
-        };
-      }
+    // 제출 성공 시 success 상태로 전환 (딜레이)
+    useEffect(() => {
+      if (!isSuccess || status !== 'submitting') return;
 
-      if (isSuccessState) {
-        timersRef.current.reset = setTimeout(() => {
-          setStatus('idle');
-        }, 2000);
-        return () => {
-          if (timersRef.current.reset) clearTimeout(timersRef.current.reset);
-        };
-      }
-    }, [isSubmitting, throttleError, hasValidationError, isSuccess, status]);
+      const timer = setTimeout(() => {
+        dispatch({ type: 'SHOW_SUCCESS' });
+      }, 800);
+      timersRef.current.success = timer;
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }, [isSuccess, status]);
+
+    // success 상태에서 idle로 자동 리셋
+    useEffect(() => {
+      if (status !== 'success') return;
+
+      const timer = setTimeout(() => {
+        dispatch({ type: 'RESET' });
+      }, 2000);
+      timersRef.current.reset = timer;
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }, [status]);
 
     const isDisabled = !!throttleError || status === 'success';
 
