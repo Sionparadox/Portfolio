@@ -3,8 +3,7 @@ import AccentTitle from '@/components/molecules/AccentTitle';
 import ContactCard from '@/components/molecules/ContactCard';
 import ContactForm from '@/components/molecules/Contactform';
 import ListGroup from '@/components/molecules/ListGroup';
-import { Mail, MapPin, Phone } from 'lucide-react';
-import { FaBlog, FaGithub } from 'react-icons/fa6';
+import { CONTACT_INFO, SOCIAL_LINKS } from '@/constants/contactInfo';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -26,36 +25,33 @@ const ContactPage = () => {
           <ListGroup.Wrapper>
             <ListGroup.Title>Contact Me!</ListGroup.Title>
             <ListGroup.Content>
-              <ContactCard
-                icon={<Phone />}
-                label='010-4193-0547'
-                link='tel:01041930547'
-              />
-              <ContactCard
-                icon={<Mail />}
-                label='sions.dev@gmail.com'
-                link='mailto:sions.dev@gmail.com'
-              />
-              <ContactCard
-                icon={<MapPin />}
-                label='인천광역시, 대한민국'
-                link='https://www.google.com/maps/place/%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EB%82%A8%EB%8F%99%EA%B5%AC+%EB%82%A8%EB%8F%99%EB%8C%80%EB%A1%9C799%EB%B2%88%EA%B8%B8+34/data=!3m1!4b1!4m6!3m5!1s0x357b7be7d56d96ad:0xdef4edd58d17af53!8m2!3d37.4542639!4d126.7071056!16s%2Fg%2F11bz58qrt_?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D'
-              />
+              {CONTACT_INFO.map((contact) => {
+                const Icon = contact.icon;
+                return (
+                  <ContactCard
+                    key={contact.label}
+                    icon={<Icon />}
+                    label={contact.label}
+                    link={contact.link}
+                  />
+                );
+              })}
             </ListGroup.Content>
           </ListGroup.Wrapper>
           <ListGroup.Wrapper>
-            <ListGroup.Title>Follow me!</ListGroup.Title>
+            <ListGroup.Title>Follow Me!</ListGroup.Title>
             <ListGroup.Content>
-              <ContactCard
-                icon={<FaGithub size={24} />}
-                label='깃허브'
-                link='https://github.com/Sionparadox'
-              />
-              <ContactCard
-                icon={<FaBlog size={24} />}
-                label='블로그'
-                link='https://sionparadox.github.io'
-              />
+              {SOCIAL_LINKS.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <ContactCard
+                    key={social.label}
+                    icon={<Icon size={social.iconSize} />}
+                    label={social.label}
+                    link={social.link}
+                  />
+                );
+              })}
             </ListGroup.Content>
           </ListGroup.Wrapper>
         </div>
