@@ -1,8 +1,12 @@
 import quoteData from '@/constants/quoteData';
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa6';
 
+const getRandomQuote = () => {
+  return quoteData[Math.floor(Math.random() * quoteData.length)];
+};
+
 const QuoteSection = () => {
-  const randomQuote = quoteData[Math.floor(Math.random() * quoteData.length)];
+  const randomQuote = getRandomQuote();
 
   return (
     <div className='relative flex w-full flex-col gap-2 rounded-xl p-4'>
