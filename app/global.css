@@ -205,6 +205,9 @@ html {
   .gradient-neon-bg {
     @apply bg-linear-to-br from-cyan-300 to-purple-300 dark:from-cyan-500 dark:to-purple-500;
   }
+  .gradient-neon-invert {
+    @apply bg-linear-to-r from-purple-500 via-cyan-500 to-purple-500 dark:from-purple-300 dark:via-cyan-300 dark:to-purple-500;
+  }
   .gradient-primary {
     @apply from-primary via-secondary to-primary bg-linear-to-r;
   }

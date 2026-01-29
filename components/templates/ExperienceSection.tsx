@@ -1,27 +1,10 @@
-'use client';
-
 import { getTimelines } from '@/actions/timeline';
-import ExperienceRadio from '@/components/molecules/ExperienceRadio';
-import Timeline from '@/components/molecules/Timeline';
-import { ExperienceRadioType } from '@/types/radioGroup';
-import { TimelineItemType } from '@/types/timeline';
-import { useEffect, useState } from 'react';
 import AccentTitle from '../molecules/AccentTitle';
+import ExperienceClient from '../organisms/ExperienceClient';
 
-const ExperienceSection = () => {
-  const [timelineData, setTimelineData] = useState<TimelineItemType[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await getTimelines();
-      if (result.success && result.data) {
-        setTimelineData(result.data);
-      }
-    };
-    fetchData();
-  }, []);
-  const [selectedValue, setSelectedValue] =
-    useState<ExperienceRadioType>('education');
+const ExperienceSection = async () => {
+  const result = await getTimelines();
+  const timelineData = result.success && result.data ? result.data : [];
 
   return (
     <div className='flex w-full flex-col items-center justify-center pt-4'>
@@ -34,9 +17,7 @@ const ExperienceSection = () => {
         underline
         className='mb-8'
       />
-      <ExperienceRadio value={selectedValue} onChange={setSelectedValue} />
-
-      <Timeline selectedValue={selectedValue} timelineData={timelineData} />
+      <ExperienceClient timelineData={timelineData} />
     </div>
   );
 };
