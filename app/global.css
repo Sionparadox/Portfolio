@@ -260,6 +260,25 @@ html.theme-transition-disabled * {
   transition: none !important;
 }
 
+/* Theme Toggle Button Styles */
+.theme-toggle-button {
+  box-shadow:
+    0.0625em 0.0625em 0.0625em hsl(0, 0%, 100%) inset,
+    -0.0625em -0.0625em 0.0625em hsl(223, 10%, 80%) inset,
+    0 0 0 0.125em hsl(223, 10%, 90%) inset,
+    0.25em 0.25em 0.125em hsla(0, 0%, 0%, 0.3) inset,
+    0.0625em 0.0625em 0.0625em hsla(0, 0%, 0%, 0.3);
+}
+
+.dark .theme-toggle-button {
+  box-shadow:
+    0.0625em 0.0625em 0.0625em hsl(223, 10%, 25%) inset,
+    -0.0625em -0.0625em 0.0625em hsl(223, 10%, 20%) inset,
+    0 0 0 0.125em hsl(223, 10%, 30%) inset,
+    0.25em 0.25em 0.125em hsla(0, 0%, 0%, 0.3) inset,
+    0.0625em 0.0625em 0.0625em hsla(0, 0%, 0%, 0.3);
+}
+
 /* 반응형 크기 조정
 (추후에 추가 필요 시 추가)
 @media (min-width: 640px) {

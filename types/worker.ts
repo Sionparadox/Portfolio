@@ -1,6 +1,7 @@
 // Web Worker와 메인 스레드 간 메시지 타입 정의
+import type { ThemeType } from '@/utils/theme';
 
-export type ThemeType = 'light' | 'dark';
+export type { ThemeType };
 
 export interface WorkerInitMessage {
   type: 'init';
