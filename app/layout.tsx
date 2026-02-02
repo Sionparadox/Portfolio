@@ -21,8 +21,9 @@ export default function RootLayout({
             __html: `
               (function() {
                 const stored = localStorage.getItem('theme');
+                const cleanTheme = stored ? stored.replace(/"/g, '') : null;
                 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                const theme = stored === 'light' || stored === 'dark' ? stored : systemTheme;
+                const theme = (cleanTheme === 'light' || cleanTheme === 'dark') ? cleanTheme : systemTheme;
                 if (theme === 'dark') {
                   document.documentElement.classList.add('dark');
                 } else {
