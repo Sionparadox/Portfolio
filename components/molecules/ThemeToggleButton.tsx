@@ -3,6 +3,7 @@
 import { useTheme } from '@/hooks/useTheme';
 import { motion } from 'motion/react';
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 const RADIUS = '0.5em';
 const SPHERE_SHADOW = '0.25em 0.25em 0.125em hsl(0,0%,0%,0.3)';
@@ -141,7 +142,7 @@ const Face = () => (
   </>
 );
 
-const ThemeToggleButton = () => {
+const ThemeToggleButton = ({ className }: { className?: string }) => {
   const { theme, toggleTheme, mounted } = useTheme();
   const isDark = theme === 'dark';
 
@@ -149,7 +150,10 @@ const ThemeToggleButton = () => {
     <button
       onClick={toggleTheme}
       aria-label='테마 전환'
-      className='theme-toggle-button-shadow relative h-[1.5em] w-[2.5em] cursor-pointer rounded-[0.75em] bg-sky-300 transition-colors duration-500 dark:bg-blue-900'
+      className={cn(
+        'theme-toggle-button-shadow relative h-[1.5em] w-[2.5em] cursor-pointer rounded-[0.75em] bg-sky-300 transition-colors duration-500 dark:bg-blue-900',
+        className
+      )}
     >
       {mounted ? (
         <>
