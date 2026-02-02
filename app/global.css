@@ -260,8 +260,11 @@ html.theme-transition-disabled * {
   transition: none !important;
 }
 
-/* Theme Toggle Button Styles */
-.theme-toggle-button {
+.theme-toggle-button-shadow {
+  --toggle-sphere-bg: hsl(48, 92%, 55%);
+  --toggle-sphere-shadow:
+    -0.12em -0.12em 0.2em hsl(48, 90%, 40%) inset,
+    0.12em 0.12em 0.2em hsl(48, 90%, 75%) inset;
   box-shadow:
     0.0625em 0.0625em 0.0625em hsl(0, 0%, 100%) inset,
     -0.0625em -0.0625em 0.0625em hsl(223, 10%, 80%) inset,
@@ -270,7 +273,11 @@ html.theme-transition-disabled * {
     0.0625em 0.0625em 0.0625em hsla(0, 0%, 0%, 0.3);
 }
 
-.dark .theme-toggle-button {
+.dark .theme-toggle-button-shadow {
+  --toggle-sphere-bg: hsl(206, 38%, 80%);
+  --toggle-sphere-shadow:
+    -0.12em -0.12em 0.2em hsl(206, 28%, 70%) inset,
+    0.12em 0.12em 0.2em hsl(206, 55%, 92%) inset;
   box-shadow:
     0.0625em 0.0625em 0.0625em hsl(223, 10%, 25%) inset,
     -0.0625em -0.0625em 0.0625em hsl(223, 10%, 20%) inset,
