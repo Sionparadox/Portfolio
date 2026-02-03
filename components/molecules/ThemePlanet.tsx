@@ -38,7 +38,6 @@ const ThemePlanet = () => {
               fill
               sizes={PLANET_CONFIG.sizes}
               className={PLANET_CONFIG.imageClassName}
-              priority
             />
           </motion.div>
         </AnimatePresence>
