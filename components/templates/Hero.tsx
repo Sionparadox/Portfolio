@@ -7,10 +7,9 @@ import { ExplosionText } from '../molecules/ExplosionText';
 import ScrollDownArrow from '../molecules/ScrollDownArrow';
 import ThemePlanet from '../molecules/ThemePlanet';
 
-export const Landing = () => {
+export const Hero = () => {
   const visitType = useVisitType();
 
-  if (!visitType) return <div className='min-h-screen w-full'></div>;
   return (
     <div className='relative h-screen overflow-x-hidden overflow-y-clip'>
       <ThemePlanet />
