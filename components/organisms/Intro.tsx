@@ -102,14 +102,23 @@ const Intro = ({ visitType }: IntroProps) => {
               transformOrigin: TRANSFORM_ORIGIN,
             }}
           >
+            {/* 모바일: iPhone 이미지 */}
+            <Image
+              src='/iphone.png'
+              alt={`${titleText} - 포트폴리오 배경 이미지`}
+              fill
+              priority
+              sizes='100vw'
+              className='z-10 object-cover md:hidden'
+            />
+            {/* 데스크톱: MacBook 이미지 */}
             <Image
               src='/macbook.png'
               alt={`${titleText} - 포트폴리오 배경 이미지`}
               fill
               priority
-              quality={90}
               sizes='100vw'
-              className='z-10 object-cover'
+              className='z-10 hidden object-cover md:block'
             />
           </motion.div>
         </div>
