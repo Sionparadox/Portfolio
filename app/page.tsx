@@ -1,13 +1,13 @@
-import ExploreSection from '@/components/templates/ExploreSection';
-import { Hero } from '@/components/templates/Hero';
-import InfoSection from '@/components/templates/InfoSection';
+import ExploreSection from '../components/templates/ExploreSection';
+import HeroSection from '../components/templates/HeroSection';
+import InfoSection from '../components/templates/InfoSection';
 
 export default function Home() {
   return (
-    <div>
-      <Hero />
+    <>
+      <HeroSection />
       <InfoSection />
       <ExploreSection />
-    </div>
+    </>
   );
 }

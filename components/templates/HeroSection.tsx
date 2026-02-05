@@ -1,16 +1,24 @@
-import Image from 'next/image';
+'use client';
+
+import { useVisitInfo } from '@/hooks/useVisitType';
+import { useState } from 'react';
+import { Hero } from './Hero';
+import Intro from './Intro';
 
 const HeroSection = () => {
-  return (
-    <div className='sticky top-0 z-50 h-screen w-full backdrop-blur-sm'>
-      <Image
-        src='/macbook.png'
-        alt='Hero'
-        fill
-        className='object-cover'
-        priority
-      />
-    </div>
+  const { visitType, visitedToday, ready } = useVisitInfo();
+  const [forceIntro, setForceIntro] = useState(false);
+
+  if (!ready) {
+    return <div className='h-screen w-full bg-transparent' />;
+  }
+
+  const showIntro = forceIntro || !visitedToday;
+
+  return showIntro ? (
+    <Intro visitType={visitType} />
+  ) : (
+    <Hero visitType={visitType} onReplayIntro={() => setForceIntro(true)} />
   );
 };
 
