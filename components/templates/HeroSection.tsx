@@ -2,8 +2,8 @@
 
 import { useVisitInfo } from '@/hooks/useVisitType';
 import { useState } from 'react';
-import { Hero } from './Hero';
-import Intro from './Intro';
+import { Hero } from '../organisms/Hero';
+import Intro from '../organisms/Intro';
 
 const HeroSection = () => {
   const { visitType, visitedToday, ready } = useVisitInfo();
