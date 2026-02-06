@@ -45,10 +45,10 @@ const Intro = ({ visitType }: IntroProps) => {
   return (
     <section
       ref={wrapperRef}
-      className='relative h-[200vh] min-h-[150vh] w-full sm:h-[200vh]'
+      className='relative h-[200dvh] min-h-[150dvh] w-full sm:h-[200dvh]'
       aria-label='인트로 섹션'
     >
-      <div className='sticky top-0 z-50 h-screen w-full overflow-hidden'>
+      <div className='sticky top-0 z-50 h-dvh w-full overflow-hidden'>
         <div className='pointer-events-none absolute inset-0 z-0 flex items-center justify-center'>
           <motion.div
             className='px-4 text-center'
@@ -108,7 +108,7 @@ const Intro = ({ visitType }: IntroProps) => {
               alt={`${titleText} - 포트폴리오 배경 이미지`}
               fill
               priority
-              sizes='100vw'
+              sizes='(max-width: 768px) 100vw, 1px'
               className='z-10 object-cover md:hidden'
             />
             {/* 데스크톱: MacBook 이미지 */}
@@ -117,7 +117,7 @@ const Intro = ({ visitType }: IntroProps) => {
               alt={`${titleText} - 포트폴리오 배경 이미지`}
               fill
               priority
-              sizes='100vw'
+              sizes='(min-width: 769px) 100vw, 1px'
               className='z-10 hidden object-cover md:block'
             />
           </motion.div>
