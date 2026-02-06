@@ -38,6 +38,12 @@ const Intro = ({ visitType }: IntroProps) => {
   const messageScale = useTransform(scrollYProgress, [0, 1], [0.6, 1.4]);
   const messageOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 1]);
 
+  const headerCoverZIndex = useTransform(
+    scrollYProgress,
+    [0, 0.6, 1],
+    [40, 40, -1]
+  );
+
   const titleText = greetingMessage[visitType].title;
   const messageText = greetingMessage[visitType].message;
   const letters = titleText.split('');
@@ -48,7 +54,13 @@ const Intro = ({ visitType }: IntroProps) => {
       className='relative h-[200dvh] min-h-[150dvh] w-full sm:h-[200dvh]'
       aria-label='인트로 섹션'
     >
-      <div className='sticky top-0 z-50 h-dvh w-full overflow-hidden'>
+      {/* 헤더 클릭 방지용 투명 커버 */}
+      <motion.div
+        className='fixed top-0 right-0 left-0 h-16 w-full sm:h-24'
+        style={{ zIndex: headerCoverZIndex }}
+        aria-hidden='true'
+      />
+      <div className='pointer-events-none sticky top-0 z-50 h-dvh w-full overflow-hidden'>
         <div className='pointer-events-none absolute inset-0 z-0 flex items-center justify-center'>
           <motion.div
             className='px-4 text-center'

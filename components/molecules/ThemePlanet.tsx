@@ -23,7 +23,7 @@ const ThemePlanet = () => {
           {...ANIMATION_CONFIG}
         >
           <Image
-            src={`/img/planet_${theme}.png`}
+            src={`/img/planet_${theme}.webp`}
             alt={`${theme === 'dark' ? 'Dark' : 'Light'} Planet`}
             fill
             sizes='(max-width: 640px) 200vw, (max-width: 768px) 150vw, (max-width: 1024px) 120vw, 100vw'
