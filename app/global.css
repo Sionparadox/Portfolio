@@ -180,10 +180,13 @@ html {
 @layer base {
   * {
     @apply border-border;
-    overscroll-behavior-y: none;
   }
   body {
     @apply bg-background text-foreground;
+  }
+  html,
+  body {
+    overscroll-behavior-y: none;
   }
 }
 
