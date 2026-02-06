@@ -1,16 +1,18 @@
-'use client';
-
-import { greetingMessage } from '@/constants/greetingMessage';
-import { useVisitType } from '../../hooks/useVisitType';
+import {
+  greetingMessage,
+  greetingMessageType,
+} from '@/constants/greetingMessage';
 import Container from '../atoms/Container';
 import { ExplosionText } from '../molecules/ExplosionText';
 import ScrollDownArrow from '../molecules/ScrollDownArrow';
 import ThemePlanet from '../molecules/ThemePlanet';
 
-export const Landing = () => {
-  const visitType = useVisitType();
+type HeroProps = {
+  visitType: greetingMessageType;
+  onReplayIntro?: () => void;
+};
 
-  if (!visitType) return <div className='min-h-screen w-full'></div>;
+export const Hero = ({ visitType, onReplayIntro }: HeroProps) => {
   return (
     <div className='relative h-screen overflow-x-hidden overflow-y-clip'>
       <ThemePlanet />
@@ -27,7 +29,7 @@ export const Landing = () => {
       <div className='absolute top-[100vh] left-0 px-1 whitespace-nowrap sm:px-2 md:px-4 lg:px-6'>
         <ExplosionText text='I want to see you again in my portfolio' />
       </div>
-      <ScrollDownArrow />
+      <ScrollDownArrow onReplayIntro={onReplayIntro} />
     </div>
   );
 };
