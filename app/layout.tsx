@@ -34,7 +34,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className='font-paperlogy flex min-h-screen flex-col'>
+      <body className='font-paperlogy flex flex-col'>
         <Providers>
           <Background />
           <Header />
