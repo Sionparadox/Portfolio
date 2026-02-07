@@ -92,7 +92,7 @@ const SidebarContent = ({
       {/* Backdrop */}
       {isOpen && (
         <div
-          className='fixed top-0 left-0 z-50 h-screen w-screen bg-black/50 backdrop-blur-sm'
+          className='fixed top-0 left-0 z-50 h-dvh w-screen bg-black/50 backdrop-blur-sm'
           onClick={close}
           aria-hidden='true'
         />
@@ -101,7 +101,7 @@ const SidebarContent = ({
       {/* Sidebar */}
       <motion.div
         className={cn(
-          'bg-card/90 text-foreground fixed top-0 right-0 z-50 h-screen w-full max-w-md overflow-y-auto backdrop-blur-md',
+          'bg-card/90 text-foreground fixed top-0 right-0 z-50 h-dvh w-full max-w-md overflow-y-auto backdrop-blur-md',
           className
         )}
         role='dialog'
@@ -113,7 +113,7 @@ const SidebarContent = ({
           ease: [0.77, 0.2, 0.05, 1.0],
         }}
       >
-        <div className='flex h-screen flex-col'>{children}</div>
+        <div className='flex h-full flex-col'>{children}</div>
       </motion.div>
     </>
   );
