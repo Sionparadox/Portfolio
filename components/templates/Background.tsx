@@ -37,22 +37,23 @@ export default function Background() {
 
     const handleResize = () => {
       const width = window.innerWidth;
-      const height = window.innerHeight;
+
+      // 높이 lch로 설정
+      const height = window.screen.height;
       const pixelRatio = window.devicePixelRatio || 1;
 
-      // 모바일 브라우저 UI(주소창/하단바) 변화에 따른 리사이즈 무시
-      const isWidthChanged = width !== lastWidth;
-
-      if (isWidthChanged) {
+      if (width !== lastWidth) {
         lastWidth = width;
+        // CSS와 동일하게 캔버스 스타일 고정
         canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
+        canvas.style.height = `100lvh`;
+
         worker.postMessage({ type: 'resize', width, height, pixelRatio });
       }
     };
 
     const width = window.innerWidth;
-    const height = window.innerHeight;
+    const height = window.screen.height;
     const pixelRatio = window.devicePixelRatio || 1;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
@@ -94,7 +95,7 @@ export default function Background() {
   return (
     <motion.canvas
       ref={canvasRef}
-      className='bg-background pointer-events-none fixed inset-0 -z-10'
+      className='bg-background pointer-events-none fixed top-0 left-0 -z-10 h-lvh w-full'
       // 마운트 전에는 투명도를 0으로 두어 hydration mismatch를 방지
       initial={{ opacity: 0 }}
       animate={{ opacity: mounted ? 1 : 0 }}
