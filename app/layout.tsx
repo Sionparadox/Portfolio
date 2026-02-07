@@ -1,4 +1,4 @@
-import { defaultMetadata } from '@/config/metadata';
+import { defaultMetadata, defaultViewport } from '@/config/metadata';
 import React from 'react';
 import Footer from '../components/organisms/Footer';
 import Header from '../components/organisms/Header';
@@ -7,7 +7,7 @@ import { Providers } from '../providers/Providers';
 import './global.css';
 
 export const metadata = defaultMetadata;
-
+export const viewport = defaultViewport;
 export default function RootLayout({
   children,
 }: Readonly<{

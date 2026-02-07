@@ -181,6 +181,13 @@ html {
   * {
     @apply border-border;
   }
+  html {
+    /* 노치/다이나믹 아일랜드가 있는 기기 대응 */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
   body {
     @apply bg-background text-foreground;
     min-height: 100dvh;
@@ -188,6 +195,10 @@ html {
   html,
   body {
     overscroll-behavior-y: none;
+  }
+  /* fixed 요소는 html padding을 상속받지 않으므로 별도 처리 필요 */
+  header[class*='fixed'] {
+    padding-top: env(safe-area-inset-top);
   }
 }
 
