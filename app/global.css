@@ -190,7 +190,7 @@ html {
   }
   body {
     @apply text-foreground;
-    min-height: 100dvh;
+    min-height: 100lvh;
 
     background: linear-gradient(to right bottom, #e0f2fe, #93c5fd);
   }
