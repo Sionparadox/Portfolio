@@ -1,10 +1,13 @@
 'use client';
 
+import * as Portal from '@radix-ui/react-portal';
 import { Slot } from '@radix-ui/react-slot';
-import { motion } from 'motion/react';
+import { useAtomValue } from 'jotai';
+import { motion, AnimatePresence } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { mountedAtom } from '../../atoms/mounted';
 import { cn } from '../../lib/utils';
 import HamburgerButton from '../atoms/HamburgerButton';
 
@@ -33,7 +36,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
   // 페이지 변경 시 사이드바 닫기
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    //eslint-disable-next-line react-hooks/set-state-in-effect
     close();
   }, [pathname]);
 
@@ -48,7 +51,6 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [isOpen]);
 
-  // body 스크롤 막기
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -69,12 +71,32 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
 const SidebarTrigger = ({ className }: { className?: string }) => {
   const { toggle, isOpen } = useSidebarContext();
+  const mounted = useAtomValue(mountedAtom);
+
   return (
-    <HamburgerButton
-      isOpen={isOpen}
-      onClick={toggle}
-      className={cn('z-60', className)}
-    />
+    <>
+      <div
+        className={cn('flex h-10 w-10 items-center justify-center', className)}
+        aria-hidden='true'
+        style={{ opacity: mounted ? 0 : 1 }}
+      >
+        <HamburgerButton />
+      </div>
+      {mounted && (
+        <Portal.Root>
+          <div
+            className={cn(
+              'fixed z-101 flex h-10 w-10 items-center justify-center',
+              'top-3 right-4',
+              'sm:hidden',
+              className
+            )}
+          >
+            <HamburgerButton isOpen={isOpen} onClick={toggle} />
+          </div>
+        </Portal.Root>
+      )}
+    </>
   );
 };
 
@@ -88,34 +110,40 @@ const SidebarContent = ({
   const { isOpen, close } = useSidebarContext();
 
   return (
-    <>
-      {/* Backdrop */}
+    <AnimatePresence>
       {isOpen && (
-        <div
-          className='fixed top-0 left-0 z-50 h-dvh w-screen bg-black/50 backdrop-blur-sm'
-          onClick={close}
-          aria-hidden='true'
-        />
-      )}
+        <Portal.Root>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className='fixed inset-0 z-100 bg-black/50 backdrop-blur-sm'
+            onClick={close}
+            aria-hidden='true'
+          />
 
-      {/* Sidebar */}
-      <motion.div
-        className={cn(
-          'bg-card/90 text-foreground fixed top-0 right-0 z-50 h-dvh w-full max-w-md overflow-y-auto backdrop-blur-md',
-          className
-        )}
-        role='dialog'
-        aria-modal='true'
-        initial={{ x: '100%' }}
-        animate={isOpen ? { x: 0 } : { x: '100%' }}
-        transition={{
-          duration: 0.5,
-          ease: [0.77, 0.2, 0.05, 1.0],
-        }}
-      >
-        <div className='flex h-full flex-col'>{children}</div>
-      </motion.div>
-    </>
+          {/* Sidebar */}
+          <motion.div
+            className={cn(
+              'bg-card/90 text-foreground fixed top-0 right-0 z-100 h-dvh w-full max-w-md overflow-y-auto shadow-2xl backdrop-blur-md',
+              className
+            )}
+            role='dialog'
+            aria-modal='true'
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{
+              duration: 0.5,
+              ease: [0.77, 0.2, 0.05, 1.0],
+            }}
+          >
+            <div className='flex h-full flex-col'>{children}</div>
+          </motion.div>
+        </Portal.Root>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -129,7 +157,7 @@ const SidebarHeader = ({
   return (
     <div
       className={cn(
-        'flex items-center justify-between border border-b p-4',
+        'flex items-center justify-between border-b p-4',
         className
       )}
     >
@@ -193,11 +221,7 @@ const SidebarFooter = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  return (
-    <div className={cn('border-border border-t p-6', className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn('border-t p-6', className)}>{children}</div>;
 };
 
 Sidebar.Trigger = SidebarTrigger;
