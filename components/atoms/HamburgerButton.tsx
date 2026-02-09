@@ -4,14 +4,14 @@ import { motion } from 'motion/react';
 import { cn } from '../../lib/utils';
 
 interface HamburgerButtonProps {
-  isOpen: boolean;
-  onClick: () => void;
+  isOpen?: boolean;
+  onClick?: () => void;
   className?: string;
 }
 
 const HamburgerButton = ({
-  isOpen,
-  onClick,
+  isOpen = false,
+  onClick = () => {},
   className,
 }: HamburgerButtonProps) => {
   const variant = isOpen ? 'opened' : 'closed';

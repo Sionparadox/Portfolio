@@ -2,9 +2,9 @@ import { FaFilePdf, FaGithub } from 'react-icons/fa';
 import Link from 'next/link';
 import { navItems } from '../../constants/navItems';
 import { Button } from '../atoms/Button';
-import NavLink from './NavLink';
-import Sidebar from './Sidebar';
-import ThemeToggleButton from './ThemeToggleButton';
+import NavLink from '../molecules/NavLink';
+import Sidebar from '../molecules/Sidebar';
+import ThemeToggleButton from '../molecules/ThemeToggleButton';
 
 const MobileNavMenu = () => {
   return (

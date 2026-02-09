@@ -10,7 +10,7 @@ const HeroSection = () => {
   const [forceIntro, setForceIntro] = useState(false);
 
   if (!ready) {
-    return <div className='h-screen w-full bg-transparent' />;
+    return <div className='h-lvh w-full bg-transparent' />;
   }
 
   const showIntro = forceIntro || !visitedToday;

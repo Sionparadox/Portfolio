@@ -1,5 +1,6 @@
 'use client';
 
+import useDebounce from '@/hooks/useDebounce';
 import { useTheme } from '@/hooks/useTheme';
 import type { ThemeType } from '@/types/worker';
 import { getCurrentThemeFromDOM } from '@/utils/theme';
@@ -10,8 +11,32 @@ export default function Background() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const workerRef = useRef<Worker | null>(null);
   const isInitializedRef = useRef(false);
+  const lastWidthRef = useRef(0);
 
   const { theme, mounted } = useTheme();
+
+  const handleResize = useDebounce(() => {
+    const width = window.innerWidth;
+    const height = window.screen.height;
+    const pixelRatio = window.devicePixelRatio || 1;
+
+    if (width !== lastWidthRef.current) {
+      lastWidthRef.current = width;
+
+      // CSS와 동일하게 캔버스 스타일 고정
+      if (canvasRef.current) {
+        canvasRef.current.style.width = `${width}px`;
+        canvasRef.current.style.height = `${height}px`;
+      }
+
+      workerRef.current?.postMessage({
+        type: 'resize',
+        width,
+        height,
+        pixelRatio,
+      });
+    }
+  }, 100);
 
   // Worker 초기화
   useEffect(() => {
@@ -25,6 +50,8 @@ export default function Background() {
       return;
 
     isInitializedRef.current = true;
+    // 초기 너비 설정
+    lastWidthRef.current = window.innerWidth;
 
     const worker = new Worker(
       new URL('../../workers/background.worker.ts', import.meta.url),
@@ -32,32 +59,11 @@ export default function Background() {
     );
     workerRef.current = worker;
 
-    // 이전 크기를 저장하여 실제 변화가 있을 때만 리사이즈
-    let lastWidth = window.innerWidth;
-    let lastHeight = window.innerHeight;
-
-    const handleResize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      const pixelRatio = window.devicePixelRatio || 1;
-
-      // 모바일 브라우저 UI(주소창/하단바) 변화 무시
-      // 너비가 변경되거나, 높이가 크게 변경된 경우(화면 회전 등)만 감지
-      const widthChanged = width !== lastWidth;
-      const heightChangedSignificantly = Math.abs(height - lastHeight) > 100;
-
-      if (widthChanged || heightChangedSignificantly) {
-        lastWidth = width;
-        lastHeight = height;
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
-        worker.postMessage({ type: 'resize', width, height, pixelRatio });
-      }
-    };
-
     const width = window.innerWidth;
-    const height = window.innerHeight;
+    const height = window.screen.height;
     const pixelRatio = window.devicePixelRatio || 1;
+
+    // 초기 스타일 설정
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
@@ -69,7 +75,7 @@ export default function Background() {
         width,
         height,
         pixelRatio,
-        // DOM에서 이미 적용된 테마를 읽어옵니다 (layout.tsx의 blocking script가 설정함)
+        // DOM에서 이미 적용한 테마
         theme: getCurrentThemeFromDOM(),
       },
       [offscreen]
@@ -83,7 +89,7 @@ export default function Background() {
         workerRef.current = null;
       }
     };
-  }, []);
+  }, [handleResize]); // handleResize 의존성 추가
 
   // 테마 변경 감지
   useEffect(() => {
@@ -98,7 +104,7 @@ export default function Background() {
   return (
     <motion.canvas
       ref={canvasRef}
-      className='bg-background pointer-events-none fixed inset-0 -z-10'
+      className='pointer-events-none fixed top-0 left-0 -z-10'
       // 마운트 전에는 투명도를 0으로 두어 hydration mismatch를 방지
       initial={{ opacity: 0 }}
       animate={{ opacity: mounted ? 1 : 0 }}

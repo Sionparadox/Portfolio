@@ -49,3 +49,11 @@ export const defaultMetadata = {
     apple: { url: '/apple-icon.png', type: 'image/png' },
   },
 };
+
+export const defaultViewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5, // 접근성: 확대 허용
+  userScalable: true, // 접근성: 사용자 확대/축소 가능
+  viewportFit: 'cover', // 노치/다이나믹 아일랜드 영역까지 확장
+};

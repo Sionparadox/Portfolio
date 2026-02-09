@@ -2,8 +2,8 @@
 
 import Container from '../atoms/Container';
 import LogoLink from '../molecules/LogoLink';
-import MobileNavMenu from '../molecules/MobileNavMenu';
 import NavMenu from '../molecules/NavMenu';
+import MobileNavMenu from './MobileNavMenu';
 
 const Header = () => {
   return (

@@ -51,7 +51,7 @@ const Intro = ({ visitType }: IntroProps) => {
   return (
     <section
       ref={wrapperRef}
-      className='relative h-[200dvh] min-h-[150dvh] w-full sm:h-[200dvh]'
+      className='relative h-[150lvh] w-full sm:h-[200lvh]'
       aria-label='인트로 섹션'
     >
       {/* 헤더 클릭 방지용 투명 커버 */}
@@ -60,7 +60,7 @@ const Intro = ({ visitType }: IntroProps) => {
         style={{ zIndex: headerCoverZIndex }}
         aria-hidden='true'
       />
-      <div className='pointer-events-none sticky top-0 z-50 h-dvh w-full overflow-hidden'>
+      <div className='pointer-events-none sticky top-0 z-50 h-lvh w-full overflow-hidden'>
         <div className='pointer-events-none absolute inset-0 z-0 flex items-center justify-center'>
           <motion.div
             className='px-4 text-center'

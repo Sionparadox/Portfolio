@@ -14,7 +14,7 @@ type HeroProps = {
 
 export const Hero = ({ visitType, onReplayIntro }: HeroProps) => {
   return (
-    <div className='relative h-screen overflow-x-hidden overflow-y-clip'>
+    <div className='relative h-lvh overflow-x-hidden overflow-y-clip'>
       <ThemePlanet />
       <Container className='mb-4 flex h-full flex-col justify-end gap-4 pb-28'>
         <ExplosionText
@@ -26,7 +26,7 @@ export const Hero = ({ visitType, onReplayIntro }: HeroProps) => {
           className='-tracking-widest sm:tracking-normal'
         />
       </Container>
-      <div className='absolute top-[100vh] left-0 px-1 whitespace-nowrap sm:px-2 md:px-4 lg:px-6'>
+      <div className='absolute top-[100lvh] left-0 px-1 whitespace-nowrap sm:px-2 md:px-4 lg:px-6'>
         <ExplosionText text='I want to see you again in my portfolio' />
       </div>
       <ScrollDownArrow onReplayIntro={onReplayIntro} />
