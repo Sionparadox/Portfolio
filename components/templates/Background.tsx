@@ -104,7 +104,7 @@ export default function Background() {
   return (
     <motion.canvas
       ref={canvasRef}
-      className='bg-background pointer-events-none fixed top-0 left-0 -z-10'
+      className='pointer-events-none fixed top-0 left-0 -z-10'
       // 마운트 전에는 투명도를 0으로 두어 hydration mismatch를 방지
       initial={{ opacity: 0 }}
       animate={{ opacity: mounted ? 1 : 0 }}
