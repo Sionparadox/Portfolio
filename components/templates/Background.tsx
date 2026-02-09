@@ -46,7 +46,7 @@ export default function Background() {
         lastWidth = width;
         // CSS와 동일하게 캔버스 스타일 고정
         canvas.style.width = `${width}px`;
-        canvas.style.height = `100lvh`;
+        canvas.style.height = `${height}px`;
 
         worker.postMessage({ type: 'resize', width, height, pixelRatio });
       }
