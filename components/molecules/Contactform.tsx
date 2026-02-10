@@ -113,6 +113,7 @@ const ContactForm = ({ className }: { className?: string }) => {
         <div className='flex grow flex-col gap-4'>
           <LabelInput
             label='이름'
+            autoComplete='name'
             placeholder='이름을 입력해주세요.'
             {...register('name')}
             error={errors.name?.message}
@@ -120,6 +121,7 @@ const ContactForm = ({ className }: { className?: string }) => {
           <LabelInput
             label='이메일'
             type='email'
+            autoComplete='email'
             placeholder='이메일을 입력해주세요.'
             {...register('email')}
             error={errors.email?.message}
@@ -128,7 +130,7 @@ const ContactForm = ({ className }: { className?: string }) => {
             label='메시지'
             multiline
             wrapperClassName='grow'
-            className='h-full'
+            className='h-full min-h-20'
             placeholder='메시지를 입력해주세요.'
             {...register('message')}
             error={errors.message?.message}
