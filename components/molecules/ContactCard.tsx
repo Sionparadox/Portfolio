@@ -22,7 +22,7 @@ const ContactCard = ({ icon, label, link }: ContactCardProps) => {
           {label}
         </Link>
       </Button>
-      <div className='absolute top-0 right-0 hidden group-hover/card:block'>
+      <div className='absolute top-0 right-0 block md:hidden md:group-hover/card:block'>
         <CopyButton text={link ?? ''} />
       </div>
     </div>

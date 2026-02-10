@@ -1,9 +1,20 @@
+import { SkillCategoryType } from '../../types/skillType';
 import AccentTitle from '../molecules/AccentTitle';
 import SkillList from '../organisms/SkillList';
+import { StaggerWrapper, StaggerItem } from '../organisms/StaggerWrapper';
+
+const CATEGORIES: SkillCategoryType[] = [
+  'languages',
+  'frontend',
+  'backend',
+  'database',
+  'devops',
+  'others',
+];
 
 const SkillSection = () => {
   return (
-    <div className='flex w-full flex-col items-center justify-center gap-8'>
+    <section className='flex w-full flex-col items-center justify-center gap-8'>
       <AccentTitle
         as='h2'
         text='What I'
@@ -12,15 +23,15 @@ const SkillSection = () => {
         color='neon'
         underline
       />
-      <div className='grid w-full grid-cols-1 gap-5 lg:grid-cols-2'>
-        <SkillList category='languages' />
-        <SkillList category='frontend' />
-        <SkillList category='backend' />
-        <SkillList category='database' />
-        <SkillList category='devops' />
-        <SkillList category='others' />
-      </div>
-    </div>
+
+      <StaggerWrapper className='grid w-full grid-cols-1 gap-5 lg:grid-cols-2'>
+        {CATEGORIES.map((category) => (
+          <StaggerItem key={category}>
+            <SkillList category={category} />
+          </StaggerItem>
+        ))}
+      </StaggerWrapper>
+    </section>
   );
 };
 

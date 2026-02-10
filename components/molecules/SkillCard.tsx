@@ -2,16 +2,61 @@
 
 import { motion, useMotionValue, useTransform, useSpring } from 'motion/react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import GlassCard from '../atoms/GlassCard';
 
 interface SkillCardProps {
   name: string;
   percentage: number;
   image: string;
+  forceActive?: boolean;
 }
 
-const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
+const containerVariants = {
+  initial: {},
+  active: {},
+};
+
+const overlayVariants = {
+  initial: { opacity: 0 },
+  active: { opacity: 1 },
+};
+
+const fadeTransition = { duration: 0.3 };
+
+const SkillCard = ({
+  name,
+  percentage,
+  image,
+  forceActive = false,
+}: SkillCardProps) => {
   const progress = useMotionValue(0);
+  const [canHover, setCanHover] = useState(true);
+  const [isInternalActive, setIsInternalActive] = useState(false);
+
+  const isActive = forceActive || isInternalActive;
+
+  useEffect(() => {
+    const mq =
+      typeof window !== 'undefined'
+        ? window.matchMedia('(hover: hover) and (pointer: fine)')
+        : null;
+
+    const update = () => setCanHover(mq ? mq.matches : true);
+    update();
+
+    if (!mq) return;
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    progress.set(isActive ? 1 : 0);
+  }, [isActive, progress]);
+
+  const handleInternalActive = (active: boolean) => {
+    setIsInternalActive(active);
+  };
 
   const springProgress = useSpring(progress, {
     stiffness: 80,
@@ -27,14 +72,32 @@ const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
     (v) => v * (percentage / 100)
   );
 
+  const nameClassName = `text-sm font-bold transition-colors duration-300 ${
+    isActive
+      ? 'bg-linear-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent'
+      : ''
+  }`;
+
   return (
     <GlassCard className='h-32 w-32'>
       <motion.div
-        className='group flex h-full w-full flex-col items-center justify-center gap-2'
-        initial='initial'
-        whileHover='hover'
-        onHoverStart={() => progress.set(1)}
-        onHoverEnd={() => progress.set(0)}
+        className='flex h-full w-full flex-col items-center justify-center gap-2 outline-none'
+        animate={isActive ? 'active' : 'initial'}
+        variants={containerVariants}
+        whileHover={canHover && !forceActive ? 'active' : undefined}
+        onHoverStart={canHover ? () => handleInternalActive(true) : undefined}
+        onHoverEnd={canHover ? () => handleInternalActive(false) : undefined}
+        whileInView={!canHover && !forceActive ? 'active' : undefined}
+        viewport={!canHover ? { amount: 0.8, once: true } : undefined}
+        onViewportEnter={
+          !canHover ? () => handleInternalActive(true) : undefined
+        }
+        onViewportLeave={
+          !canHover ? () => handleInternalActive(false) : undefined
+        }
+        tabIndex={0}
+        onFocus={() => handleInternalActive(true)}
+        onBlur={() => handleInternalActive(false)}
       >
         <div className='relative h-20 w-20 overflow-hidden rounded-full'>
           <Image
@@ -45,11 +108,8 @@ const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
           />
 
           <motion.div
-            variants={{
-              initial: { opacity: 0 },
-              hover: { opacity: 1 },
-            }}
-            transition={{ duration: 0.3 }}
+            variants={overlayVariants}
+            transition={fadeTransition}
             className='text-foreground absolute inset-0 z-2 flex items-center justify-center rounded-full bg-white/30 text-xl font-black backdrop-blur-xs dark:bg-black/30 dark:text-white'
           >
             <motion.span>{displayValue}</motion.span>%
@@ -69,18 +129,13 @@ const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
               strokeLinecap='round'
               className='text-primary'
               style={{ pathLength }}
-              variants={{
-                initial: { opacity: 0 },
-                hover: { opacity: 1 },
-              }}
-              transition={{ duration: 0.3 }}
+              variants={overlayVariants}
+              transition={fadeTransition}
             />
           </svg>
         </div>
 
-        <div className='text-sm font-bold transition-colors duration-300 group-hover:bg-linear-to-r group-hover:from-cyan-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent'>
-          {name}
-        </div>
+        <div className={nameClassName}>{name}</div>
       </motion.div>
     </GlassCard>
   );
