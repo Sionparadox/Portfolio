@@ -9,6 +9,7 @@ interface SkillCardProps {
   name: string;
   percentage: number;
   image: string;
+  forceActive?: boolean;
 }
 
 const containerVariants = {
@@ -23,10 +24,17 @@ const overlayVariants = {
 
 const fadeTransition = { duration: 0.3 };
 
-const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
+const SkillCard = ({
+  name,
+  percentage,
+  image,
+  forceActive = false,
+}: SkillCardProps) => {
   const progress = useMotionValue(0);
   const [canHover, setCanHover] = useState(true);
-  const [isActive, setIsActive] = useState(false);
+  const [isInternalActive, setIsInternalActive] = useState(false);
+
+  const isActive = forceActive || isInternalActive;
 
   useEffect(() => {
     const mq =
@@ -38,17 +46,16 @@ const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
     update();
 
     if (!mq) return;
-
     mq.addEventListener('change', update);
-
-    return () => {
-      mq.removeEventListener('change', update);
-    };
+    return () => mq.removeEventListener('change', update);
   }, []);
 
-  const handleActive = (active: boolean) => {
-    setIsActive(active);
-    progress.set(active ? 1 : 0);
+  useEffect(() => {
+    progress.set(isActive ? 1 : 0);
+  }, [isActive, progress]);
+
+  const handleInternalActive = (active: boolean) => {
+    setIsInternalActive(active);
   };
 
   const springProgress = useSpring(progress, {
@@ -74,19 +81,23 @@ const SkillCard = ({ name, percentage, image }: SkillCardProps) => {
   return (
     <GlassCard className='h-32 w-32'>
       <motion.div
-        className='flex h-full w-full flex-col items-center justify-center gap-2'
+        className='flex h-full w-full flex-col items-center justify-center gap-2 outline-none'
+        animate={isActive ? 'active' : 'initial'}
         variants={containerVariants}
-        initial='initial'
-        whileHover={canHover ? 'active' : undefined}
-        onHoverStart={canHover ? () => handleActive(true) : undefined}
-        onHoverEnd={canHover ? () => handleActive(false) : undefined}
-        whileInView={!canHover ? 'active' : undefined}
-        viewport={!canHover ? { amount: 1 } : undefined}
-        onViewportEnter={!canHover ? () => handleActive(true) : undefined}
-        onViewportLeave={!canHover ? () => handleActive(false) : undefined}
+        whileHover={canHover && !forceActive ? 'active' : undefined}
+        onHoverStart={canHover ? () => handleInternalActive(true) : undefined}
+        onHoverEnd={canHover ? () => handleInternalActive(false) : undefined}
+        whileInView={!canHover && !forceActive ? 'active' : undefined}
+        viewport={!canHover ? { amount: 0.8, once: true } : undefined}
+        onViewportEnter={
+          !canHover ? () => handleInternalActive(true) : undefined
+        }
+        onViewportLeave={
+          !canHover ? () => handleInternalActive(false) : undefined
+        }
         tabIndex={0}
-        onFocus={() => handleActive(true)}
-        onBlur={() => handleActive(false)}
+        onFocus={() => handleInternalActive(true)}
+        onBlur={() => handleInternalActive(false)}
       >
         <div className='relative h-20 w-20 overflow-hidden rounded-full'>
           <Image
