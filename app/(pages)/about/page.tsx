@@ -1,4 +1,5 @@
 import Container from '@/components/atoms/Container';
+import AccentTitle from '@/components/molecules/AccentTitle';
 import AboutSection from '@/components/templates/AboutSection';
 import ExperienceSection from '@/components/templates/ExperienceSection';
 import QuoteSection from '@/components/templates/QuoteSection';
@@ -13,11 +14,14 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 const AboutPage = () => {
   return (
-    <Container className='flex flex-col items-center justify-center gap-16 text-center'>
-      <AboutSection />
-      <QuoteSection />
-      <ExperienceSection />
-      <SkillSection />
+    <Container className='mb-4 flex flex-col items-center justify-center gap-8 text-center'>
+      <AccentTitle text='About' accentText='Me' className='sm:pt-6' />
+      <div className='flex w-full flex-col gap-20'>
+        <AboutSection />
+        <QuoteSection />
+        <ExperienceSection />
+        <SkillSection />
+      </div>
     </Container>
   );
 };
