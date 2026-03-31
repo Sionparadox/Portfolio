@@ -102,7 +102,7 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
     github: 'https://github.com/Hanaro-Trolly/ONE-HADA-FE',
     link: null,
     featured: true,
-    order: 1,
+    order: 2,
   },
   {
     slug: 'pay-all',
@@ -166,7 +166,7 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
     github: 'https://github.com/UckgiDuckgi',
     link: null,
     featured: true,
-    order: 2,
+    order: 3,
   },
   {
     slug: 'kkumiroom',
@@ -217,14 +217,13 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
     github: 'https://github.com/KKumiRoom',
     link: null,
     featured: true,
-    order: 3,
+    order: 4,
   },
   {
     slug: 'personal-blog',
     title: '개인 블로그',
     overview: '개인 기술 블로그',
-    description:
-      'MDX 기반의 개인 기술 블로그입니다. 백준 문제 풀이 시 자동 포스팅 기능을 지원합니다.',
+    description: '개인 기술 블로그입니다.',
     category: 'Web',
     thumbnail: '/img/projects/personal-blog/thumbnail.png',
     icon: '/img/projects/personal-blog/icon.png',
@@ -237,6 +236,7 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
       '로컬 스토리지를 활용한 사이드바 상태 관리',
       '카테고리별 게시글 제공',
       '최신 포스트 모아보기',
+      '백준 문제 해결 시 자동 포스트',
     ],
     insights: [
       '다크모드 적용',
@@ -256,7 +256,7 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
     github: 'https://github.com/Sionparadox/Sionparadox.github.io',
     link: 'https://Sionparadox.github.io',
     featured: false,
-    order: 4,
+    order: 1,
   },
   {
     slug: 'portfolio',
@@ -285,9 +285,10 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
       'Prisma ORM',
       'Zod 유효성 검사',
       'SSR 최적화',
-      '은하수 배경 사용 시 끊김 현상을 Web Worker로 완화',
+      '애니메이션으로 인한 메인 스레드 끊김 현상을 Web Worker로 완화',
       '폼 제출 시 요청 횟수 과다 우려로 스로틀링 적용',
-      'Android / iOS Chrome 간 스크롤 반응 차이 확인',
+      'Android / iOS Chrome 엔진 차이로 인한 스크롤 액션 차이 대응',
+      'lvh, dvh 단위 사용으로 모바일 환경 최적화',
     ],
     techStack: [
       'Next.js',
