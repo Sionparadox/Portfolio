@@ -8,7 +8,6 @@ import Badge from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 import InfoRow from '../atoms/InfoRow';
 
-//TODO: hover 효과
 type ProjectDetailBoxProps = {
   className?: string;
   project: ProjectItemType;
@@ -67,24 +66,38 @@ const ProjectDetailBox = ({ className, project }: ProjectDetailBoxProps) => {
           <Button
             variant='inverted'
             className='w-full'
-            asChild
+            asChild={!!project.link}
             disabled={!project.link}
           >
-            <Link href={project.link || ''} target='_blank'>
-              Live
-              <ExternalLink />
-            </Link>
+            {project.link ? (
+              <Link href={project.link} target='_blank'>
+                Live
+                <ExternalLink />
+              </Link>
+            ) : (
+              <span className='flex items-center gap-2'>
+                Live
+                <ExternalLink />
+              </span>
+            )}
           </Button>
           <Button
             variant='inverted'
             className='w-full'
-            asChild
+            asChild={!!project.github}
             disabled={!project.github}
           >
-            <Link href={project.github || ''} target='_blank'>
-              Source
-              <CodeXml />
-            </Link>
+            {project.github ? (
+              <Link href={project.github} target='_blank'>
+                Source
+                <CodeXml />
+              </Link>
+            ) : (
+              <span className='flex items-center gap-2'>
+                Source
+                <CodeXml />
+              </span>
+            )}
           </Button>
         </div>
       </div>
