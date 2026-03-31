@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import AccentTitle from './AccentTitle';
 
 type ProjectArticleProps = {
   title: string;
-  description: string;
+  description: ReactNode;
 };
 
 const ProjectArticle = ({ title, description }: ProjectArticleProps) => {
@@ -21,7 +21,7 @@ const ProjectArticle = ({ title, description }: ProjectArticleProps) => {
         color='neon'
         underline
       />
-      <p className='leading-relaxed break-keep'>{description}</p>
+      <div className='leading-relaxed break-keep'>{description}</div>
     </div>
   );
 };

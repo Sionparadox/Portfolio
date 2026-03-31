@@ -28,11 +28,23 @@ const ProjectDetailContent = ({
           />
           <ProjectArticle
             title='What I Did'
-            description={project.contributions.join(', ')}
+            description={
+              <ul className='list-inside list-disc space-y-1'>
+                {project.contributions.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            }
           />
           <ProjectArticle
             title='What I Learned'
-            description={project.insights.join(', ')}
+            description={
+              <ul className='list-inside list-disc space-y-1'>
+                {project.insights.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            }
           />
         </div>
       </div>
