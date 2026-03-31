@@ -9,7 +9,7 @@ const SquareProfileImage = () => {
 
       <div className='relative z-0 h-full w-full overflow-hidden rounded-2xl bg-white'>
         <Image
-          src='/img/SquareImg.png'
+          src='/img/Sion_Stand.png'
           alt='My Profile Image'
           className='transition-all duration-300 group-hover/spi:scale-105'
           fill

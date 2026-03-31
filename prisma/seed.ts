@@ -38,7 +38,7 @@ const timelines: Omit<TimelineItemType, 'id'>[] = [
     place: 'x',
     title: '구직중',
     descriptions: ['웹 프론트엔드 개발자로 구직중입니다.'],
-    image: '/img/Sion.jpeg',
+    image: '/img/Sion.png',
   },
 ];
 

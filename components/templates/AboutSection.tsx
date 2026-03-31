@@ -61,7 +61,7 @@ const AboutSection = () => {
             Contact Me
           </LinkIconButton>
           <LinkIconButton
-            href='/resume.pdf'
+            href='/sion_portfolio.pdf'
             icon={Download}
             className='w-36'
             download
