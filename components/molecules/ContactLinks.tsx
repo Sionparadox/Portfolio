@@ -12,16 +12,26 @@ const ContactLinks = ({ className }: { className?: string }) => {
         target='_blank'
         scroll={undefined}
       >
-        <Button size='icon' variant='outline'>
-          <FaGithub />
+        <Button size='icon' variant='outline' asChild>
+          <span>
+            <FaGithub />
+          </span>
         </Button>
       </Link>
-      <Button size='icon' variant='outline'>
-        <MdMail />
-      </Button>
-      <Button size='icon' variant='outline'>
-        <FaFilePdf />
-      </Button>
+      <Link href='mailto:sions.dev@gmail.com'>
+        <Button size='icon' variant='outline' asChild>
+          <span>
+            <MdMail />
+          </span>
+        </Button>
+      </Link>
+      <Link href='/sion_portfolio.pdf' target='_blank' download>
+        <Button size='icon' variant='outline' asChild>
+          <span>
+            <FaFilePdf />
+          </span>
+        </Button>
+      </Link>
     </div>
   );
 };

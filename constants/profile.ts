@@ -6,6 +6,6 @@ export const profile = {
   links: {
     about: '/about',
     contact: '/contact',
-    resume: '/resume.pdf',
+    resume: '/sion_portfolio.pdf',
   },
 } as const;
