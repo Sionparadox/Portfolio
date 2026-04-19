@@ -37,9 +37,7 @@ export default function RootLayout({
       <body className='font-paperlogy flex flex-col'>
         <Providers>
           <Background />
-          <Header />
           <main className='flex w-full grow flex-col'>{children}</main>
-          <Footer />
         </Providers>
       </body>
     </html>
