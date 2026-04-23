@@ -25,13 +25,13 @@ const ContactLinks = ({ className }: { className?: string }) => {
           </span>
         </Button>
       </Link>
-      <Link href='/sion_portfolio.pdf' target='_blank' download>
+      <a href='/sion_portfolio.pdf' target='_blank' download>
         <Button size='icon' variant='outline' asChild>
           <span>
             <FaFilePdf />
           </span>
         </Button>
-      </Link>
+      </a>
     </div>
   );
 };
