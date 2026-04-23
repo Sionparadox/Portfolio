@@ -1,11 +1,11 @@
 'use server';
 
+import { auth } from '@/auth';
 import { ActionResult } from '@/types/actionResult';
 import { ProjectItemType } from '@/types/project';
-import { put } from '@vercel/blob';
+import { put, del } from '@vercel/blob';
 import { unstable_cache, revalidateTag } from 'next/cache';
 import { prisma } from '@/lib/prisma';
-import { auth } from '@/auth';
 
 // 날짜 문자열을 Date 객체로 변환하는 헬퍼 함수
 const parseProjectDates = (project: ProjectItemType): ProjectItemType => {
@@ -275,6 +275,14 @@ export async function updateProject(
       return { success: false, message: '권한이 없습니다.' };
     }
 
+    const existingProject = await prisma.project.findUnique({
+      where: { id },
+    });
+
+    if (!existingProject) {
+      return { success: false, message: '프로젝트를 찾을 수 없습니다.' };
+    }
+
     const title = formData.get('title') as string;
     const slug = formData.get('slug') as string;
     const overview = formData.get('overview') as string;
@@ -342,6 +350,13 @@ export async function updateProject(
     const iconFile = formData.get('icon') as File | null;
 
     if (thumbnailFile && thumbnailFile.size > 0) {
+      if (existingProject.thumbnail) {
+        try {
+          await del(existingProject.thumbnail);
+        } catch (e) {
+          console.error('Failed to delete old thumbnail:', e);
+        }
+      }
       const thumbnailBlob = await put(
         `projects/${slug}/thumbnail-${thumbnailFile.name}`,
         thumbnailFile,
@@ -351,6 +366,13 @@ export async function updateProject(
     }
 
     if (iconFile && iconFile.size > 0) {
+      if (existingProject.icon) {
+        try {
+          await del(existingProject.icon);
+        } catch (e) {
+          console.error('Failed to delete old icon:', e);
+        }
+      }
       const iconBlob = await put(
         `projects/${slug}/icon-${iconFile.name}`,
         iconFile,
@@ -389,6 +411,28 @@ export async function deleteProject(id: string): Promise<ActionResult<null>> {
     const session = await auth();
     if (!session?.user) {
       return { success: false, message: '권한이 없습니다.' };
+    }
+
+    const existingProject = await prisma.project.findUnique({
+      where: { id },
+    });
+
+    if (!existingProject) {
+      return { success: false, message: '프로젝트를 찾을 수 없습니다.' };
+    }
+
+    // Vercel Blob에서 이미지 삭제
+    const blobsToDelete = [];
+    if (existingProject.thumbnail)
+      blobsToDelete.push(existingProject.thumbnail);
+    if (existingProject.icon) blobsToDelete.push(existingProject.icon);
+
+    if (blobsToDelete.length > 0) {
+      try {
+        await del(blobsToDelete);
+      } catch (e) {
+        console.error('Failed to delete blobs:', e);
+      }
     }
 
     await prisma.project.delete({
