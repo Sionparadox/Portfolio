@@ -3,13 +3,14 @@ import { cn } from '@/lib/utils';
 type BadgeProps = {
   label: string;
   className?: string;
-  variant?: 'default' | 'inverted';
+  variant?: 'default' | 'inverted' | 'primary';
 };
 
 const Badge = ({ label, className, variant = 'default' }: BadgeProps) => {
   const variantClasses = {
     default: 'bg-muted text-foreground',
     inverted: 'bg-foreground text-background border-white dark:border-black',
+    primary: 'bg-primary text-primary-foreground',
   };
   return (
     <div
