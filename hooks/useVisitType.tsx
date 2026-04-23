@@ -56,7 +56,6 @@ export const useVisitInfo = (): VisitInfo => {
     isInitialized.current = true;
 
     const info = getVisitInfoData();
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisitInfo({ ...info, ready: true });
 
     if (typeof window !== 'undefined') {

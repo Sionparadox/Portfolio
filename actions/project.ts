@@ -326,7 +326,13 @@ export async function updateProject(
       .filter(Boolean);
 
     // 업데이트할 데이터 객체 구성
-    const updateData: any = {
+    const updateData: Omit<
+      ProjectItemType,
+      'id' | 'thumbnail' | 'icon' | 'createdAt' | 'updatedAt'
+    > & {
+      thumbnail?: string;
+      icon?: string;
+    } = {
       title,
       slug,
       overview,

@@ -7,7 +7,7 @@ import LabelInput from '@/components/molecules/LabelInput';
 import { ProjectItemType } from '@/types/project';
 import { X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -22,11 +22,7 @@ const ProjectModal = ({
 }: ProjectModalProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
-
-  useEffect(() => {
-    setIsEditMode(!!projectToEdit);
-  }, [projectToEdit]);
+  const isEditMode = !!projectToEdit;
 
   if (!isOpen) return null;
 
