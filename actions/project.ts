@@ -5,6 +5,7 @@ import { ProjectItemType } from '@/types/project';
 import { put } from '@vercel/blob';
 import { unstable_cache, revalidateTag } from 'next/cache';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/auth';
 
 // 날짜 문자열을 Date 객체로 변환하는 헬퍼 함수
 const parseProjectDates = (project: ProjectItemType): ProjectItemType => {
@@ -148,6 +149,11 @@ export async function createProject(
   formData: FormData
 ): Promise<ActionResult<null>> {
   try {
+    const session = await auth();
+    if (!session?.user) {
+      return { success: false, message: '권한이 없습니다.' };
+    }
+
     const title = formData.get('title') as string;
     const slug = formData.get('slug') as string;
     const overview = formData.get('overview') as string;
@@ -264,6 +270,11 @@ export async function updateProject(
   formData: FormData
 ): Promise<ActionResult<null>> {
   try {
+    const session = await auth();
+    if (!session?.user) {
+      return { success: false, message: '권한이 없습니다.' };
+    }
+
     const title = formData.get('title') as string;
     const slug = formData.get('slug') as string;
     const overview = formData.get('overview') as string;
@@ -375,6 +386,11 @@ export async function updateProject(
 // 프로젝트 삭제
 export async function deleteProject(id: string): Promise<ActionResult<null>> {
   try {
+    const session = await auth();
+    if (!session?.user) {
+      return { success: false, message: '권한이 없습니다.' };
+    }
+
     await prisma.project.delete({
       where: { id },
     });
