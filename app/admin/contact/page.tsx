@@ -4,8 +4,14 @@ import Container from '@/components/atoms/Container';
 import AccentTitle from '@/components/molecules/AccentTitle';
 import AdminContactList from '@/components/organisms/AdminContactList';
 import { ArrowLeft } from 'lucide-react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+export const metadata: Metadata = {
+  title: 'Contact Management',
+  description: '관리자 전용 연락 확인 페이지 입니다.',
+};
 const AdminContactPage = async () => {
   const result = await getContacts();
   const contacts = result.success && result.data ? result.data : [];

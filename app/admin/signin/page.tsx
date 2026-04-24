@@ -3,8 +3,13 @@ import { Button } from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import AccentTitle from '@/components/molecules/AccentTitle';
 import SignInButton from '@/components/molecules/SignInButton';
+import { Metadata } from 'next';
 import Link from 'next/link';
 
+export const metadata: Metadata = {
+  title: 'Admin Login',
+  description: '관리자 로그인 페이지 입니다.',
+};
 const AdminSignInPage = () => {
   return (
     <Container className='flex grow flex-col items-center justify-center gap-8 text-center'>

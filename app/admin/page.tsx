@@ -2,9 +2,14 @@ import { auth, signOut } from '@/auth';
 import { Button } from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import AccentTitle from '@/components/molecules/AccentTitle';
+import { Metadata } from 'next';
 import Link from 'next/link';
 
 //TODO : 페이지 구현(현재 임시페이지)
+export const metadata: Metadata = {
+  title: 'Admin Dashboard',
+  description: '관리자 전용 대시보드 페이지 입니다.',
+};
 const AdminPage = async () => {
   const session = await auth();
   return (
