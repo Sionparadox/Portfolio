@@ -2,7 +2,8 @@ import { getProjects } from '@/actions/project';
 import AdminProjectsClient from '@/components/organisms/AdminProjectsClient';
 
 export const metadata = {
-  title: 'Admin Projects',
+  title: 'Projects Management',
+  description: '관리자 전용 프로젝트 관리 페이지 입니다.',
 };
 
 export default async function AdminProjectsPage() {
