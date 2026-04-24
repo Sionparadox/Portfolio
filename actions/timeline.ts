@@ -153,8 +153,8 @@ export async function updateTimeline(
       .map((s) => s.trim())
       .filter(Boolean);
 
-    const updateData: any = {
-      type,
+    const updateData: Partial<TimelineItemType> = {
+      type: type as TimelineItemType['type'],
       date,
       year,
       place,
