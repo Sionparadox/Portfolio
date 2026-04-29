@@ -11,6 +11,7 @@ const ContactLinks = ({ className }: { className?: string }) => {
         href='https://github.com/Sionparadox'
         target='_blank'
         scroll={undefined}
+        aria-label='깃허브 이동하기'
       >
         <Button size='icon' variant='outline' asChild>
           <span>
@@ -18,14 +19,19 @@ const ContactLinks = ({ className }: { className?: string }) => {
           </span>
         </Button>
       </Link>
-      <Link href='mailto:sions.dev@gmail.com'>
+      <Link href='mailto:sions.dev@gmail.com' aria-label='이메일 보내기'>
         <Button size='icon' variant='outline' asChild>
           <span>
             <MdMail />
           </span>
         </Button>
       </Link>
-      <a href='/sion_portfolio.pdf' target='_blank' download>
+      <a
+        href='/sion_portfolio.pdf'
+        target='_blank'
+        download
+        aria-label='이력서 PDF 다운로드하기'
+      >
         <Button size='icon' variant='outline' asChild>
           <span>
             <FaFilePdf />

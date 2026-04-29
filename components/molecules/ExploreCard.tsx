@@ -26,9 +26,9 @@ const ExploreCard = ({
           <Icon className='size-6' />
         </div>
         <div>
-          <h3 className='w-fit text-lg font-bold transition-colors duration-300 group-hover:bg-linear-to-r group-hover:from-cyan-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent'>
+          <h2 className='w-fit text-lg font-bold transition-colors duration-300 group-hover:bg-linear-to-r group-hover:from-cyan-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent'>
             {title}
-          </h3>
+          </h2>
           <p className='text-muted-foreground group-hover:text-foreground text-sm leading-relaxed transition-colors duration-300'>
             {description}
           </p>

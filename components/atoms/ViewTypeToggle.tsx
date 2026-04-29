@@ -13,6 +13,7 @@ const ViewTypeToggle = ({ viewType, setViewType }: ViewTypeToggleProps) => {
         onClick={() => setViewType('grid')}
         variant={viewType === 'grid' ? 'inverted' : 'outline'}
         className='border-none'
+        aria-label='그리드 보기'
       >
         <Grid />
       </Button>
@@ -20,6 +21,7 @@ const ViewTypeToggle = ({ viewType, setViewType }: ViewTypeToggleProps) => {
         onClick={() => setViewType('list')}
         variant={viewType === 'list' ? 'inverted' : 'outline'}
         className='border-none'
+        aria-label='리스트 보기'
       >
         <List />
       </Button>
