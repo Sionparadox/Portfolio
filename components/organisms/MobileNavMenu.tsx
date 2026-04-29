@@ -27,12 +27,20 @@ const MobileNavMenu = () => {
             <ThemeToggleButton className='text-2xl' />
             <div className='flex items-center justify-center gap-2'>
               <Button variant='ghost' size='icon' asChild>
-                <Link href='https://github.com/Sionparadox' target='_blank'>
+                <Link
+                  href='https://github.com/Sionparadox'
+                  target='_blank'
+                  aria-label='깃허브 이동하기'
+                >
                   <FaGithub className='h-5 w-5' />
                 </Link>
               </Button>
               <Button variant='ghost' size='icon' asChild>
-                <a href='/pdf/resume.pdf' download>
+                <a
+                  href='/pdf/resume.pdf'
+                  download
+                  aria-label='이력서 PDF 다운로드하기'
+                >
                   <FaFilePdf className='h-5 w-5' />
                 </a>
               </Button>

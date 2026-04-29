@@ -26,7 +26,7 @@ const ProjectGridCard = ({ project }: { project: ProjectItemType }) => {
           variant='inverted'
           className='absolute -top-2.5 left-5'
         />
-        <h3 className='text-xl font-bold'>{project.title}</h3>
+        <h2 className='text-xl font-bold'>{project.title}</h2>
         <p className='text-muted-foreground line-clamp-2 leading-relaxed'>
           {project.overview}
         </p>

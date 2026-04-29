@@ -26,7 +26,7 @@ const ProjectListCard = ({ project }: { project: ProjectItemType }) => {
           className='hidden w-fit sm:block'
           variant='inverted'
         />
-        <h3 className='font-bold sm:text-lg'>{project.title}</h3>
+        <h2 className='font-bold sm:text-lg'>{project.title}</h2>
         <p className='text-muted-foreground line-clamp-2 text-xs leading-relaxed sm:text-sm'>
           {project.overview}
         </p>

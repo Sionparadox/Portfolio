@@ -32,7 +32,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className='font-paperlogy flex flex-col'>
+      <body className='font-paperlogy bg-background flex flex-col'>
         <Providers>
           <Background />
           <main className='flex w-full grow flex-col'>{children}</main>

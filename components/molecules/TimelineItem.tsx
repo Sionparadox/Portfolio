@@ -69,7 +69,7 @@ const TimelineItem = ({ item, reversed }: TimelineItemProps) => {
       >
         <div
           className={cn(
-            'absolute top-1/2 flex w-[300px] -translate-y-1/2',
+            'absolute top-1/2 flex -translate-y-1/2',
             reversed ? 'left-10 justify-start' : 'right-10 justify-end'
           )}
         >
@@ -98,7 +98,7 @@ const TimelineItem = ({ item, reversed }: TimelineItemProps) => {
 
         <div
           className={cn(
-            'absolute top-1/2 flex w-[500px] -translate-y-1/2',
+            'absolute top-1/2 flex -translate-y-1/2',
             reversed ? 'right-10 justify-end' : 'left-10 justify-start'
           )}
         >

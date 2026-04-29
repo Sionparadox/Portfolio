@@ -73,8 +73,9 @@ const TimelineLine = ({
       {/* 아이콘 원 */}
       <div className='absolute top-0 left-0 h-[calc(100%+48px)] w-0'>
         <div
-          className='sticky top-3/4 z-2 flex h-12 w-12 -translate-x-1/2 -translate-y-full items-center justify-center rounded-full bg-linear-to-br from-cyan-500 to-purple-500 shadow-sm transition-all duration-500 ease-in-out'
+          role='img'
           aria-label={label}
+          className='sticky top-3/4 z-2 flex h-12 w-12 -translate-x-1/2 -translate-y-full items-center justify-center rounded-full bg-linear-to-br from-cyan-500 to-purple-500 shadow-sm transition-all duration-500 ease-in-out'
         >
           <Icon className='size-6 text-white' aria-hidden='true' />
         </div>

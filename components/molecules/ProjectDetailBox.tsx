@@ -37,7 +37,7 @@ const ProjectDetailBox = ({ className, project }: ProjectDetailBoxProps) => {
           />
           <div className='absolute -inset-2 -z-10 bg-conic from-cyan-300 from-0% via-purple-300 to-cyan-300 blur dark:from-cyan-500 dark:via-purple-500 dark:to-cyan-500' />
         </div>
-        <h3 className='text-lg font-bold'>{project.title}</h3>
+        <h2 className='text-lg font-bold'>{project.title}</h2>
         <div className='w-full border-b' />
         <div className='flex w-full flex-col gap-3'>
           <InfoRow

@@ -18,12 +18,10 @@ const ExplosionLetter = ({
   ySpeed,
   rotation,
 }: ExplosionLetterProps) => {
-  // Y축 이동 (위로 솟구침)
-  const y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [`0vh`, `-${ySpeed * 100}vh`] // 위로 이동 (음수)
-  );
+  // 숫자(number)로만 먼저 보간을 계산합니다. (성능 최적화)
+  const yValue = useTransform(scrollYProgress, [0, 1], [0, -(ySpeed * 100)]);
+  // 계산된 숫자에 vh 단위를 붙여줍니다.
+  const y = useTransform(yValue, (val) => `${val}vh`);
 
   // 회전
   const rotate = useTransform(scrollYProgress, [0, 0.5], [0, rotation]);
@@ -34,6 +32,7 @@ const ExplosionLetter = ({
         display: 'inline-block',
         y,
         rotate,
+        willChange: 'transform', // GPU 가속을 강제하여 스크롤 버벅임 방지
       }}
       className='pr-1 whitespace-pre'
     >
