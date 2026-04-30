@@ -15,6 +15,7 @@ const ProjectGridCard = ({ project }: { project: ProjectItemType }) => {
           fill
           className='object-cover transition-transform duration-500 group-hover:scale-110'
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+          fetchPriority={project.order <= 3 ? 'high' : 'auto'}
           priority={project.order <= 3}
           loading={project.order <= 3 ? 'eager' : 'lazy'}
         />
