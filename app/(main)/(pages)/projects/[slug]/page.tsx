@@ -1,9 +1,12 @@
-import { getAdjacentProjects, getProject } from '@/actions/project';
 import Container from '@/components/atoms/Container';
 import ProjectDetailContent from '@/components/organisms/ProjectDetailContent';
 import ProjectDetailHeader from '@/components/organisms/ProjectDetailHeader';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import {
+  getAdjacentProjectsQuery,
+  getProjectQuery,
+} from '@/lib/project-queries';
 
 export async function generateMetadata({
   params,
@@ -11,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const result = await getProject(slug);
+  const result = await getProjectQuery(slug);
 
   if (!result.success || !result.data) {
     return {
@@ -36,14 +39,14 @@ const ProjectDetailPage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const result = await getProject(slug);
+  const result = await getProjectQuery(slug);
 
   if (!result.success || !result.data) {
     notFound();
   }
 
   const project = result.data;
-  const adjacentResult = await getAdjacentProjects(project.order);
+  const adjacentResult = await getAdjacentProjectsQuery(project.order);
   const prevProject =
     adjacentResult.success && adjacentResult.data?.prev
       ? adjacentResult.data.prev

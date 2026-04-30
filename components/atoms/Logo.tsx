@@ -23,7 +23,6 @@ const Logo = () => (
     <text
       x='60'
       y='50'
-      fontFamily='Paperozi'
       fontSize='48'
       fontWeight='900'
       textAnchor='middle'

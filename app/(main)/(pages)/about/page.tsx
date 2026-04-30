@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     '프론트엔드 개발자 박시온의 소개, 경험, 기술 스택을 확인해보세요.',
 };
-export const dynamic = 'force-dynamic';
+
 const AboutPage = () => {
   return (
     <Container className='mb-4 flex flex-col items-center justify-center gap-8 text-center'>

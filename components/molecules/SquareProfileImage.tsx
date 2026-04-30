@@ -11,10 +11,11 @@ const SquareProfileImage = () => {
         <Image
           src='/img/Sion_Stand.png'
           alt='My Profile Image'
-          className='transition-all duration-300 group-hover/spi:scale-105'
+          className='object-cover transition-all duration-300 group-hover/spi:scale-105'
           fill
           priority
-          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+          fetchPriority='high'
+          sizes='(max-width: 767px) 0px, 336px'
         />
       </div>
     </div>
