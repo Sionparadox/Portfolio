@@ -29,6 +29,7 @@ const ThemePlanet = () => {
             sizes='(max-width: 640px) 200vw, (max-width: 768px) 150vw, (max-width: 1024px) 120vw, 100vw'
             className='animation-duration-[180s] animate-spin object-contain'
             priority
+            fetchPriority='high'
           />
         </motion.div>
       </AnimatePresence>
