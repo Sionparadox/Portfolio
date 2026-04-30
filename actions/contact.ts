@@ -3,18 +3,12 @@
 import { auth } from '@/auth';
 import { ActionResult } from '@/types/actionResult';
 import { Contact } from '@prisma/client';
-import { z } from 'zod';
-import { unstable_cache, revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
+import { getContactsQuery } from '@/lib/contact-queries';
+import { ContactFormData, contactSchema } from '@/lib/contact-validation';
 import { prisma } from '@/lib/prisma';
 
-// Zod 스키마
-const contactSchema = z.object({
-  name: z.string().min(2, '이름은 2자 이상 입력해주세요.'),
-  email: z.string().email('올바른 이메일 형식을 입력해주세요.'),
-  message: z.string().min(10, '메시지는 10자 이상 입력해주세요.'),
-});
-
-export type ContactFormData = z.infer<typeof contactSchema>;
+export type { ContactFormData };
 
 export async function createContact(
   data: ContactFormData
@@ -61,26 +55,7 @@ export async function getContacts(): Promise<ActionResult<Contact[]>> {
     if (!session?.user) {
       return { success: false, message: '권한이 없습니다.' };
     }
-    const getCachedContacts = unstable_cache(
-      async () => {
-        return await prisma.contact.findMany({
-          orderBy: { createdAt: 'desc' },
-        });
-      },
-      ['contacts'],
-      {
-        revalidate: false,
-        tags: ['contacts'],
-      }
-    );
-
-    const contacts = await getCachedContacts();
-
-    return {
-      success: true,
-      message: '연락 목록을 성공적으로 불러왔습니다.',
-      data: contacts,
-    };
+    return await getContactsQuery();
   } catch (error) {
     console.error('Contact 조회 실패:', error);
     return {

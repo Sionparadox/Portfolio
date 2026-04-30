@@ -14,8 +14,10 @@ const ProjectDetailHeader = ({ project }: ProjectDetailHeaderProps) => {
         alt={`${project.title} Thumbnail`}
         fill
         className='-z-10 object-cover blur-xs'
+        fetchPriority='high'
         priority
-        sizes='100vw'
+        quality={60}
+        sizes='(max-width: 768px) 100vw, (max-width: 1536px) 100vw, 85vw'
       />
 
       <Container className='relative z-10 text-center'>

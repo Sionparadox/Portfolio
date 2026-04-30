@@ -4,53 +4,19 @@ import { auth } from '@/auth';
 import { ActionResult } from '@/types/actionResult';
 import { TimelineItemType } from '@/types/timeline';
 import { put, del } from '@vercel/blob';
-import { unstable_cache, revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { prisma } from '@/lib/prisma';
-
-const getCachedTimelines = unstable_cache(
-  async () => {
-    const rawData = await prisma.timeline.findMany({
-      orderBy: { year: 'desc' },
-    });
-
-    const timelines: TimelineItemType[] = rawData.map((item) => ({
-      id: item.id,
-      type: item.type as TimelineItemType['type'],
-      year: item.year,
-      date: item.date,
-      place: item.place,
-      title: item.title,
-      descriptions: item.descriptions as string[],
-      image: item.image ?? undefined,
-    }));
-
-    return timelines;
-  },
-  ['timelines'],
-  {
-    revalidate: false,
-    tags: ['timelines'],
-  }
-);
+import {
+  extractTimelineFormRaw,
+  hasRequiredTimelineFields,
+  parseTimelineDescriptions,
+} from '@/lib/timeline-form';
+import { getTimelinesQuery } from '@/lib/timeline-queries';
 
 export async function getTimelines(): Promise<
   ActionResult<TimelineItemType[]>
 > {
-  try {
-    const timelines = await getCachedTimelines();
-
-    return {
-      success: true,
-      message: '타임라인 데이터를 성공적으로 불러왔습니다.',
-      data: timelines,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: '타임라인 데이터를 불러오는 중 오류가 발생했습니다.',
-      error: String(error),
-    };
-  }
+  return await getTimelinesQuery();
 }
 
 export async function createTimeline(
@@ -62,20 +28,12 @@ export async function createTimeline(
       return { success: false, message: '권한이 없습니다.' };
     }
 
-    const type = formData.get('type') as string;
-    const date = formData.get('date') as string;
-    const year = formData.get('year') as string;
-    const place = formData.get('place') as string;
-    const title = formData.get('title') as string;
-
-    if (!type || !date || !year || !place || !title) {
+    const raw = extractTimelineFormRaw(formData);
+    if (!hasRequiredTimelineFields(raw)) {
       return { success: false, message: '필수 항목을 모두 입력해주세요.' };
     }
-
-    const descriptions = ((formData.get('descriptions') as string) || '')
-      .split('\n')
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const { type, date, year, place, title } = raw;
+    const descriptions = parseTimelineDescriptions(raw.descriptions);
 
     const imageFile = formData.get('image') as File;
 
@@ -138,20 +96,12 @@ export async function updateTimeline(
       return { success: false, message: '타임라인을 찾을 수 없습니다.' };
     }
 
-    const type = formData.get('type') as string;
-    const date = formData.get('date') as string;
-    const year = formData.get('year') as string;
-    const place = formData.get('place') as string;
-    const title = formData.get('title') as string;
-
-    if (!type || !date || !year || !place || !title) {
+    const raw = extractTimelineFormRaw(formData);
+    if (!hasRequiredTimelineFields(raw)) {
       return { success: false, message: '필수 항목을 모두 입력해주세요.' };
     }
-
-    const descriptions = ((formData.get('descriptions') as string) || '')
-      .split('\n')
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const { type, date, year, place, title } = raw;
+    const descriptions = parseTimelineDescriptions(raw.descriptions);
 
     const updateData: Partial<TimelineItemType> = {
       type: type as TimelineItemType['type'],

@@ -4,96 +4,29 @@ import { auth } from '@/auth';
 import { ActionResult } from '@/types/actionResult';
 import { ProjectItemType } from '@/types/project';
 import { put, del } from '@vercel/blob';
-import { unstable_cache, revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { prisma } from '@/lib/prisma';
-
-// 날짜 문자열을 Date 객체로 변환하는 헬퍼 함수
-const parseProjectDates = (project: ProjectItemType): ProjectItemType => {
-  return {
-    ...project,
-    startDate: new Date(project.startDate),
-    endDate: project.endDate ? new Date(project.endDate) : null,
-    createdAt: new Date(project.createdAt),
-    updatedAt: new Date(project.updatedAt),
-  };
-};
+import {
+  extractProjectFormRaw,
+  hasRequiredProjectFields,
+  parseProjectForm,
+} from '@/lib/project-form';
+import {
+  getAdjacentProjectsQuery,
+  getProjectQuery,
+  getProjectsQuery,
+} from '@/lib/project-queries';
 
 // 전체 프로젝트 가져오기
 export async function getProjects(): Promise<ActionResult<ProjectItemType[]>> {
-  try {
-    // unstable_cache로 데이터베이스 조회 결과 캐싱
-    const getCachedProjects = unstable_cache(
-      async () => {
-        return await prisma.project.findMany({
-          orderBy: { order: 'desc' },
-        });
-      },
-      ['projects-list'],
-      {
-        revalidate: false,
-        tags: ['projects'],
-      }
-    );
-
-    const rawData = await getCachedProjects();
-    const data = rawData.map(parseProjectDates);
-
-    return {
-      success: true,
-      message: '프로젝트를 성공적으로 불러왔습니다.',
-      data,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: '프로젝트를 불러오는 중 오류가 발생했습니다.',
-      error: error instanceof Error ? error.message : '알 수 없는 오류',
-    };
-  }
+  return await getProjectsQuery();
 }
 
 // 개별 프로젝트 가져오기
 export async function getProject(
   slug: string
 ): Promise<ActionResult<ProjectItemType>> {
-  try {
-    // 개별 프로젝트도 캐싱
-    const getCachedProject = unstable_cache(
-      async (projectSlug: string) => {
-        return await prisma.project.findUnique({
-          where: { slug: projectSlug },
-        });
-      },
-      [`project-${slug}`],
-      {
-        revalidate: false,
-        tags: ['projects', `project-${slug}`],
-      }
-    );
-
-    const rawData = await getCachedProject(slug);
-
-    if (!rawData) {
-      return {
-        success: false,
-        message: '프로젝트를 찾을 수 없습니다.',
-      };
-    }
-
-    const data = parseProjectDates(rawData);
-
-    return {
-      success: true,
-      message: '프로젝트를 성공적으로 불러왔습니다.',
-      data,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: '프로젝트를 불러오는 중 오류가 발생했습니다.',
-      error: error instanceof Error ? error.message : '알 수 없는 오류',
-    };
-  }
+  return await getProjectQuery(slug);
 }
 
 // 특정 order를 기준으로 이전/다음 프로젝트 가져오기
@@ -102,47 +35,7 @@ export async function getAdjacentProjects(
 ): Promise<
   ActionResult<{ prev: ProjectItemType | null; next: ProjectItemType | null }>
 > {
-  try {
-    const getCachedAdjacentProjects = unstable_cache(
-      async (order: number) => {
-        return await Promise.all([
-          // 이전 프로젝트
-          prisma.project.findFirst({
-            where: { order: { lt: order } },
-            orderBy: { order: 'desc' },
-          }),
-          // 다음 프로젝트
-          prisma.project.findFirst({
-            where: { order: { gt: order } },
-            orderBy: { order: 'asc' },
-          }),
-        ]);
-      },
-      [`adjacent-projects-${currentOrder}`],
-      {
-        revalidate: false,
-        tags: ['projects', `adjacent-${currentOrder}`],
-      }
-    );
-
-    const [prevProject, nextProject] =
-      await getCachedAdjacentProjects(currentOrder);
-
-    return {
-      success: true,
-      message: '인접 프로젝트를 성공적으로 불러왔습니다.',
-      data: {
-        prev: prevProject ? parseProjectDates(prevProject) : null,
-        next: nextProject ? parseProjectDates(nextProject) : null,
-      },
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: '인접 프로젝트를 불러오는 중 오류가 발생했습니다.',
-      error: error instanceof Error ? error.message : '알 수 없는 오류',
-    };
-  }
+  return await getAdjacentProjectsQuery(currentOrder);
 }
 
 export async function createProject(
@@ -154,47 +47,12 @@ export async function createProject(
       return { success: false, message: '권한이 없습니다.' };
     }
 
-    const title = formData.get('title') as string;
-    const slug = formData.get('slug') as string;
-    const overview = formData.get('overview') as string;
-    const description = formData.get('description') as string;
-    const category = formData.get('category') as string;
-    const teamSize = parseInt(formData.get('teamSize') as string) || 1;
-    const role = formData.get('role') as string;
-    const startDateStr = formData.get('startDate') as string;
-    const endDateStr = formData.get('endDate') as string;
-    const github = formData.get('github') as string;
-    const link = formData.get('link') as string;
-    const featured = formData.get('featured') === 'on';
-    const order = parseInt(formData.get('order') as string) || 0;
-
-    if (
-      !title ||
-      !slug ||
-      !overview ||
-      !description ||
-      !category ||
-      !startDateStr
-    ) {
+    const raw = extractProjectFormRaw(formData);
+    if (!hasRequiredProjectFields(raw)) {
       return { success: false, message: '필수 항목을 모두 입력해주세요.' };
     }
-
-    const startDate = new Date(startDateStr);
-    const endDate = endDateStr ? new Date(endDateStr) : null;
-
-    // 배열 데이터 처리 (콤마 또는 줄바꿈 기준)
-    const techStack = ((formData.get('techStack') as string) || '')
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const contributions = ((formData.get('contributions') as string) || '')
-      .split('\n')
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const insights = ((formData.get('insights') as string) || '')
-      .split('\n')
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const parsed = parseProjectForm(raw);
+    const { slug } = parsed;
 
     // 파일 처리
     const thumbnailFile = formData.get('thumbnail') as File;
@@ -227,22 +85,22 @@ export async function createProject(
     // DB 저장
     await prisma.project.create({
       data: {
-        title,
-        slug,
-        overview,
-        description,
-        category,
-        teamSize,
-        role,
-        startDate,
-        endDate,
-        github,
-        link,
-        featured,
-        order,
-        techStack,
-        contributions,
-        insights,
+        title: parsed.title,
+        slug: parsed.slug,
+        overview: parsed.overview,
+        description: parsed.description,
+        category: parsed.category,
+        teamSize: parsed.teamSize,
+        role: parsed.role,
+        startDate: parsed.startDate,
+        endDate: parsed.endDate,
+        github: parsed.github,
+        link: parsed.link,
+        featured: parsed.featured,
+        order: parsed.order,
+        techStack: parsed.techStack,
+        contributions: parsed.contributions,
+        insights: parsed.insights,
         thumbnail: thumbnailBlob.url,
         icon: iconBlob.url,
       },
@@ -250,6 +108,7 @@ export async function createProject(
 
     // 캐시 무효화
     revalidateTag('projects');
+    revalidateTag(`adjacent-${parsed.order}`);
 
     return {
       success: true,
@@ -283,47 +142,11 @@ export async function updateProject(
       return { success: false, message: '프로젝트를 찾을 수 없습니다.' };
     }
 
-    const title = formData.get('title') as string;
-    const slug = formData.get('slug') as string;
-    const overview = formData.get('overview') as string;
-    const description = formData.get('description') as string;
-    const category = formData.get('category') as string;
-    const teamSize = parseInt(formData.get('teamSize') as string) || 1;
-    const role = formData.get('role') as string;
-    const startDateStr = formData.get('startDate') as string;
-    const endDateStr = formData.get('endDate') as string;
-    const github = formData.get('github') as string;
-    const link = formData.get('link') as string;
-    const featured = formData.get('featured') === 'on';
-    const order = parseInt(formData.get('order') as string) || 0;
-
-    if (
-      !title ||
-      !slug ||
-      !overview ||
-      !description ||
-      !category ||
-      !startDateStr
-    ) {
+    const raw = extractProjectFormRaw(formData);
+    if (!hasRequiredProjectFields(raw)) {
       return { success: false, message: '필수 항목을 모두 입력해주세요.' };
     }
-
-    const startDate = new Date(startDateStr);
-    const endDate = endDateStr ? new Date(endDateStr) : null;
-
-    // 배열 데이터 처리
-    const techStack = ((formData.get('techStack') as string) || '')
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const contributions = ((formData.get('contributions') as string) || '')
-      .split('\n')
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const insights = ((formData.get('insights') as string) || '')
-      .split('\n')
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const parsed = parseProjectForm(raw);
 
     // 업데이트할 데이터 객체 구성
     const updateData: Omit<
@@ -333,22 +156,22 @@ export async function updateProject(
       thumbnail?: string;
       icon?: string;
     } = {
-      title,
-      slug,
-      overview,
-      description,
-      category,
-      teamSize,
-      role,
-      startDate,
-      endDate,
-      github,
-      link,
-      featured,
-      order,
-      techStack,
-      contributions,
-      insights,
+      title: parsed.title,
+      slug: parsed.slug,
+      overview: parsed.overview,
+      description: parsed.description,
+      category: parsed.category,
+      teamSize: parsed.teamSize,
+      role: parsed.role,
+      startDate: parsed.startDate,
+      endDate: parsed.endDate,
+      github: parsed.github,
+      link: parsed.link,
+      featured: parsed.featured,
+      order: parsed.order,
+      techStack: parsed.techStack,
+      contributions: parsed.contributions,
+      insights: parsed.insights,
     };
 
     // 새로운 파일이 업로드된 경우에만 Vercel Blob에 업로드하고 URL 업데이트
@@ -364,7 +187,7 @@ export async function updateProject(
         }
       }
       const thumbnailBlob = await put(
-        `projects/${slug}/thumbnail-${thumbnailFile.name}`,
+        `projects/${parsed.slug}/thumbnail-${thumbnailFile.name}`,
         thumbnailFile,
         { access: 'public' }
       );
@@ -380,7 +203,7 @@ export async function updateProject(
         }
       }
       const iconBlob = await put(
-        `projects/${slug}/icon-${iconFile.name}`,
+        `projects/${parsed.slug}/icon-${iconFile.name}`,
         iconFile,
         { access: 'public' }
       );
@@ -395,7 +218,12 @@ export async function updateProject(
 
     // 캐시 무효화 (전체 목록 & 개별 프로젝트)
     revalidateTag('projects');
-    revalidateTag(`project-${slug}`);
+    revalidateTag(`project-${parsed.slug}`);
+    revalidateTag(`adjacent-${parsed.order}`);
+    revalidateTag(`adjacent-${existingProject.order}`);
+    if (existingProject.slug !== parsed.slug) {
+      revalidateTag(`project-${existingProject.slug}`);
+    }
 
     return {
       success: true,
@@ -447,6 +275,8 @@ export async function deleteProject(id: string): Promise<ActionResult<null>> {
 
     // 캐시 무효화
     revalidateTag('projects');
+    revalidateTag(`project-${existingProject.slug}`);
+    revalidateTag(`adjacent-${existingProject.order}`);
 
     return {
       success: true,

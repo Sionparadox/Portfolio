@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    // 4K(3840) 후보를 제외해 과도한 원본 다운로드를 줄입니다.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560],
     remotePatterns: [
       {
         protocol: 'https',
