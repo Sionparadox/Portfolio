@@ -20,7 +20,7 @@ const QuoteSection = () => {
   }, []);
 
   return (
-    <div className='relative flex min-h-[100px] w-full flex-col justify-center gap-2 rounded-xl p-4'>
+    <div className='relative flex min-h-36 w-full flex-col justify-center gap-2 rounded-xl p-4'>
       <div className='gradient-neon-invert absolute inset-0 -z-10 rounded-xl opacity-30 blur-xl' />
       {randomQuote && (
         <>
