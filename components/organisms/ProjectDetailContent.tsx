@@ -21,30 +21,33 @@ const ProjectDetailContent = ({
           className='h-fit w-full shrink-0 sm:sticky sm:top-28 sm:order-2 sm:w-80'
           project={project}
         />
-        <div className='flex w-full flex-col gap-12'>
+        <div className='flex w-full flex-col gap-8 sm:gap-10 md:gap-12'>
           <ProjectArticle
             title='Project Overview'
             description={project.description}
+            sectionLabel='프로젝트 개요'
           />
           <ProjectArticle
             title='What I Did'
             description={
-              <ul className='list-inside list-disc space-y-1'>
+              <ul>
                 {project.contributions.map((item, index) => (
-                  <li key={index}>{item}</li>
+                  <li key={`${item}-${index}`}>{item}</li>
                 ))}
               </ul>
             }
+            sectionLabel='주요 기여'
           />
           <ProjectArticle
             title='What I Learned'
             description={
-              <ul className='list-inside list-disc space-y-1'>
+              <ul>
                 {project.insights.map((item, index) => (
-                  <li key={index}>{item}</li>
+                  <li key={`${item}-${index}`}>{item}</li>
                 ))}
               </ul>
             }
+            sectionLabel='배운 점'
           />
         </div>
       </div>
