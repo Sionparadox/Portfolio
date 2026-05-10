@@ -1,3 +1,13 @@
+import { ProjectDetailType } from '@/types/project';
+
+export type ProjectDetailInput = {
+  type: ProjectDetailType;
+  title: string;
+  link: string | null;
+  description: string;
+  order: number;
+};
+
 export type ProjectFormRaw = {
   title: string;
   slug: string;
@@ -13,8 +23,8 @@ export type ProjectFormRaw = {
   featured: boolean;
   order: string;
   techStack: string;
-  contributions: string;
-  insights: string;
+  contributionDetails: string;
+  insightDetails: string;
 };
 
 export type ProjectFormParsed = {
@@ -32,8 +42,7 @@ export type ProjectFormParsed = {
   featured: boolean;
   order: number;
   techStack: string[];
-  contributions: string[];
-  insights: string[];
+  details: ProjectDetailInput[];
 };
 
 export function extractProjectFormRaw(formData: FormData): ProjectFormRaw {
@@ -52,8 +61,9 @@ export function extractProjectFormRaw(formData: FormData): ProjectFormRaw {
     featured: formData.get('featured') === 'on',
     order: (formData.get('order') as string) || '',
     techStack: (formData.get('techStack') as string) || '',
-    contributions: (formData.get('contributions') as string) || '',
-    insights: (formData.get('insights') as string) || '',
+    contributionDetails:
+      (formData.get('contributionDetails') as string) || '[]',
+    insightDetails: (formData.get('insightDetails') as string) || '[]',
   };
 }
 
@@ -84,8 +94,10 @@ export function parseProjectForm(raw: ProjectFormRaw): ProjectFormParsed {
     featured: raw.featured,
     order: parseInt(raw.order) || 0,
     techStack: splitComma(raw.techStack),
-    contributions: splitLines(raw.contributions),
-    insights: splitLines(raw.insights),
+    details: [
+      ...parseDetailEntries(raw.contributionDetails, 'contribution'),
+      ...parseDetailEntries(raw.insightDetails, 'insight'),
+    ],
   };
 }
 
@@ -96,9 +108,42 @@ function splitComma(value: string): string[] {
     .filter(Boolean);
 }
 
-function splitLines(value: string): string[] {
-  return value
-    .split('\n')
-    .map((item) => item.trim())
-    .filter(Boolean);
+function parseDetailEntries(
+  rawValue: string,
+  type: ProjectDetailType
+): ProjectDetailInput[] {
+  try {
+    const parsedValue: unknown = JSON.parse(rawValue);
+
+    if (!Array.isArray(parsedValue)) {
+      return [];
+    }
+
+    return parsedValue
+      .map((item, index) => {
+        if (!item || typeof item !== 'object') {
+          return null;
+        }
+
+        const record = item as Record<string, unknown>;
+        const title = String(record.title ?? '').trim();
+        const description = String(record.description ?? '').trim();
+        const linkValue = String(record.link ?? '').trim();
+
+        if (!title) {
+          return null;
+        }
+
+        return {
+          type,
+          title,
+          description,
+          link: linkValue || null,
+          order: index + 1,
+        };
+      })
+      .filter((item): item is ProjectDetailInput => item !== null);
+  } catch {
+    return [];
+  }
 }

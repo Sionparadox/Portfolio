@@ -1,7 +1,17 @@
 import { ActionResult } from '@/types/actionResult';
-import { ProjectItemType } from '@/types/project';
+import { ProjectDetailItemType, ProjectItemType } from '@/types/project';
 import { unstable_cache } from 'next/cache';
 import { prisma } from '@/lib/prisma';
+
+const parseProjectDetailDates = (
+  detail: ProjectDetailItemType
+): ProjectDetailItemType => {
+  return {
+    ...detail,
+    createdAt: new Date(detail.createdAt),
+    updatedAt: new Date(detail.updatedAt),
+  };
+};
 
 const parseProjectDates = (project: ProjectItemType): ProjectItemType => {
   return {
@@ -10,6 +20,7 @@ const parseProjectDates = (project: ProjectItemType): ProjectItemType => {
     endDate: project.endDate ? new Date(project.endDate) : null,
     createdAt: new Date(project.createdAt),
     updatedAt: new Date(project.updatedAt),
+    details: project.details.map(parseProjectDetailDates),
   };
 };
 
@@ -21,6 +32,11 @@ export async function getProjectsQuery(): Promise<
       async () => {
         return await prisma.project.findMany({
           orderBy: { order: 'desc' },
+          include: {
+            details: {
+              orderBy: [{ type: 'asc' }, { order: 'asc' }],
+            },
+          },
         });
       },
       ['projects-list'],
@@ -55,6 +71,11 @@ export async function getProjectQuery(
       async (projectSlug: string) => {
         return await prisma.project.findUnique({
           where: { slug: projectSlug },
+          include: {
+            details: {
+              orderBy: [{ type: 'asc' }, { order: 'asc' }],
+            },
+          },
         });
       },
       [`project-${slug}`],
@@ -101,10 +122,20 @@ export async function getAdjacentProjectsQuery(
           prisma.project.findFirst({
             where: { order: { lt: order } },
             orderBy: { order: 'desc' },
+            include: {
+              details: {
+                orderBy: [{ type: 'asc' }, { order: 'asc' }],
+              },
+            },
           }),
           prisma.project.findFirst({
             where: { order: { gt: order } },
             orderBy: { order: 'asc' },
+            include: {
+              details: {
+                orderBy: [{ type: 'asc' }, { order: 'asc' }],
+              },
+            },
           }),
         ]);
       },

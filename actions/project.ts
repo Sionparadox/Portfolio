@@ -3,6 +3,7 @@
 import { auth } from '@/auth';
 import { ActionResult } from '@/types/actionResult';
 import { ProjectItemType } from '@/types/project';
+import { Prisma } from '@prisma/client';
 import { put, del } from '@vercel/blob';
 import { revalidateTag } from 'next/cache';
 import { prisma } from '@/lib/prisma';
@@ -99,11 +100,18 @@ export async function createProject(
         featured: parsed.featured,
         order: parsed.order,
         techStack: parsed.techStack,
-        contributions: parsed.contributions,
-        insights: parsed.insights,
+        details: {
+          create: parsed.details.map((detail) => ({
+            type: detail.type,
+            title: detail.title,
+            link: detail.link,
+            description: detail.description,
+            order: detail.order,
+          })),
+        },
         thumbnail: thumbnailBlob.url,
         icon: iconBlob.url,
-      },
+      } as Prisma.ProjectCreateInput,
     });
 
     // 캐시 무효화
@@ -149,13 +157,7 @@ export async function updateProject(
     const parsed = parseProjectForm(raw);
 
     // 업데이트할 데이터 객체 구성
-    const updateData: Omit<
-      ProjectItemType,
-      'id' | 'thumbnail' | 'icon' | 'createdAt' | 'updatedAt'
-    > & {
-      thumbnail?: string;
-      icon?: string;
-    } = {
+    const updateData = {
       title: parsed.title,
       slug: parsed.slug,
       overview: parsed.overview,
@@ -170,8 +172,19 @@ export async function updateProject(
       featured: parsed.featured,
       order: parsed.order,
       techStack: parsed.techStack,
-      contributions: parsed.contributions,
-      insights: parsed.insights,
+      details: {
+        deleteMany: {},
+        create: parsed.details.map((detail) => ({
+          type: detail.type,
+          title: detail.title,
+          link: detail.link,
+          description: detail.description,
+          order: detail.order,
+        })),
+      },
+    } as Prisma.ProjectUpdateInput & {
+      thumbnail?: string;
+      icon?: string;
     };
 
     // 새로운 파일이 업로드된 경우에만 Vercel Blob에 업로드하고 URL 업데이트

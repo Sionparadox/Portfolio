@@ -1,7 +1,38 @@
 import { TimelineItemType } from '@/types/timeline';
+import { Prisma } from '@prisma/client';
 import 'dotenv/config';
 import { prisma } from '../lib/prisma';
-import { ProjectItemType } from '../types/project';
+
+const BLOB_BASE_URL = 'https://owhjjrjy6ylsf5ck.public.blob.vercel-storage.com';
+
+const getProjectBlobImageUrl = (
+  slug: string,
+  kind: 'icon' | 'thumbnail'
+): string => {
+  const slugToken = slug.replaceAll('-', '');
+  return `${BLOB_BASE_URL}/projects/${slug}/${kind}-${slugToken}_${kind}.png`;
+};
+
+type SeedProject = {
+  slug: string;
+  title: string;
+  overview: string;
+  description: string;
+  category: string;
+  thumbnail: string;
+  icon: string;
+  contributions: string[];
+  insights: string[];
+  techStack: string[];
+  teamSize: number;
+  role: string | null;
+  startDate: Date;
+  endDate: Date | null;
+  github: string | null;
+  link: string | null;
+  featured: boolean;
+  order: number;
+};
 
 const timelines: Omit<TimelineItemType, 'id'>[] = [
   {
@@ -42,7 +73,7 @@ const timelines: Omit<TimelineItemType, 'id'>[] = [
   },
 ];
 
-const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
+const projects: SeedProject[] = [
   {
     slug: 'one-hada',
     title: '원,하다',
@@ -50,8 +81,8 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
     description:
       '고령화 사회에서 디지털 취약계층은 점점 소외되고 있습니다. 은행점 감소, 유명무실한 기능의 전화상담, 복잡한 절차 등 다양한 이유로 인해 금융 서비스를 이용하기 어려움을 겪고 있습니다. 이러한 문제를 해결하기 위해 원,하다는 초개인화 금융 플랫폼 웹앱 서비스를 제공합니다.',
     category: 'Mobile',
-    thumbnail: '/img/projects/one-hada/thumbnail.png',
-    icon: '/img/projects/one-hada/icon.png',
+    thumbnail: getProjectBlobImageUrl('one-hada', 'thumbnail'),
+    icon: getProjectBlobImageUrl('one-hada', 'icon'),
     contributions: [
       '글꼴 적용',
       '내 활동 보기',
@@ -111,8 +142,8 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
     description:
       '온라인 쇼핑몰마다 최저가가 달라 소비자는 여러 사이트를 번거롭게 이용 기존 마이데이터 서비스는 자산 관리에 집중, 효과적인 소비 관리기능은 부족한 상황입니다. 플랫폼 통합결제, 영수증 추적, 자산관리로 소비습관을 형성하도록 도와줍니다.',
     category: 'Mobile',
-    thumbnail: '/img/projects/pay-all/thumbnail.png',
-    icon: '/img/projects/pay-all/icon.png',
+    thumbnail: getProjectBlobImageUrl('pay-all', 'thumbnail'),
+    icon: getProjectBlobImageUrl('pay-all', 'icon'),
     contributions: [
       'Naver Clova API 기반 영수증 OCR 기능',
       'Storybook 기반 컴포넌트 문서화',
@@ -175,8 +206,8 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
     description:
       '고교학점제의 도입으로 달라진 수업 선택 방법이 복잡해졌습니다. 또한 필요한 정보가 흩어져 있어 원하는 정보에 접근하기 어려운 상황입니다. 꾸미룸은 고교생들이 진로를 기반으로 원하는 수업을 들을 수 있도록 도와줍니다.',
     category: 'Mobile',
-    thumbnail: '/img/projects/kkumiroom/thumbnail.png',
-    icon: '/img/projects/kkumiroom/icon.png',
+    thumbnail: getProjectBlobImageUrl('kkumiroom', 'thumbnail'),
+    icon: getProjectBlobImageUrl('kkumiroom', 'icon'),
     contributions: [
       '현재 시간에 따른 수업 활성화 기능',
       '로그인 및 회원가입',
@@ -225,8 +256,8 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
     overview: '개인 기술 블로그',
     description: '개인 기술 블로그입니다.',
     category: 'Web',
-    thumbnail: '/img/projects/personal-blog/thumbnail.png',
-    icon: '/img/projects/personal-blog/icon.png',
+    thumbnail: getProjectBlobImageUrl('personal-blog', 'thumbnail'),
+    icon: getProjectBlobImageUrl('personal-blog', 'icon'),
     contributions: [
       '백준 문제 풀이 시 블로그 자동 포스트',
       '클립보드 복사 기능',
@@ -264,8 +295,8 @@ const projects: Omit<ProjectItemType, 'id' | 'createdAt' | 'updatedAt'>[] = [
     overview: '개인 포트폴리오 웹사이트',
     description: '개인 프로젝트와 경험을 소개하는 포트폴리오 웹사이트입니다.',
     category: 'Web',
-    thumbnail: '/img/projects/portfolio/thumbnail.png',
-    icon: '/img/projects/portfolio/icon.png',
+    thumbnail: getProjectBlobImageUrl('portfolio', 'thumbnail'),
+    icon: getProjectBlobImageUrl('portfolio', 'icon'),
     contributions: [
       '모바일 / 데스크탑 반응형 UI',
       '방문 시기에 따른 인사 메시지 변화 기능',
@@ -318,7 +349,31 @@ async function main() {
   await prisma.timeline.createMany({ data: timelines });
   console.log('timeline 데이터 생성 완료');
 
-  await prisma.project.createMany({ data: projects });
+  for (const project of projects) {
+    const { contributions, insights, ...projectData } = project;
+
+    await prisma.project.create({
+      data: {
+        ...projectData,
+        details: {
+          create: [
+            ...contributions.map((title, index) => ({
+              type: 'contribution' as const,
+              title,
+              description: '',
+              order: index + 1,
+            })),
+            ...insights.map((title, index) => ({
+              type: 'insight' as const,
+              title,
+              description: '',
+              order: index + 1,
+            })),
+          ],
+        },
+      } as Prisma.ProjectCreateInput,
+    });
+  }
   console.log('project 데이터 생성 완료');
 }
 

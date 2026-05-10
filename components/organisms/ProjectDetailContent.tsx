@@ -1,6 +1,7 @@
 import { ProjectItemType } from '@/types/project';
 import ProjectArticle from '../molecules/ProjectArticle';
 import ProjectDetailBox from '../molecules/ProjectDetailBox';
+import ProjectDetailList from '../molecules/ProjectDetailList';
 import ProjectNavigationCard from '../molecules/ProjectNavigationCard';
 
 interface ProjectDetailContentProps {
@@ -14,6 +15,13 @@ const ProjectDetailContent = ({
   prevProject,
   nextProject,
 }: ProjectDetailContentProps) => {
+  const contributionDetails = project.details.filter(
+    (detail) => detail.type === 'contribution'
+  );
+  const insightDetails = project.details.filter(
+    (detail) => detail.type === 'insight'
+  );
+
   return (
     <>
       <div className='flex flex-col gap-6 sm:flex-row md:gap-12'>
@@ -21,30 +29,21 @@ const ProjectDetailContent = ({
           className='h-fit w-full shrink-0 sm:sticky sm:top-28 sm:order-2 sm:w-80'
           project={project}
         />
-        <div className='flex w-full flex-col gap-12'>
+        <div className='flex w-full flex-col gap-8 sm:gap-10 md:gap-12'>
           <ProjectArticle
             title='Project Overview'
             description={project.description}
+            sectionLabel='프로젝트 개요'
           />
           <ProjectArticle
             title='What I Did'
-            description={
-              <ul className='list-inside list-disc space-y-1'>
-                {project.contributions.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            }
+            description={<ProjectDetailList items={contributionDetails} />}
+            sectionLabel='주요 기여'
           />
           <ProjectArticle
             title='What I Learned'
-            description={
-              <ul className='list-inside list-disc space-y-1'>
-                {project.insights.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            }
+            description={<ProjectDetailList items={insightDetails} />}
+            sectionLabel='배운 점'
           />
         </div>
       </div>

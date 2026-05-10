@@ -4,16 +4,52 @@ import { createProject, updateProject } from '@/actions/project';
 import { Button } from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
 import LabelInput from '@/components/molecules/LabelInput';
-import { ProjectItemType } from '@/types/project';
+import { ProjectDetailType, ProjectItemType } from '@/types/project';
 import { X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ProjectModalProps {
   isOpen: boolean;
   onClose: () => void;
   projectToEdit?: ProjectItemType | null;
 }
+
+type ProjectDetailFormItem = {
+  id: string;
+  title: string;
+  link: string;
+  description: string;
+};
+
+const createDetailItem = (): ProjectDetailFormItem => ({
+  id:
+    typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random()}`,
+  title: '',
+  link: '',
+  description: '',
+});
+
+const mapProjectDetails = (
+  project: ProjectItemType | null | undefined,
+  type: ProjectDetailType
+): ProjectDetailFormItem[] => {
+  if (!project) return [createDetailItem()];
+
+  const matched = project.details
+    .filter((detail) => detail.type === type)
+    .sort((a, b) => a.order - b.order)
+    .map((detail) => ({
+      id: detail.id,
+      title: detail.title,
+      link: detail.link ?? '',
+      description: detail.description ?? '',
+    }));
+
+  return matched.length > 0 ? matched : [createDetailItem()];
+};
 
 const ProjectModal = ({
   isOpen,
@@ -23,8 +59,67 @@ const ProjectModal = ({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const isEditMode = !!projectToEdit;
+  const [contributionDetails, setContributionDetails] = useState<
+    ProjectDetailFormItem[]
+  >(() => mapProjectDetails(projectToEdit, 'contribution'));
+  const [insightDetails, setInsightDetails] = useState<ProjectDetailFormItem[]>(
+    () => mapProjectDetails(projectToEdit, 'insight')
+  );
+
+  useEffect(() => {
+    const frameId = requestAnimationFrame(() => {
+      setContributionDetails(mapProjectDetails(projectToEdit, 'contribution'));
+      setInsightDetails(mapProjectDetails(projectToEdit, 'insight'));
+    });
+
+    return () => cancelAnimationFrame(frameId);
+  }, [projectToEdit, isOpen]);
 
   if (!isOpen) return null;
+
+  const updateDetailItem = (
+    type: ProjectDetailType,
+    itemId: string,
+    field: keyof Omit<ProjectDetailFormItem, 'id'>,
+    value: string
+  ) => {
+    const setter =
+      type === 'contribution' ? setContributionDetails : setInsightDetails;
+
+    setter((prev) =>
+      prev.map((item) =>
+        item.id === itemId ? { ...item, [field]: value } : item
+      )
+    );
+  };
+
+  const addDetailItem = (type: ProjectDetailType) => {
+    const setter =
+      type === 'contribution' ? setContributionDetails : setInsightDetails;
+    setter((prev) => [...prev, createDetailItem()]);
+  };
+
+  const removeDetailItem = (type: ProjectDetailType, itemId: string) => {
+    const setter =
+      type === 'contribution' ? setContributionDetails : setInsightDetails;
+
+    setter((prev) => {
+      const next = prev.filter((item) => item.id !== itemId);
+      return next.length > 0 ? next : [createDetailItem()];
+    });
+  };
+
+  const serializeDetailItems = (items: ProjectDetailFormItem[]) => {
+    return JSON.stringify(
+      items
+        .map((item) => ({
+          title: item.title.trim(),
+          link: item.link.trim(),
+          description: item.description.trim(),
+        }))
+        .filter((item) => item.title)
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,6 +150,76 @@ const ProjectModal = ({
     if (!date) return '';
     const d = new Date(date);
     return d.toISOString().split('T')[0];
+  };
+
+  const renderDetailFields = (
+    type: ProjectDetailType,
+    items: ProjectDetailFormItem[],
+    title: string
+  ) => {
+    return (
+      <div className='space-y-3 rounded-xl border p-4'>
+        <div className='flex items-center justify-between'>
+          <h3 className='text-sm font-semibold'>{title}</h3>
+          <Button
+            type='button'
+            variant='outline'
+            onClick={() => addDetailItem(type)}
+          >
+            항목 추가
+          </Button>
+        </div>
+        <div className='space-y-4'>
+          {items.map((item, index) => (
+            <div
+              key={item.id}
+              className='bg-muted/40 space-y-3 rounded-lg border p-3'
+            >
+              <div className='flex items-center justify-between'>
+                <p className='text-sm font-medium'>항목 {index + 1}</p>
+                <Button
+                  type='button'
+                  variant='ghost'
+                  size='iconSm'
+                  onClick={() => removeDetailItem(type, item.id)}
+                >
+                  <X className='size-4' />
+                </Button>
+              </div>
+              <LabelInput
+                label='제목 *'
+                name={`${type}-title-${index}`}
+                placeholder='라인에 보여질 제목'
+                value={item.title}
+                onChange={(e) =>
+                  updateDetailItem(type, item.id, 'title', e.target.value)
+                }
+              />
+              <LabelInput
+                label='관련 링크'
+                name={`${type}-link-${index}`}
+                placeholder='https://...'
+                value={item.link}
+                onChange={(e) =>
+                  updateDetailItem(type, item.id, 'link', e.target.value)
+                }
+              />
+              <LabelInput
+                label='설명'
+                name={`${type}-description-${index}`}
+                multiline
+                className='h-20'
+                placeholder='hover 팝아웃에 노출할 설명'
+                value={item.description}
+                onChange={(e) =>
+                  updateDetailItem(type, item.id, 'description', e.target.value)
+                }
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -171,23 +336,21 @@ const ProjectModal = ({
             defaultValue={projectToEdit?.techStack?.join(', ')}
           />
 
-          <LabelInput
-            label='기여한 점'
-            name='contributions'
-            multiline
-            className='h-24'
-            placeholder='줄바꿈(Enter)으로 구분해서 입력하세요.'
-            defaultValue={projectToEdit?.contributions?.join('\n')}
+          <input
+            type='hidden'
+            name='contributionDetails'
+            value={serializeDetailItems(contributionDetails)}
+            readOnly
+          />
+          <input
+            type='hidden'
+            name='insightDetails'
+            value={serializeDetailItems(insightDetails)}
+            readOnly
           />
 
-          <LabelInput
-            label='배운 점'
-            name='insights'
-            multiline
-            className='h-24'
-            placeholder='줄바꿈(Enter)으로 구분해서 입력하세요.'
-            defaultValue={projectToEdit?.insights?.join('\n')}
-          />
+          {renderDetailFields('contribution', contributionDetails, '기여한 점')}
+          {renderDetailFields('insight', insightDetails, '배운 점')}
 
           <div className='bg-muted/50 grid grid-cols-2 gap-4 rounded-xl border border-dashed p-4'>
             <div>
