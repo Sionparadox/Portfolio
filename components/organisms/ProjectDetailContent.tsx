@@ -1,6 +1,7 @@
 import { ProjectItemType } from '@/types/project';
 import ProjectArticle from '../molecules/ProjectArticle';
 import ProjectDetailBox from '../molecules/ProjectDetailBox';
+import ProjectDetailList from '../molecules/ProjectDetailList';
 import ProjectNavigationCard from '../molecules/ProjectNavigationCard';
 
 interface ProjectDetailContentProps {
@@ -14,6 +15,13 @@ const ProjectDetailContent = ({
   prevProject,
   nextProject,
 }: ProjectDetailContentProps) => {
+  const contributionDetails = project.details.filter(
+    (detail) => detail.type === 'contribution'
+  );
+  const insightDetails = project.details.filter(
+    (detail) => detail.type === 'insight'
+  );
+
   return (
     <>
       <div className='flex flex-col gap-6 sm:flex-row md:gap-12'>
@@ -29,24 +37,12 @@ const ProjectDetailContent = ({
           />
           <ProjectArticle
             title='What I Did'
-            description={
-              <ul>
-                {project.contributions.map((item, index) => (
-                  <li key={`${item}-${index}`}>{item}</li>
-                ))}
-              </ul>
-            }
+            description={<ProjectDetailList items={contributionDetails} />}
             sectionLabel='주요 기여'
           />
           <ProjectArticle
             title='What I Learned'
-            description={
-              <ul>
-                {project.insights.map((item, index) => (
-                  <li key={`${item}-${index}`}>{item}</li>
-                ))}
-              </ul>
-            }
+            description={<ProjectDetailList items={insightDetails} />}
             sectionLabel='배운 점'
           />
         </div>

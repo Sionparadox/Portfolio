@@ -1,3 +1,16 @@
+type ProjectDetailType = 'contribution' | 'insight';
+
+type ProjectDetailItemType = {
+  id: string;
+  type: ProjectDetailType;
+  title: string;
+  link?: string | null;
+  description: string;
+  order: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 type ProjectItemType = {
   id: string;
   slug: string;
@@ -7,8 +20,7 @@ type ProjectItemType = {
   category: string;
   thumbnail: string;
   icon: string;
-  contributions: string[];
-  insights: string[];
+  details: ProjectDetailItemType[];
   techStack: string[];
   teamSize: number;
   role?: string | null;
@@ -22,4 +34,4 @@ type ProjectItemType = {
   updatedAt: Date;
 };
 
-export type { ProjectItemType };
+export type { ProjectDetailItemType, ProjectDetailType, ProjectItemType };

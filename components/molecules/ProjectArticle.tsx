@@ -19,7 +19,7 @@ const ProjectArticle = ({
   }, [title]);
 
   return (
-    <article className='group border-border/70 bg-card/50 relative overflow-hidden rounded-2xl border px-5 py-6 sm:px-7 sm:py-7'>
+    <article className='group border-border/70 bg-card/50 relative rounded-2xl border px-5 py-6 sm:px-7 sm:py-7'>
       <div className='pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-cyan-500/70 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-100' />
       <div className='mb-4 flex items-center gap-3 sm:mb-5'>
         <span className='text-muted-foreground text-[0.65rem] font-semibold tracking-[0.24em] uppercase'>
